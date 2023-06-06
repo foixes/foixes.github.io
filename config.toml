@@ -5,7 +5,7 @@ theme = "hugo-book"
 
 # (Optional) Set this to true if you use capital letters in file names
 disablePathToLower = true
-enableGitInfo: true
+# enableGitInfo: true
 
 # (Optional) Set this to true to enable 'Last Modified by' date and git author
 #  information on 'doc' type pages.
