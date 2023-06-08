@@ -1,5 +1,5 @@
 ---
 title: 常用 SQL
 bookCollapseSection: true
-weight: 11
+weight: 12
 ---
