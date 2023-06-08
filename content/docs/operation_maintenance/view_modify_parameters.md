@@ -21,8 +21,8 @@ MySQL [oceanbase]> show parameters like 'memory_limit%';
 +-------+----------+---------------+----------+-------------------------+-----------+-------+--------------------------------------------------------------------------------------------------------------------------------+----------+---------+---------+-------------------+
 | zone  | svr_type | svr_ip        | svr_port | name                    | data_type | value | info                                                                                                                           | section  | scope   | source  | edit_level        |
 +-------+----------+---------------+----------+-------------------------+-----------+-------+--------------------------------------------------------------------------------------------------------------------------------+----------+---------+---------+-------------------+
-| zone1 | observer | 172.20.249.50 |     2882 | memory_limit_percentage | NULL      | 80    | the size of the memory reserved for internal use(for testing purpose). Range: [10, 90]                                         | OBSERVER | CLUSTER | DEFAULT | DYNAMIC_EFFECTIVE |
-| zone1 | observer | 172.20.249.50 |     2882 | memory_limit            | NULL      | 8G    | the size of the memory reserved for internal use(for testing purpose), 0 means follow memory_limit_percentage. Range: 0, [8G,) | OBSERVER | CLUSTER | DEFAULT | DYNAMIC_EFFECTIVE |
+| zone1 | observer | x.x.x.x       |     2882 | memory_limit_percentage | NULL      | 80    | the size of the memory reserved for internal use(for testing purpose). Range: [10, 90]                                         | OBSERVER | CLUSTER | DEFAULT | DYNAMIC_EFFECTIVE |
+| zone1 | observer | x.x.x.x       |     2882 | memory_limit            | NULL      | 8G    | the size of the memory reserved for internal use(for testing purpose), 0 means follow memory_limit_percentage. Range: 0, [8G,) | OBSERVER | CLUSTER | DEFAULT | DYNAMIC_EFFECTIVE |
 +-------+----------+---------------+----------+-------------------------+-----------+-------+--------------------------------------------------------------------------------------------------------------------------------+----------+---------+---------+-------------------+
 2 rows in set (0.002 sec)
 
@@ -30,7 +30,7 @@ MySQL [oceanbase]> show parameters where name in ('memory_limit','memory_limit_p
 *************************** 1. row ***************************
       zone: zone1
   svr_type: observer
-    svr_ip: 172.20.249.50
+    svr_ip: x.x.x.x
   svr_port: 2882
       name: memory_limit_percentage
  data_type: NULL
@@ -43,7 +43,7 @@ edit_level: DYNAMIC_EFFECTIVE
 *************************** 2. row ***************************
       zone: zone1
   svr_type: observer
-    svr_ip: 172.20.249.50
+    svr_ip: x.x.x.x
   svr_port: 2882
       name: memory_limit
  data_type: NULL
@@ -61,7 +61,7 @@ edit_level: DYNAMIC_EFFECTIVE
 | --- | --- | --- |
 | zone | zone1 | 节点的 zone 名称 |
 | svr_type | observer | 节点类型 |
-| svr_ip | 172.20.249.50 | 节点 IP |
+| svr_ip | x.x.x.x | 节点 IP |
 | svr_port | 2882 | 节点 RPC 端口 |
 | name | memory_limit_percentage | 参数名 |
 | data_type | NULL | 参数类型 |
@@ -75,14 +75,14 @@ OceanBase 集群参数可通过命令 alter system set 参数名='参数值' [ s
 
 示例：调整参数 syslog_level 值为 USER_ERROR。
 ```sql
-MySQL [oceanbase]> alter system set syslog_level = 'USER_ERR' server='172.20.249.50:2882' ;
+MySQL [oceanbase]> alter system set syslog_level = 'USER_ERR' server='x.x.x.x:2882' ;
 Query OK, 0 rows affected (0.021 sec)
 
 MySQL [oceanbase]> show parameters like 'syslog_level'\G
 *************************** 1. row ***************************
       zone: zone1
   svr_type: observer
-    svr_ip: 172.20.249.50
+    svr_ip: x.x.x.x
   svr_port: 2882
       name: syslog_level
  data_type: NULL
@@ -139,7 +139,7 @@ MySQL [oceanbase]> show parameters like 'config_additional_dir'\G
 *************************** 1. row ***************************
       zone: zone1
   svr_type: observer
-    svr_ip: 172.20.249.50
+    svr_ip: x.x.x.x
   svr_port: 2882
       name: config_additional_dir
  data_type: NULL
@@ -250,7 +250,7 @@ MySQL [oceanbase]> show parameters like 'writing_throttling_trigger_percentage%'
 *************************** 1. row ***************************
       zone: zone1
   svr_type: observer
-    svr_ip: 172.20.249.50
+    svr_ip: x.x.x.x
   svr_port: 2882
       name: writing_throttling_trigger_percentage
  data_type: NULL
@@ -267,7 +267,7 @@ Query OK, 0 rows affected (0.011 sec)
 ```
 修改后的参数值只能在对应租户里查看。
 ```sql
-$ mysql -h 172.20.249.50 -u root@obmysql -P 2881 -p -c -A oceanbase
+$ mysql -h x.x.x.x -u root@obmysql -P 2881 -p -c -A oceanbase
 Enter password:
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MySQL connection id is 3221538749
@@ -281,7 +281,7 @@ MySQL [oceanbase]> show parameters like 'writing_throttling_trigger_percentage%'
 *************************** 1. row ***************************
       zone: zone1
   svr_type: observer
-    svr_ip: 172.20.249.50
+    svr_ip: x.x.x.x
   svr_port: 2882
       name: writing_throttling_trigger_percentage
  data_type: NULL
@@ -309,7 +309,7 @@ MySQL [oceanbase]> show parameters like 'writing_throttling_maximum_duration'\G
 *************************** 1. row ***************************
       zone: zone1
   svr_type: observer
-    svr_ip: 172.20.249.50
+    svr_ip: x.x.x.x
   svr_port: 2882
       name: writing_throttling_maximum_duration
  data_type: NULL
@@ -382,14 +382,14 @@ set global ob_sql_work_area_percentage=50;
 部分变量属于租户初始化变量，不能在业务租户里直接修改，需要在 sys 租户里修改。
 示例：
 ```
-$ mysql -h127.1 -uroot@obmysql#obdemo -P2883 -p1****6 -c -A oceanbase -Ns
+$ mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p****** -c -A oceanbase -Ns
 MySQL [oceanbase]> set global lower_case_table_names=0;
 ERROR 1238 (HY000): Variable 'lower_case_table_names' is a read only variable
 
-$mysql -h127.1 -uroot@sys#obdemo -P2883 -p1****6 -c -A oceanbase -Ns
+$mysql -h x.x.x.x -uroot@sys#obdemo -P2883 -p****** -c -A oceanbase -Ns
 MySQL [oceanbase]> alter tenant obmysql set variables lower_case_table_names=0;
 
-$ mysql -h127.1 -uroot@obmysql#obdemo -P2883 -p1****6 -c -A oceanbase -Ns
+$ mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p****** -c -A oceanbase -Ns
 MySQL [oceanbase]> show global variables like 'lower_case_table_names';
 lower_case_table_names  0
 ```
@@ -397,7 +397,7 @@ lower_case_table_names  0
 
 - 变量 ob_tcp_invited_nodes，表示租户访问 IP 白名单。初始化租户的时候在 sys 租户中设置，后期可以在业务租户里修改。
 ```
-set global ob_tcp_invited_nodes='11.xxx.xxx.0/16,127.0.0.1';
+set global ob_tcp_invited_nodes='x.x.x.x/16,127.0.0.1';
 ```
 如果业务租户设置错误导致无法登录，可以通过 sys 租户再改回正确值。
 

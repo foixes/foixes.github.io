@@ -11,7 +11,6 @@ weight: 1
 OBProxy 是个单进程程序，默认监听端口 2883，实现了 MySQL 连接协议。客户端和 OBProxy 建立连接后，访问 OceanBase 集群数据时，OBProxy 会自动判断要访问的数据的主副本在哪个 OBServer 节点上，然后自动和该 OBServer 建立一个长连接。
 
 通常我们把客户端和 OBProxy 建立的连接称为前端连接，把相应的 OBProxy 和后端 OBServer 节点之间的连接称之为后端连接。每个前端连接可能对应 1-N 个后端连接。N 是 OceanBase 租户所在的节点总数（包括备副本所在 OBServer 节点）。不同前端连接对应的后端连接是不复用的。
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/91956626/1684313556644-f7b57cd8-ccb6-419e-9767-ca94bc453d06.png#clientId=u07429348-34d5-4&from=paste&id=u360ac64e&originHeight=367&originWidth=571&originalType=url&ratio=1&rotation=0&showTitle=false&size=87945&status=done&style=none&taskId=u85713b6a-56ce-44a7-bec2-0319a5471c7&title=)
 
 OBProxy 前端连接数受 OBProxy 参数 max_connections 和 client_max_connections 限制。
 ```sql
@@ -34,46 +33,46 @@ Query OK, 0 rows affected (0.005 sec)
 - 查看并直接 KILL 前端连接show processlist 只能查看当前客户端连接，show proxysession 只能查看当前 OBProxy 的连接。
 ```sql
 MySQL [(none)]> show processlist;
-+---------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-| Id      | Tenant   | User | Host                | db         | trans_count | svr_session_count | state             | tid   | pid   |
-+---------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-|       5 | proxysys | root | 172.20.249.50:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
-|  524299 | sys      | root | 172.20.249.50:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
-| 1048583 | obmysql  | root | 172.20.249.50:32120 | sysbenchdb |           0 |                 2 | MCS_ACTIVE_READER | 49652 | 49646 |
-+---------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
++---------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+| Id      | Tenant   | User | Host          | db         | trans_count | svr_session_count | state             | tid   | pid   |
++---------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+|       5 | proxysys | root | x.x.x.x:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
+|  524299 | sys      | root | x.x.x.x:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
+| 1048583 | obmysql  | root | x.x.x.x:32120 | sysbenchdb |           0 |                 2 | MCS_ACTIVE_READER | 49652 | 49646 |
++---------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
 3 rows in set (0.007 sec)
 
 MySQL [(none)]> show proxysession;
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-| proxy_sessid | Id      | Cluster     | Tenant   | User | Host                | db         | trans_count | svr_session_count | state             | tid   | pid   |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-|            0 |       5 | obce-3zones | proxysys | root | 172.20.249.50:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
-|           15 |  524299 | obce-3zones | sys      | root | 172.20.249.50:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
-|           19 | 1048583 | obce-3zones | obmysql  | root | 172.20.249.50:32120 | sysbenchdb |           0 |                 2 | MCS_ACTIVE_READER | 49652 | 49646 |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+| proxy_sessid | Id      | Cluster     | Tenant   | User | Host          | db         | trans_count | svr_session_count | state             | tid   | pid   |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+|            0 |       5 | obce-3zones | proxysys | root | x.x.x.x:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
+|           15 |  524299 | obce-3zones | sys      | root | x.x.x.x:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
+|           19 | 1048583 | obce-3zones | obmysql  | root | x.x.x.x:32120 | sysbenchdb |           0 |                 2 | MCS_ACTIVE_READER | 49652 | 49646 |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
 3 rows in set (0.005 sec)
 
 MySQL [(none)]> kill proxysession 1048583;
 Query OK, 0 rows affected (0.009 sec)
 
 MySQL [(none)]> show processlist;
-+---------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-| Id      | Tenant   | User | Host                | db         | trans_count | svr_session_count | state             | tid   | pid   |
-+---------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-|       5 | proxysys | root | 172.20.249.50:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
-|  524299 | sys      | root | 172.20.249.50:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
-| 1048584 | obmysql  | root | 172.20.249.50:32124 | sysbenchdb |           0 |                 2 | MCS_ACTIVE_READER | 49652 | 49646 |
-+---------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
++---------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+| Id      | Tenant   | User | Host          | db         | trans_count | svr_session_count | state             | tid   | pid   |
++---------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+|       5 | proxysys | root | x.x.x.x:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
+|  524299 | sys      | root | x.x.x.x:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
+| 1048584 | obmysql  | root | x.x.x.x:32124 | sysbenchdb |           0 |                 2 | MCS_ACTIVE_READER | 49652 | 49646 |
++---------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
 3 rows in set (0.046 sec)
 
 MySQL [(none)]> show proxysession;
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-| proxy_sessid | Id      | Cluster     | Tenant   | User | Host                | db         | trans_count | svr_session_count | state             | tid   | pid   |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-|            0 |       5 | obce-3zones | proxysys | root | 172.20.249.50:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
-|           15 |  524299 | obce-3zones | sys      | root | 172.20.249.50:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
-|           20 | 1048584 | obce-3zones | obmysql  | root | 172.20.249.50:32124 | sysbenchdb |           0 |                 2 | MCS_ACTIVE_READER | 49652 | 49646 |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+| proxy_sessid | Id      | Cluster     | Tenant   | User | Host          | db         | trans_count | svr_session_count | state             | tid   | pid   |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+|            0 |       5 | obce-3zones | proxysys | root | x.x.x.x:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
+|           15 |  524299 | obce-3zones | sys      | root | x.x.x.x:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
+|           20 | 1048584 | obce-3zones | obmysql  | root | x.x.x.x:32124 | sysbenchdb |           0 |                 2 | MCS_ACTIVE_READER | 49652 | 49646 |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
 3 rows in set (0.045 sec)
 
 MySQL [(none)]> kill 1048584;
@@ -84,23 +83,23 @@ show proxysession 里的 ID 就是 show processlist 中的 ID，可以使用 kil
 - 查看并直接 KILL 后端连接
 ```sql
 MySQL [(none)]> show processlist;
-+---------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-| Id      | Tenant   | User | Host                | db         | trans_count | svr_session_count | state             | tid   | pid   |
-+---------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-|       5 | proxysys | root | 172.20.249.50:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
-|  524299 | sys      | root | 172.20.249.50:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
-| 1048585 | obmysql  | root | 172.20.249.50:32130 | sysbenchdb |           0 |                 3 | MCS_ACTIVE_READER | 49652 | 49646 |
-+---------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
++---------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+| Id      | Tenant   | User | Host          | db         | trans_count | svr_session_count | state             | tid   | pid   |
++---------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+|       5 | proxysys | root | x.x.x.x:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
+|  524299 | sys      | root | x.x.x.x:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
+| 1048585 | obmysql  | root | x.x.x.x:32130 | sysbenchdb |           0 |                 3 | MCS_ACTIVE_READER | 49652 | 49646 |
++---------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
 3 rows in set (0.074 sec)
 
 MySQL [(none)]> show proxysession ;
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-| proxy_sessid | Id      | Cluster     | Tenant   | User | Host                | db         | trans_count | svr_session_count | state             | tid   | pid   |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-|            0 |       5 | obce-3zones | proxysys | root | 172.20.249.50:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
-|           15 |  524299 | obce-3zones | sys      | root | 172.20.249.50:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
-|           21 | 1048585 | obce-3zones | obmysql  | root | 172.20.249.50:32130 | sysbenchdb |           0 |                 3 | MCS_ACTIVE_READER | 49652 | 49646 |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+| proxy_sessid | Id      | Cluster     | Tenant   | User | Host          | db         | trans_count | svr_session_count | state             | tid   | pid   |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+|            0 |       5 | obce-3zones | proxysys | root | x.x.x.x:32108 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
+|           15 |  524299 | obce-3zones | sys      | root | x.x.x.x:32082 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
+|           21 | 1048585 | obce-3zones | obmysql  | root | x.x.x.x:32130 | sysbenchdb |           0 |                 3 | MCS_ACTIVE_READER | 49652 | 49646 |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
 3 rows in set (0.200 sec)
 
 MySQL [(none)]> show proxysession attribute 1048585 ;
@@ -112,7 +111,7 @@ MySQL [(none)]> show proxysession attribute 1048585 ;
 | cluster                          | obce-3zones         | cs common      |
 | tenant                           | obmysql             | cs common      |
 | user                             | root                | cs common      |
-| host_ip                          | 172.20.249.50       | cs common      |
+| host_ip                          | x.x.x.x             | cs common      |
 | host_port                        | 32130               | cs common      |
 | db                               | sysbenchdb          | cs common      |
 | total_trans_cnt                  | 0                   | cs common      |
@@ -129,7 +128,7 @@ MySQL [(none)]> show proxysession attribute 1048585 ;
 | user_var_version                 | 0                   | cs var version |
 | last_insert_id_version           | 0                   | cs var version |
 | db_name_version                  | 1                   | cs var version |
-| server_ip                        | 172.20.249.52       | last used ss   |
+| server_ip                        | x.x.x.x             | last used ss   |
 | server_port                      | 2881                | last used ss   |
 | server_sessid                    | 3221634194          | last used ss   |
 | ss_id                            | 34                  | last used ss   |
@@ -146,7 +145,7 @@ MySQL [(none)]> show proxysession attribute 1048585 ;
 | is_checksum_switch_supported     | 1                   | last used ss   |
 | checksum_switch                  | 1                   | last used ss   |
 | enable_extra_ok_packet_for_stats | 1                   | last used ss   |
-| server_ip                        | 172.20.249.51       | ss pool [0]    |
+| server_ip                        | x.x.x.              | ss pool [0]    |
 | server_port                      | 2881                | ss pool [0]    |
 | server_sessid                    | 3222242117          | ss pool [0]    |
 | ss_id                            | 36                  | ss pool [0]    |
@@ -163,7 +162,7 @@ MySQL [(none)]> show proxysession attribute 1048585 ;
 | is_checksum_switch_supported     | 1                   | ss pool [0]    |
 | checksum_switch                  | 1                   | ss pool [0]    |
 | enable_extra_ok_packet_for_stats | 1                   | ss pool [0]    |
-| server_ip                        | 172.20.249.49       | ss pool [1]    |
+| server_ip                        | x.x.x.x             | ss pool [1]    |
 | server_port                      | 2881                | ss pool [1]    |
 | server_sessid                    | 3221895002          | ss pool [1]    |
 | ss_id                            | 35                  | ss pool [1]    |
@@ -190,32 +189,32 @@ MySQL [(none)]> show proxysession attribute 1048585 ;
 ### 通过 OBProxy 连接 OceanBase 集群管理连接
 使用 OBProxy 连接 OceanBase 集群。
 ```bash
-obclient -h172.20.249.52 -uroot@sys#obce-3zones -P2883 -p0******d -c -A oceanbase
+obclient -h x.x.x.x -uroot@sys#obce-3zones -P2883 -p****** -c -A oceanbase
 ```
 通过 OBProxy 连接时，show processlist 和 show proxysession 只能查看当前 OBProxy 的客户端连接，show proxysession 能看到其他 OceanBase 集群的连接（如果这个 OBProxy 还可以为其他集群提供路由服务），show full processlist 能看到 OceanBase 集群的全部后端连接，包括通过其他 OBProxy 的连接。
 
 在这个连接里可以针对性的 KILL 当前 OBProxy 的后端连接（不能 KILL 其他 OBProxy 的后端连接），但是前端连接只能 KILL 自己，不能 KILL 其他连接。支持 KILL CONNECTION 和 KILL QUERY。
 ```sql
 MySQL [oceanbase]> show proxysession;
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-| proxy_sessid | Id      | Cluster     | Tenant   | User | Host                | db         | trans_count | svr_session_count | state             | tid   | pid   |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-|           23 |  524301 | obce-3zones | sys      | root | 172.20.249.50:32214 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
-|           21 | 1048585 | obce-3zones | obmysql  | root | 172.20.249.50:32130 | sysbenchdb |           0 |                 3 | MCS_ACTIVE_READER | 49652 | 49646 |
-|            0 |       6 | obce-3zones | proxysys | root | 172.20.249.50:32192 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+| proxy_sessid | Id      | Cluster     | Tenant   | User | Host          | db         | trans_count | svr_session_count | state             | tid   | pid   |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+|           23 |  524301 | obce-3zones | sys      | root | x.x.x.x:32214 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
+|           21 | 1048585 | obce-3zones | obmysql  | root | x.x.x.x:32130 | sysbenchdb |           0 |                 3 | MCS_ACTIVE_READER | 49652 | 49646 |
+|            0 |       6 | obce-3zones | proxysys | root | x.x.x.x:32192 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
 3 rows in set (0.001 sec)
 
 MySQL [oceanbase]> show full processlist;
-+------------+---------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+--------------+
-| Id         | User    | Tenant  | Host                | db         | Command | Time | State  | Info                  | Ip            | Port | Proxy_sessid |
-+------------+---------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+--------------+
-| 3222242175 | root    | obmysql | 172.20.249.52:12714 | sysbenchdb | Sleep   |  204 | SLEEP  | NULL                  | 172.20.249.51 | 2881 |           21 |
-| 3222242191 | root    | sys     | 172.20.249.52:12736 | oceanbase  | Query   |    0 | ACTIVE | show full processlist | 172.20.249.51 | 2881 |           23 |
-| 3221895066 | root    | obmysql | 172.20.249.52:4454  | sysbenchdb | Sleep   |  200 | SLEEP  | NULL                  | 172.20.249.49 | 2881 |           21 |
-| 3221611294 | proxyro | sys     | 172.20.249.52:55222 | oceanbase  | Sleep   |   13 | SLEEP  | NULL                  | 172.20.249.52 | 2881 |            3 |
-| 3221634194 | root    | obmysql | 172.20.249.52:55346 | sysbenchdb | Sleep   |  219 | SLEEP  | NULL                  | 172.20.249.52 | 2881 |           21 |
-+------------+---------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+--------------+
++------------+---------+---------+---------------+------------+---------+------+--------+-----------------------+---------+------+--------------+
+| Id         | User    | Tenant  | Host          | db         | Command | Time | State  | Info                  | Ip      | Port | Proxy_sessid |
++------------+---------+---------+---------------+------------+---------+------+--------+-----------------------+---------+------+--------------+
+| 3222242175 | root    | obmysql | x.x.x.x:12714 | sysbenchdb | Sleep   |  204 | SLEEP  | NULL                  | x.x.x.x | 2881 |           21 |
+| 3222242191 | root    | sys     | x.x.x.x:12736 | oceanbase  | Query   |    0 | ACTIVE | show full processlist | x.x.x.x | 2881 |           23 |
+| 3221895066 | root    | obmysql | x.x.x.x:4454  | sysbenchdb | Sleep   |  200 | SLEEP  | NULL                  | x.x.x.x | 2881 |           21 |
+| 3221611294 | proxyro | sys     | x.x.x.x:55222 | oceanbase  | Sleep   |   13 | SLEEP  | NULL                  | x.x.x.x | 2881 |            3 |
+| 3221634194 | root    | obmysql | x.x.x.x:55346 | sysbenchdb | Sleep   |  219 | SLEEP  | NULL                  | x.x.x.x | 2881 |           21 |
++------------+---------+---------+---------------+------------+---------+------+--------+-----------------------+---------+------+--------------+
 5 rows in set (0.026 sec)
 
 MySQL [oceanbase]> kill 3222242191;
@@ -228,15 +227,15 @@ No connection. Trying to reconnect...
 Connection id:    524302
 Current database: oceanbase
 
-+------------+---------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+--------------+
-| Id         | User    | Tenant  | Host                | db         | Command | Time | State  | Info                  | Ip            | Port | Proxy_sessid |
-+------------+---------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+--------------+
-| 3221659683 | root    | sys     | 172.20.249.52:55448 | oceanbase  | Query   |    0 | ACTIVE | show full processlist | 172.20.249.52 | 2881 |           24 |
-| 3221611294 | proxyro | sys     | 172.20.249.52:55222 | oceanbase  | Sleep   |    5 | SLEEP  | NULL                  | 172.20.249.52 | 2881 |            3 |
-| 3221634194 | root    | obmysql | 172.20.249.52:55346 | sysbenchdb | Sleep   |  231 | SLEEP  | NULL                  | 172.20.249.52 | 2881 |           21 |
-| 3221895066 | root    | obmysql | 172.20.249.52:4454  | sysbenchdb | Sleep   |  211 | SLEEP  | NULL                  | 172.20.249.49 | 2881 |           21 |
-| 3222242175 | root    | obmysql | 172.20.249.52:12714 | sysbenchdb | Sleep   |  216 | SLEEP  | NULL                  | 172.20.249.51 | 2881 |           21 |
-+------------+---------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+--------------+
++------------+---------+---------+---------------+------------+---------+------+--------+-----------------------+---------+------+--------------+
+| Id         | User    | Tenant  | Host          | db         | Command | Time | State  | Info                  | Ip      | Port | Proxy_sessid |
++------------+---------+---------+---------------+------------+---------+------+--------+-----------------------+---------+------+--------------+
+| 3221659683 | root    | sys     | x.x.x.x:55448 | oceanbase  | Query   |    0 | ACTIVE | show full processlist | x.x.x.x | 2881 |           24 |
+| 3221611294 | proxyro | sys     | x.x.x.x:55222 | oceanbase  | Sleep   |    5 | SLEEP  | NULL                  | x.x.x.x | 2881 |            3 |
+| 3221634194 | root    | obmysql | x.x.x.x:55346 | sysbenchdb | Sleep   |  231 | SLEEP  | NULL                  | x.x.x.x | 2881 |           21 |
+| 3221895066 | root    | obmysql | x.x.x.x:4454  | sysbenchdb | Sleep   |  211 | SLEEP  | NULL                  | x.x.x.x | 2881 |           21 |
+| 3222242175 | root    | obmysql | x.x.x.x:12714 | sysbenchdb | Sleep   |  216 | SLEEP  | NULL                  | x.x.x.x | 2881 |           21 |
++------------+---------+---------+---------------+------------+---------+------+--------+-----------------------+---------+------+--------------+
 5 rows in set (0.060 sec)
 
 MySQL [oceanbase]> kill 3221634194;
@@ -245,13 +244,13 @@ ERROR 1094 (HY000): sqln thread id: 3221634194
 如果要 KILL 特定后端连接，需先通过后端 ID 找到 proxysess_id，然后找到对应的前端连接 ID，再通过命令 show proxysession attribute [id] 找到后端连接的 ss_id。
 ```sql
 MySQL [oceanbase]> show proxysession;
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-| proxy_sessid | Id      | Cluster     | Tenant   | User | Host                | db         | trans_count | svr_session_count | state             | tid   | pid   |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
-|           24 |  524302 | obce-3zones | sys      | root | 172.20.249.50:32218 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
-|           21 | 1048585 | obce-3zones | obmysql  | root | 172.20.249.50:32130 | sysbenchdb |           0 |                 3 | MCS_ACTIVE_READER | 49652 | 49646 |
-|            0 |       6 | obce-3zones | proxysys | root | 172.20.249.50:32192 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
-+--------------+---------+-------------+----------+------+---------------------+------------+-------------+-------------------+-------------------+-------+-------+
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+| proxy_sessid | Id      | Cluster     | Tenant   | User | Host          | db         | trans_count | svr_session_count | state             | tid   | pid   |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
+|           24 |  524302 | obce-3zones | sys      | root | x.x.x.x:32218 | oceanbase  |           0 |                 1 | MCS_ACTIVE_READER | 49651 | 49646 |
+|           21 | 1048585 | obce-3zones | obmysql  | root | x.x.x.x:32130 | sysbenchdb |           0 |                 3 | MCS_ACTIVE_READER | 49652 | 49646 |
+|            0 |       6 | obce-3zones | proxysys | root | x.x.x.x:32192 | NULL       |           0 |                 0 | MCS_ACTIVE_READER | 49646 | 49646 |
++--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
 3 rows in set (0.019 sec)
 
 MySQL [oceanbase]> show proxysession attribute 1048585;
@@ -263,7 +262,7 @@ MySQL [oceanbase]> show proxysession attribute 1048585;
 | cluster                          | obce-3zones         | cs common      |
 | tenant                           | obmysql             | cs common      |
 | user                             | root                | cs common      |
-| host_ip                          | 172.20.249.50       | cs common      |
+| host_ip                          | x.x.x.x             | cs common      |
 | host_port                        | 32130               | cs common      |
 | db                               | sysbenchdb          | cs common      |
 | total_trans_cnt                  | 0                   | cs common      |
@@ -280,7 +279,7 @@ MySQL [oceanbase]> show proxysession attribute 1048585;
 | user_var_version                 | 0                   | cs var version |
 | last_insert_id_version           | 0                   | cs var version |
 | db_name_version                  | 1                   | cs var version |
-| server_ip                        | 172.20.249.49       | last used ss   |
+| server_ip                        | x.x.x.x             | last used ss   |
 | server_port                      | 2881                | last used ss   |
 | server_sessid                    | 3221895066          | last used ss   |
 | ss_id                            | 38                  | last used ss   |
@@ -297,7 +296,7 @@ MySQL [oceanbase]> show proxysession attribute 1048585;
 | is_checksum_switch_supported     | 1                   | last used ss   |
 | checksum_switch                  | 1                   | last used ss   |
 | enable_extra_ok_packet_for_stats | 1                   | last used ss   |
-| server_ip                        | 172.20.249.51       | ss pool [0]    |
+| server_ip                        | x.x.x.x             | ss pool [0]    |
 | server_port                      | 2881                | ss pool [0]    |
 | server_sessid                    | 3222242175          | ss pool [0]    |
 | ss_id                            | 37                  | ss pool [0]    |
@@ -314,7 +313,7 @@ MySQL [oceanbase]> show proxysession attribute 1048585;
 | is_checksum_switch_supported     | 1                   | ss pool [0]    |
 | checksum_switch                  | 1                   | ss pool [0]    |
 | enable_extra_ok_packet_for_stats | 1                   | ss pool [0]    |
-| server_ip                        | 172.20.249.52       | ss pool [1]    |
+| server_ip                        | x.x.x.x             | ss pool [1]    |
 | server_port                      | 2881                | ss pool [1]    |
 | server_sessid                    | 3221634194          | ss pool [1]    |
 | ss_id                            | 34                  | ss pool [1]    |
@@ -341,19 +340,19 @@ Query OK, 0 rows affected (0.010 sec)
 ### 直连 OBServer 管理连接
 在 OBProxy 的连接里查看后端连接的命令是 show full processlist，输出的 Id 列就是 OBServer 里客户端连接 ID。可以在 OBServer 内部直接使用 KILL QUERY 或 KILL CONNECTION。
 ```sql
-obclient -h172.20.249.52 -uroot@sys#obce-3zones -P2883 -p0******d -c -A oceanbase
+obclient -hx.x.x.x -uroot@sys#obce-3zones -P2883 -p****** -c -A oceanbase
 
 MySQL [oceanbase]> show full processlist;
-+------------+---------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+--------------+
-| Id         | User    | Tenant  | Host                | db         | Command | Time | State  | Info                  | Ip            | Port | Proxy_sessid |
-+------------+---------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+--------------+
-| 3221659683 | root    | sys     | 172.20.249.52:55448 | oceanbase  | Query   |    0 | ACTIVE | show full processlist | 172.20.249.52 | 2881 |           24 |
-| 3221611294 | proxyro | sys     | 172.20.249.52:55222 | oceanbase  | Sleep   |   16 | SLEEP  | NULL                  | 172.20.249.52 | 2881 |            3 |
-| 3221666993 | root    | obmysql | 127.0.0.1:45726     | sysbenchdb | Sleep   |    3 | SLEEP  | NULL                  | 172.20.249.52 | 2881 |         NULL |
-| 3221663293 | root    | obmysql | 172.20.249.52:55458 | sysbenchdb | Sleep   |  281 | SLEEP  | NULL                  | 172.20.249.52 | 2881 |           21 |
-| 3221895066 | root    | obmysql | 172.20.249.52:4454  | sysbenchdb | Sleep   |  291 | SLEEP  | NULL                  | 172.20.249.49 | 2881 |           21 |
-| 3222242175 | root    | obmysql | 172.20.249.52:12714 | sysbenchdb | Sleep   |  285 | SLEEP  | NULL                  | 172.20.249.51 | 2881 |           21 |
-+------------+---------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+--------------+
++------------+---------+---------+---------------+------------+---------+------+--------+-----------------------+---------+------+--------------+
+| Id         | User    | Tenant  | Host          | db         | Command | Time | State  | Info                  | Ip      | Port | Proxy_sessid |
++------------+---------+---------+---------------+------------+---------+------+--------+-----------------------+---------+------+--------------+
+| 3221659683 | root    | sys     | x.x.x.x:55448 | oceanbase  | Query   |    0 | ACTIVE | show full processlist | x.x.x.x | 2881 |           24 |
+| 3221611294 | proxyro | sys     | x.x.x.x:55222 | oceanbase  | Sleep   |   16 | SLEEP  | NULL                  | x.x.x.x | 2881 |            3 |
+| 3221666993 | root    | obmysql | x.x.x.x:45726 | sysbenchdb | Sleep   |    3 | SLEEP  | NULL                  | x.x.x.x | 2881 |         NULL |
+| 3221663293 | root    | obmysql | x.x.x.x:55458 | sysbenchdb | Sleep   |  281 | SLEEP  | NULL                  | x.x.x.x | 2881 |           21 |
+| 3221895066 | root    | obmysql | x.x.x.x:4454  | sysbenchdb | Sleep   |  291 | SLEEP  | NULL                  | x.x.x.x | 2881 |           21 |
+| 3222242175 | root    | obmysql | x.x.x.x:12714 | sysbenchdb | Sleep   |  285 | SLEEP  | NULL                  | x.x.x.x | 2881 |           21 |
++------------+---------+---------+---------------+------------+---------+------+--------+-----------------------+---------+------+--------------+
 6 rows in set (0.010 sec)
 ```
 说明：
@@ -365,30 +364,30 @@ MySQL [oceanbase]> show full processlist;
 
 如果您直连到 OBServer，执行以上命令，查询结果会有点不一样。
 ```sql
-mysql -h127.1 -P2881 -uroot@obmysql -p1******6 -c -A sysbenchdb
+mysql -h x.x.x.x -P2881 -uroot@obmysql -p****** -c -A sysbenchdb
 
 mysql> show processlist;
-+------------+------+---------------------+------------+---------+------+--------+------------------+
-| Id         | User | Host                | db         | Command | Time | State  | Info             |
-+------------+------+---------------------+------------+---------+------+--------+------------------+
-| 3222242175 | root | 172.20.249.52:12714 | sysbenchdb | Sleep   |  312 | SLEEP  | NULL             |
-| 3221895066 | root | 172.20.249.52:4454  | sysbenchdb | Sleep   |  318 | SLEEP  | NULL             |
-| 3221666993 | root | 127.0.0.1:45726     | sysbenchdb | Query   |    0 | ACTIVE | show processlist |
-| 3221663293 | root | 172.20.249.52:55458 | sysbenchdb | Sleep   |  308 | SLEEP  | NULL             |
-+------------+------+---------------------+------------+---------+------+--------+------------------+
++------------+------+---------------+------------+---------+------+--------+------------------+
+| Id         | User | Host          | db         | Command | Time | State  | Info             |
++------------+------+---------------+------------+---------+------+--------+------------------+
+| 3222242175 | root | x.x.x.x:12714 | sysbenchdb | Sleep   |  312 | SLEEP  | NULL             |
+| 3221895066 | root | x.x.x.x:4454  | sysbenchdb | Sleep   |  318 | SLEEP  | NULL             |
+| 3221666993 | root | x.x.x.x:4572  | sysbenchdb | Query   |    0 | ACTIVE | show processlist |
+| 3221663293 | root | x.x.x.x:55458 | sysbenchdb | Sleep   |  308 | SLEEP  | NULL             |
++------------+------+---------------+------------+---------+------+--------+------------------+
 4 rows in set (0.05 sec)
 ```
 说明：Host 客户端连接信息（IP:PORT），通常为 OBProxy 地址或者发起连接的客户端。
 ```sql
 mysql> show full processlist;
-+------------+------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+
-| Id         | User | Tenant  | Host                | db         | Command | Time | State  | Info                  | Ip            | Port |
-+------------+------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+
-| 3221666993 | root | obmysql | 127.0.0.1:45726     | sysbenchdb | Query   |    0 | ACTIVE | show full processlist | 172.20.249.52 | 2881 |
-| 3221663293 | root | obmysql | 172.20.249.52:55458 | sysbenchdb | Sleep   |  312 | SLEEP  | NULL                  | 172.20.249.52 | 2881 |
-| 3221895066 | root | obmysql | 172.20.249.52:4454  | sysbenchdb | Sleep   |  321 | SLEEP  | NULL                  | 172.20.249.49 | 2881 |
-| 3222242175 | root | obmysql | 172.20.249.52:12714 | sysbenchdb | Sleep   |  315 | SLEEP  | NULL                  | 172.20.249.51 | 2881 |
-+------------+------+---------+---------------------+------------+---------+------+--------+-----------------------+---------------+------+
++------------+------+---------+------------------+------------+---------+------+--------+-----------------------+---------+------+
+| Id         | User | Tenant  | Host             | db         | Command | Time | State  | Info                  | Ip      | Port |
++------------+------+---------+------------------+------------+---------+------+--------+-----------------------+---------+------+
+| 3221666993 | root | obmysql | 127.0.0.1:45726  | sysbenchdb | Query   |    0 | ACTIVE | show full processlist | x.x.x.x | 2881 |
+| 3221663293 | root | obmysql | x.x.x.x:55458    | sysbenchdb | Sleep   |  312 | SLEEP  | NULL                  | x.x.x.x | 2881 |
+| 3221895066 | root | obmysql | x.x.x.x:4454     | sysbenchdb | Sleep   |  321 | SLEEP  | NULL                  | x.x.x.x | 2881 |
+| 3222242175 | root | obmysql | x.x.x.x:12714    | sysbenchdb | Sleep   |  315 | SLEEP  | NULL                  | x.x.x.x | 2881 |
++------------+------+---------+------------------+------------+---------+------+--------+-----------------------+---------+------+
 4 rows in set (0.00 sec)
 
 mysql> show proxysession ;
@@ -425,19 +424,10 @@ where 1=1
 +------------+---------------------+---------+----------------------------------+------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+--------------+----------------+----------------------+-----------+-------------------------------+
 | id         | host                | command | sql_id                           | time | state  | info                                                                                                                                                                 | svr_ip        | proxy_sessid | user_client_ip | trans_id             | thread_id | trace_id                      |
 +------------+---------------------+---------+----------------------------------+------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+--------------+----------------+----------------------+-----------+-------------------------------+
-| 3222242518 | 172.20.249.52:19440 | Query   | 17115A49B6D58958854D9B2E58CB821A |    0 | ACTIVE | SELECT id, host, command, sql_id, time, state, info, svr_ip, proxy_sessid, user_client_ip, trans_id ,thread_id, trace_id
+| 3222242518 | x.x.x.x      :19440 | Query   | 17115A49B6D58958854D9B2E58CB821A |    0 | ACTIVE | SELECT id, host, command, sql_id, time, state, info, svr_ip, proxy_sessid, user_client_ip, trans_id ,thread_id, trace_id
 FROM __all_virtual_processlist
-where 1=1 | 172.20.249.51 |           26 | 172.20.249.50  |                    0 |     19240 | YB42AC14F933-0005CCDFC90D9A46 |
-| 3222242521 | 172.20.249.52:19442 | Sleep   |                                  |  458 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.51 |           27 | 192.168.0.6    |                    0 |         0 | NULL                          |
-| 3222242532 | 172.20.249.49:48664 | Sleep   |                                  | 1167 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.51 |            8 | 172.20.249.49  |                    0 |         0 | NULL                          |
-| 3221895453 | 172.20.249.52:11250 | Sleep   |                                  |   13 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.49 |           28 | 192.168.0.6    |                    0 |         0 | NULL                          |
-| 3221895423 | 172.20.249.52:11218 | Sleep   |                                  | 1024 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.49 |           31 | 172.20.249.50  |                    0 |         0 | NULL                          |
-| 3221611294 | 172.20.249.52:55222 | Sleep   |                                  |    9 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.52 |            3 | 172.20.249.52  | 15795690051229394980 |         0 | NULL                          |
-| 3221591229 | 172.20.249.49:11510 | Sleep   |                                  | 1226 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.52 |            2 | 172.20.249.49  |                    0 |         0 | NULL                          |
-| 3221594049 | 172.20.249.52:62192 | Sleep   |                                  |  998 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.52 |           31 | 172.20.249.50  | 13683594962028267401 |         0 | NULL                          |
-| 3221583881 | 172.20.249.52:62154 | Sleep   |                                  |  384 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.52 |           28 | 192.168.0.6    |                    0 |         0 | NULL                          |
-| 3221591227 | 172.20.249.49:11512 | Sleep   |                                  |    4 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.52 |            3 | 172.20.249.49  |   283711989801967624 |         0 | NULL                          |
-| 3221603549 | 127.0.0.1:52488     | Sleep   |                                  |  324 | SLEEP  | NULL                                                                                                                                                                 | 172.20.249.52 |         NULL | 127.0.0.1      |                    0 |         0 | NULL                          |
+where 1=1 | x.x.x.x       |           26 | x.x.x.x     |                    0 |     19240 | YB42AC14F933-0005CCDFC90D9A46 |
+| 3221603549 | 127.0.0.1:52488     | Sleep   |                                  |  324 | SLEEP  | NULL                                                                                                                                                                 | x.x.x.x       |         NULL | 127.0.0.1      |                    0 |         0 | NULL                          |
 +------------+---------------------+---------+----------------------------------+------+--------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+--------------+----------------+----------------------+-----------+-------------------------------+
 11 rows in set (0.011 sec)
 ```
@@ -498,11 +488,11 @@ MySQL [test]> select * from t1;
 客户端 1 查看连接状态。
 ```sql
 MySQL [oceanbase]> SELECT id, host, command, sql_id, time, state, info, svr_ip, proxy_sessid, user_client_ip, trans_id ,thread_id, trace_id   FROM __all_virtual_processlist  where 1=1 and id=3222242958 order by id;
-+------------+---------------------+---------+--------+------+-------+------+---------------+--------------+----------------+---------------------+-----------+----------+
-| id         | host                | command | sql_id | time | state | info | svr_ip        | proxy_sessid | user_client_ip | trans_id            | thread_id | trace_id |
-+------------+---------------------+---------+--------+------+-------+------+---------------+--------------+----------------+---------------------+-----------+----------+
-| 3222243128 | 172.20.249.52:19954 | Sleep   |        |  121 | SLEEP | NULL | 172.20.249.51 |           45 | 172.20.249.50  | 6678987957559799424 |         0 | NULL     |
-+------------+---------------------+---------+--------+------+-------+------+---------------+--------------+----------------+---------------------+-----------+----------+
++------------+--------------+---------+--------+------+-------+------+----------+--------------+----------------+---------------------+-----------+----------+
+| id         | host          | command | sql_id | time | state | info | svr_ip  | proxy_sessid | user_client_ip | trans_id            | thread_id | trace_id |
++------------+---------------+---------+--------+------+-------+------+---------+--------------+----------------+---------------------+-----------+----------+
+| 3222243128 | x.x.x.x:19954 | Sleep   |        |  121 | SLEEP | NULL | x.x.x.x |           45 | x.x.x.x        | 6678987957559799424 |         0 | NULL     |
++------------+---------------+---------+--------+------+-------+------+---------+--------------+----------------+---------------------+-----------+----------+
 1 row in set (0.007 sec)
 ```
 time 列是连接空闲时间。

@@ -11,23 +11,23 @@ weight: 2
 - 在 /etc/sysctl.conf 里指定的 kernel.core_pattern 位置生成对应的core文件，如果没有指定默认会在 OB 的 home_path 路径下生成 core.${ob_pid} 的文件。
 
 ```bash
-[root@172.30.199.49 ~]$ps -ef | grep 3.1.5 | grep -v grep
-admin    27670     1 78 4月25 ?       10-04:34:17 /home/admin/ob3.1.5/bin/observer -r 172.30.199.47:62882:62881;172.30.199.48:62882:62881;172.30.199.49:62882:62881 -p 62881 -P 62882 -z zone3 -n obcluster -c 1 -d /home/admin/ob3.1.5/store -i eth0 -l WARN -o __min_full_resource_pool_memory=268435456,memory_limit=10G,system_memory=2G,datafile_size=4G,cpu_count=16,enable_syslog_wf=False,enable_syslog_recycle=True,max_syslog_file_count=4
-[root@172.30.199.49 ~]$
+[root@hostname ~]$ps -ef | grep 3.1.5 | grep -v grep
+admin    27670     1 78 4月25 ?       10-04:34:17 /home/admin/ob3.1.5/bin/observer -r x.x.x.x:62882:62881;x.x.x.x:62882:62881;x.x.x.x:62882:62881 -p 62881 -P 62882 -z zone3 -n obcluster -c 1 -d /home/admin/ob3.1.5/store -i eth0 -l WARN -o __min_full_resource_pool_memory=268435456,memory_limit=10G,system_memory=2G,datafile_size=4G,cpu_count=16,enable_syslog_wf=False,enable_syslog_recycle=True,max_syslog_file_count=4
+[root@hostname ~]$
 
-[root@172.30.199.49 ~]$date && kill -s 11 27670
+[root@hostname ~]$date && kill -s 11 27670
 2023年 05月 08日 星期一 10:30:11 CST
-[root@172.30.199.49 ~]$ps -ef | grep 3.1.5 | grep -v grep | wc -l
+[root@hostname ~]$ps -ef | grep 3.1.5 | grep -v grep | wc -l
 0
 
-[root@172.30.199.49 ~]$
-[root@172.30.199.49 ~]$grep "CRASH ERROR" /home/admin/ob3.1.5/log/observer.log
+[root@hostname ~]$
+[root@hostname ~]$grep "CRASH ERROR" /home/admin/ob3.1.5/log/observer.log
 CRASH ERROR!!! sig=11, sig_code=0, sig_addr=59ef, timestamp=1683513011732829, tid=27670, tname=observer, trace_id=0-0, extra_info=((null)), lbt=0x9bac9c8 0x9b9d248 0x2ac7a28ac62f 0x2ac7a2f8a9fd 0x2ac7a2f8a893 0x9461d97 0x22ed172 0x2ac7a2ee7554 0x22ebe28
 
-[root@172.30.199.49 ~]$grep "kernel.core_pattern" /etc/sysctl.conf
+[root@hostname ~]$grep "kernel.core_pattern" /etc/sysctl.conf
 kernel.core_pattern = /home/admin/core_test/core-%e-%p-%t
-[root@172.30.199.49 ~]$
-[root@172.30.199.49 ~]$ls -l /home/admin/core_test/core-observer-27670-1683513011
+[root@hostname ~]$
+[root@hostname ~]$ls -l /home/admin/core_test/core-observer-27670-1683513011
 -rw------- 1 admin admin 8723914752 5月   8 10:30 /home/admin/core_test/core-observer-27670-1683513011
 ```
 
@@ -62,9 +62,9 @@ rpm -ivh --force oceanbase-ce-debuginfo-3.1.5-100000252023041721.el7.x86_64.rpm
 3. 将安装后的 observer.debug 文件拷贝到跟 OBServer 可执行文件同一级目录下
 
 ```shell
-[root@172.30.199.49 opt]$ rpm -ql oceanbase-ce-debuginfo | grep observer.debug
+[root@hostname opt]$ rpm -ql oceanbase-ce-debuginfo | grep observer.debug
 /usr/lib/debug/home/admin/oceanbase/bin/observer.debug
-[root@172.30.199.49 opt]$ cp /usr/lib/debug/home/admin/oceanbase/bin/observer.debug /home/admin/ob3.1.5/bin/
+[root@hostname opt]$ cp /usr/lib/debug/home/admin/oceanbase/bin/observer.debug /home/admin/ob3.1.5/bin/
 ```
 
 # 收集堆栈

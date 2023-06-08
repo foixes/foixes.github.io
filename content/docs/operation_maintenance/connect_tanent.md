@@ -9,7 +9,7 @@ OceanBase 开源版的租户只兼容 MySQL，连接协议兼容 MySQL 5.6 。�
 OceanBase MySQL 租户支持传统 MySQL 客户端连接，连接方式基本不变，跟传统 MySQL 不一样的地方是用户名的格式。
 示例：
 ```bash
-mysql -hxxx -uroot@sys#obdemo -P2883 -p4S****Sr -c -A oceanbase
+mysql -h x.x.x.x -uroot@sys#obdemo -P2883 -p****** -c -A oceanbase
 ```
 说明：
 
@@ -26,7 +26,7 @@ mysql -hxxx -uroot@sys#obdemo -P2883 -p4S****Sr -c -A oceanbase
 $ strings /dev/urandom |tr -dc A-Za-z0-9 | head -c8; echo
 b******t
 
-mysql -hxxx -uroot@obmysql#obdemo -P2883 -p -c -A oceanbase
+mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p -c -A oceanbase
 
 MySQL [oceanbase]> alter user root identified by 'b******t' ;
 Query OK, 0 rows affected (0.118 sec)
@@ -40,7 +40,7 @@ sudo yum -y install mariadb-server.x86_64
 # 安装官方 mysql 客户端
 sudo yum -y install mysql.x86_64
 
-mysql -hxxx -uroot@obmysql#obdemo -P2883 -pbJ****Vt -c -A --default-auth=mysql_native_password  oceanbase
+mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p****** -c -A --default-auth=mysql_native_password  oceanbase
 ```
 #### 说明
 OBProxy 2.0 版本已经修复了这个问题。
@@ -48,7 +48,7 @@ OBProxy 2.0 版本已经修复了这个问题。
 OceanBase 数据库提供了专用的命令行客户端工具 obclient。使用方法和使用 MySQL 客户端一样。
 示例：
 ```bash
-obclient -hxxx -uroot@obmysql#obdemo -P2883 -pbJ****Vt -c -A oceanbase
+obclient -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p****** -c -A oceanbase
 ```
 ## OceanBase 连接驱动（JDBC）
 OceanBase 数据库目前支持的应用主要是 Java 和 C/C++ 。

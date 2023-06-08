@@ -72,7 +72,7 @@ _all_virtual_lock_wait_stat 表中主要用于展示写写冲突的情况。
 ```bash
 MySQL [oceanbase]> select * from __all_virtual_lock_wait_stat where session_id=3222247256 \G
 *************************** 1. row ***************************
-          svr_ip: 172.30.199.49
+          svr_ip: x.x.x.x
         svr_port: 7801
        tenant_id: 1
        tablet_id: 200002
@@ -99,7 +99,7 @@ MySQL [oceanbase]> select * from __all_virtual_trans_lock_stat where tablet_id=2
 *************************** 1. row ***************************
        tenant_id: 1
         trans_id: {txid:4008048}
-          svr_ip: 172.30.199.49
+          svr_ip: x.x.x.x
         svr_port: 7801
            ls_id: 1
         table_id: 0
@@ -126,12 +126,12 @@ Query OK, 0 rows affected (0.00 sec)
 MySQL [oceanbase]> select * from __all_virtual_trans_stat where session_id!=0 order by ctx_create_time desc limit 5\G
 *************************** 1. row ***************************
         tenant_id: 1
-           svr_ip: 172.30.199.49
+           svr_ip: x.x.x.x
          svr_port: 7801
        trans_type: 0
          trans_id: 4210669
        session_id: 3222110265
-   scheduler_addr: "172.30.199.49:7801"
+   scheduler_addr: "x.x.x.x:7801"
        is_decided: 0
             ls_id: 1
      participants: NULL
@@ -161,7 +161,7 @@ MySQL [oceanbase]> select * from __all_virtual_trans_lock_stat where trans_id li
 *************************** 1. row ***************************
        tenant_id: 1
         trans_id: {txid:4210669}
-          svr_ip: 172.30.199.49
+          svr_ip: x.x.x.x
         svr_port: 7801
            ls_id: 1
         table_id: 0
@@ -175,7 +175,7 @@ proxy_session_id: NULL
 *************************** 2. row ***************************
        tenant_id: 1
         trans_id: {txid:4210669}
-          svr_ip: 172.30.199.49
+          svr_ip: x.x.x.x
         svr_port: 7801
            ls_id: 1
         table_id: 0
@@ -189,7 +189,7 @@ proxy_session_id: NULL
 *************************** 3. row ***************************
        tenant_id: 1
         trans_id: {txid:4210669}
-          svr_ip: 172.30.199.49
+          svr_ip: x.x.x.x
         svr_port: 7801
            ls_id: 1
         table_id: 0
@@ -247,12 +247,12 @@ proxy_session_id: NULL
 MySQL [oceanbase]> select * from __all_virtual_trans_stat where trans_id='3966830'\G
 *************************** 1. row ***************************
         tenant_id: 1
-           svr_ip: 172.30.199.49
+           svr_ip: x.x.x.x
          svr_port: 7801
        trans_type: 0
          trans_id: 3966830
        session_id: 3221618369
-   scheduler_addr: "172.30.199.47:7801"
+   scheduler_addr: "x.x.x.x:7801"
        is_decided: 0
             ls_id: 1
      participants: NULL
