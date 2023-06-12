@@ -43,7 +43,7 @@ weight: 1
 ```bash
 问：4.x版本如何rs切主?
 答：ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER='目标ip:rpc_port' TENANT ='sys';
-例如：ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER ='172.30.199.191:2882' TENANT ='sys'
+例如：ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER ='xx.xx.xx.xx:2882' TENANT ='sys'
 
 ```
 ```bash
@@ -300,9 +300,10 @@ OB 4.0支持对每个租户单独设置合并时间点，相关配置项为major
 ```
 ```bash
 问：ob内存是怎么规划的？
-答：
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1668247000430-b1ee6f69-76c1-47de-9490-81703b27afd5.png#clientId=u28da6d78-a728-4&from=paste&height=238&id=eu96c&originHeight=702&originWidth=1424&originalType=binary&ratio=1&rotation=0&showTitle=false&size=259340&status=done&style=none&taskId=uacac7b75-5ab4-498a-b4df-cf9b20bfc41&title=&width=482)
 ```
+答：
+![image.png](/img/FAQ/all_faq/1668247000430-b1ee6f69-76c1-47de-9490-81703b27afd5.png)
+
 
 ```bash
 问：plan cache分配资源过少或者大并发会造成plan cache命中率较低的问题吗？
@@ -345,10 +346,11 @@ GV$OB_SERVER_SCHEMA_INFO可以理解为每台ObServer每个租户已经刷新的
 ```
 ```bash
 问：OB的sql执行流程
-答：![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1679833693317-53646c42-6030-4025-9a9e-ef1ae0cdc6a4.png#clientId=u33722b52-2cd7-4&from=paste&height=275&id=VKP6n&originHeight=916&originWidth=1560&originalType=binary&ratio=2&rotation=0&showTitle=false&size=134694&status=done&style=none&taskId=u8a489e1d-7cd3-4fc7-ae2c-f740c497617&title=&width=469)
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1679833729438-ff8ed706-d886-4cce-a024-e5677c46fe67.png#clientId=u33722b52-2cd7-4&from=paste&height=262&id=z7zD5&originHeight=523&originWidth=1022&originalType=binary&ratio=2&rotation=0&showTitle=false&size=126417&status=done&style=none&taskId=u184a7408-4bdd-4a3f-a116-91fad4e494a&title=&width=511)
-
 ```
+答：![image.png](/img/FAQ/all_faq/1679833693317-53646c42-6030-4025-9a9e-ef1ae0cdc6a4.png)
+![image.png](/img/FAQ/all_faq/1679833729438-ff8ed706-d886-4cce-a024-e5677c46fe67.png)
+
+
 ```bash
 问：执行计划中的px partition iterator，px block iterator是什么意思？
 答：partition iterator 是以分区粒度迭代数据，block iterator是以block粒度迭代数据，Iterator 是对数据的抽象，它把数据抽象成一块一块的，以便多个线程并发地处理这些数据。一块数据如果对应的是一个分区，则是 partition iterator。一块数据如果对应的是一个或数个宏块，则是 block iterator。
