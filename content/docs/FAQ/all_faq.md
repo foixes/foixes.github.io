@@ -303,8 +303,6 @@ OB 4.0支持对每个租户单独设置合并时间点，相关配置项为major
 ```
 答：
 ![image.png](/img/FAQ/all_faq/1668247000430-b1ee6f69-76c1-47de-9490-81703b27afd5.png)
-
-
 ```bash
 问：plan cache分配资源过少或者大并发会造成plan cache命中率较低的问题吗？
 答：
@@ -445,20 +443,20 @@ Worker 083: ERROR: Internal error
 ```bash
 问：系统租户root@sys用户密码忘记了？
 答：
-1）OCP对应集群总览界面-修改密码。![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1669531503193-3103f39a-b2c1-44e9-8a01-b71323c6f235.png#clientId=u3c8b8807-2c55-4&from=paste&height=196&id=My9T5&originHeight=392&originWidth=2896&originalType=binary&ratio=1&rotation=0&showTitle=false&size=142885&status=done&style=none&taskId=ub7e3ffd9-e249-49d0-81b9-255726a9e76&title=&width=1448)
+1）OCP对应集群总览界面-修改密码。![image.png](/img/FAQ/all_faq/71456382/1669531503193-3103f39a-b2c1-44e9-8a01-b71323c6f235.png)
 2）obd cluster edit-config 部署名称 查看配置文件中的密码信息。
 
 ```
 ```bash
 问：ocp怎么关联oms的告警信息？
 答：1）OMS上添加关联OCP
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1683343829395-a9f15b52-9680-46d7-8471-d70e0d48b7bd.png#clientId=uc37a4101-a760-4&from=paste&height=174&id=suIgo&originHeight=1196&originWidth=3440&originalType=binary&ratio=2&rotation=0&showTitle=false&size=507279&status=done&style=none&taskId=uc491f38c-f18b-4740-a716-475919a18b0&title=&width=500)
+![image.png](/img/FAQ/all_faq/1683343829395-a9f15b52-9680-46d7-8471-d70e0d48b7bd.png)
 2）OMS上新建告警通道
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1683343840763-a278804a-401f-4658-a0d0-8ecbedc4f42c.png#clientId=uc37a4101-a760-4&from=paste&height=265&id=z4ne5&originHeight=1924&originWidth=3454&originalType=binary&ratio=2&rotation=0&showTitle=false&size=333765&status=done&style=none&taskId=udbf6a94e-e99c-478a-9a0b-8266ae1e166&title=&width=475)
+![image.png](/img/FAQ/all_faq/1683343840763-a278804a-401f-4658-a0d0-8ecbedc4f42c.png)
 3）OMS告警信息如下
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1683343850716-fb9c077a-2501-4a08-9804-9e4cd536da27.png#clientId=uc37a4101-a760-4&from=paste&height=153&id=UhLmK&originHeight=1074&originWidth=3452&originalType=binary&ratio=2&rotation=0&showTitle=false&size=173307&status=done&style=none&taskId=u7eb447e3-5252-488b-9828-db9f1e29c57&title=&width=492)
+![image.png](/img/FAQ/all_faq/1683343850716-fb9c077a-2501-4a08-9804-9e4cd536da27.png)
 4）ocp同样能收到告警
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1683343869507-e28028c5-c9ec-4180-8762-20b596d1a425.png#clientId=uc37a4101-a760-4&from=paste&height=282&id=xFEaP&originHeight=1950&originWidth=3454&originalType=binary&ratio=2&rotation=0&showTitle=false&size=1484859&status=done&style=none&taskId=ube7e6537-7516-4af6-9ce8-62c66b671cf&title=&width=499)
+![image.png](/img/FAQ/all_faq/1683343869507-e28028c5-c9ec-4180-8762-20b596d1a425.png)
 
 ```
 ### 性能调优
@@ -558,7 +556,7 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 ```
 ```bash
 现象：部署卡在Remote oceanbase-ce* repository install 阶段
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1682389370244-dedd852a-3c9d-487f-96ef-0d69dce7b26f.png#clientId=u822bdcc1-a527-4&from=paste&height=231&id=YQBmZ&originHeight=462&originWidth=2606&originalType=binary&ratio=2&rotation=0&showTitle=false&size=1746685&status=done&style=none&taskId=u76c6d148-d718-4c95-814d-acbee18bd5c&title=&width=1303)
+![image.png](/img/FAQ/all_faq/1682389370244-dedd852a-3c9d-487f-96ef-0d69dce7b26f.png)
 报错：检查obd日志报错
 信息：obd2.0
 解决方案：具体根据obd日志分析，目前已知有如下可能：
@@ -580,7 +578,7 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 ```bash
 报错：[ERROR] Cluster NTP is out of sync
 现象：部署报错NTP服务未同步
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1668859623282-6964f341-7192-4d06-84ab-37da69464f1b.png#clientId=udf7eaac3-9f0f-4&from=paste&height=181&id=kNAU5&originHeight=362&originWidth=1376&originalType=binary&ratio=1&rotation=0&showTitle=false&size=142858&status=done&style=none&taskId=ub7608f00-fe76-4992-a9ea-66b158ed450&title=&width=688)
+![image.png](/img/FAQ/all_faq/1668859623282-6964f341-7192-4d06-84ab-37da69464f1b.png)
 信息：3.1.3
 解决方案：
 原因：服务器之间时差超过100ms，会出现rootserver无主情况，部署时做了时差校验
@@ -596,7 +594,7 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 ```
 ```bash
 报错：[ERROR] Cluster init failed
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670835604707-b526c34a-d51f-482c-8cdb-af4c578cd5f9.png#clientId=u26ce58b4-6e05-4&from=paste&height=95&id=Gx2i1&originHeight=189&originWidth=611&originalType=binary&ratio=1&rotation=0&showTitle=false&size=21758&status=done&style=none&taskId=uc4ba11ce-c437-4e63-bfd6-6faad567d89&title=&width=305.5)
+![image.png](/img/FAQ/all_faq/1670835604707-b526c34a-d51f-482c-8cdb-af4c578cd5f9.png)
 现象：安装初始化失败。observer.log日志：fail to send rpc(tmp_ret=-4122
 信息：4.0.0
 解决方案：关闭防火墙
@@ -606,7 +604,7 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 ```bash
 报错：Cluster bootstrap x
 现象：部署失败，无明显提示
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670656607163-a8cc5851-fedd-402c-ba24-5c27462718c3.png#clientId=uca109fd7-747b-4&from=paste&height=103&id=iPvrh&originHeight=206&originWidth=2854&originalType=binary&ratio=1&rotation=0&showTitle=false&size=657657&status=done&style=none&taskId=ud8780134-b93c-4aa0-b916-f121b247f8d&title=&width=1427)
+![image.png](/img/FAQ/all_faq/1670656607163-a8cc5851-fedd-402c-ba24-5c27462718c3.png)
 信息：3.1.4
 解决方案：现场双网卡环境导致，改成静态固定IP，将网卡文件BOOTPROTO=dhcp 改成 static 重启网络
 原因：IP检测可能失败
@@ -616,8 +614,8 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 报错：[ERROR] import connect failed
 现象：使用OBD命令安装OceanBase集群的时候提示缺少pymysql模块，但是这个模块已经安装
 ModuleNotFoundError：No module name 'pymysql'
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670665435483-e597b7b5-1ade-485a-8b32-bf683933f950.png#clientId=u524a9774-c2f3-4&from=paste&height=175&id=c34Rm&originHeight=349&originWidth=1901&originalType=binary&ratio=1&rotation=0&showTitle=false&size=813391&status=done&style=none&taskId=u554a20b5-f361-4c61-8642-d69e429c3b1&title=&width=950.5)
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670665860175-1f4b8886-409a-41d6-9ecf-c47b579adf8d.png#clientId=ue58e5b08-66de-4&from=paste&height=88&id=kLxoO&originHeight=176&originWidth=823&originalType=binary&ratio=1&rotation=0&showTitle=false&size=166831&status=done&style=none&taskId=ud0b101ab-b280-467d-80de-d7cd8f988fb&title=&width=411.5)
+![image.png](/img/FAQ/all_faq/1670665435483-e597b7b5-1ade-485a-8b32-bf683933f950.png)
+![image.png](/img/FAQ/all_faq/1670665860175-1f4b8886-409a-41d6-9ecf-c47b579adf8d.png)
 信息：obd1.6.0，ob4.0.0
 解决方案：安装时不要使用sudo方式，安装使用的是当前用户进行的，创建缺少的/usr/obd/lib/site-packages目录，把python模块拷贝进去
 原因：现场启动用户不对，直接使用root即可，不要切换用户再sudo，并且看报错缺少/usr/obd/lib/site-packages目录应该是obd安装有问题，可以重新安装obd，现场通过创建目录拷贝方式最终也能解决。
@@ -635,7 +633,7 @@ ModuleNotFoundError：No module name 'pymysql'
 ```bash
 报错：type object 'ConfigUtil' has no attribute 'get_random_pwd_by_rule'
 现象：all-in-one4.1高版本换4.0低版本安装后，obd web部署报错
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1686118020920-bd707347-d28f-45e6-bf38-d9b86f61d521.png#clientId=udbb3f516-4b5f-4&from=paste&height=146&id=o932x&originHeight=291&originWidth=896&originalType=binary&ratio=2&rotation=0&showTitle=false&size=29862&status=done&style=none&taskId=ucb797730-de79-4bd7-8cb7-2ece2a9960c&title=&width=448)
+![image.png](/img/FAQ/all_faq/1686118020920-bd707347-d28f-45e6-bf38-d9b86f61d521.png)
 信息：obd2.0.1
 解决方案：
 方法1：
@@ -692,7 +690,7 @@ ModuleNotFoundError：No module name 'pymysql'
 
 ```bash
 现象：obd web白屏部署，报错ping不通
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1686104635581-64717c92-f7ef-404c-be4b-84b27c0c80ab.png#clientId=udbb3f516-4b5f-4&from=paste&height=157&id=sQ0v6&originHeight=313&originWidth=725&originalType=binary&ratio=2&rotation=0&showTitle=false&size=45988&status=done&style=none&taskId=ud1d9e0bb-553d-4948-9fa3-58d3df90eeb&title=&width=362.5)
+![image.png](/img/FAQ/all_faq/1686104635581-64717c92-f7ef-404c-be4b-84b27c0c80ab.png)
 报错：OBD-2007：xx.xx.xx.xx lo fail to ping xx.xx.xx.xx. Please check configuration `devname`
 信息：OBD2.1
 解决方案：返回上一步`集群配置`下的`更多配置`中`devname`设置为自定义，填写IP对应的网卡名称即可
@@ -702,7 +700,7 @@ ModuleNotFoundError：No module name 'pymysql'
 ```bash
 报错：ERROR [SHARE] operator() (ob_common_config.cpp:128) [20728][][T0][Y0-0000000000000000-0-0] [lt=5] Invalid config, value out of [1073741824,) (for reference only). name=min_full_resource_pool_memory, value=268435456, ret=-4147 
 现象：源码编译ob再部署失败[ERROR] oceanbase-ce start failed
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1671363516865-030ecc03-2a08-4d4e-b16a-9b7af65a2c1f.png#clientId=u175efb77-4163-4&from=paste&height=255&id=GisVl&originHeight=592&originWidth=1022&originalType=binary&ratio=1&rotation=0&showTitle=false&size=94442&status=done&style=none&taskId=u07753dbd-8d09-4dec-93bc-ff0b67be263&title=&width=441)
+![image.png](/img/FAQ/all_faq/1671363516865-030ecc03-2a08-4d4e-b16a-9b7af65a2c1f.png)
 信息：4.0.0
 解决方案：配置文件中调大__min_full_resource_pool_memory参数的值2147483648，alter system __min_full_resource_pool_memory=2147483648，隐藏参数查看方式SELECT * FROM oceanbase.__all_virtual_sys_parameter_stat WHERE name='__min_full_resource_pool_memory';
 原因：该参数为允许以最小多少内存的规格创建租户。
@@ -780,7 +778,7 @@ ODP端故障：[https://www.oceanbase.com/docs/enterprise-oceanbase-database-cn-
 ```
 ```bash
 现象：用obd管理集群报错无法连接到集群，实际集群状态正常，obd日志报错密码不正确Access denied for user
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1668842141080-38f78b3b-ce4d-4359-b57d-b6ef1efbb0de.png#clientId=ubd7bed5d-ce8e-4&from=paste&height=195&id=wK57S&originHeight=390&originWidth=1590&originalType=binary&ratio=1&rotation=0&showTitle=false&size=195011&status=done&style=none&taskId=u22c83a3d-7ddd-4bce-a4aa-a4b9d989a00&title=&width=795)
+![image.png](/img/FAQ/all_faq/1668842141080-38f78b3b-ce4d-4359-b57d-b6ef1efbb0de.png)
 报错：OBD-1006: Failed to connect to oceanbase-ce
 信息：3.1.4
 解决方案：登录数据库设置系统租户密码和obd配置root_password参数保持一致
@@ -791,8 +789,8 @@ ODP端故障：[https://www.oceanbase.com/docs/enterprise-oceanbase-database-cn-
 
 现象：日常使用抛出报错ERROR 4654 (HY000) at line 1: location leader not exist
 报错：leader revoke，please attention!（revoke reason="clog sliding_window_timeout"）
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1668242958923-72e5cb92-1219-4946-a2e0-5058d2966d55.png#clientId=u28da6d78-a728-4&from=paste&height=89&id=O5ZEl&originHeight=178&originWidth=3294&originalType=binary&ratio=1&rotation=0&showTitle=false&size=147605&status=done&style=none&taskId=u7dcf2d15-7629-4c83-bc45-fa7efefa72e&title=&width=1647)
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1668242992148-84c46d49-81ea-4f73-aba2-26614aa058b4.png#clientId=u28da6d78-a728-4&from=paste&height=80&id=rJmnw&originHeight=160&originWidth=1450&originalType=binary&ratio=1&rotation=0&showTitle=false&size=66517&status=done&style=none&taskId=u3538c1c1-5cb7-4df5-9a4e-210ea6787c8&title=&width=725)
+![image.png](/img/FAQ/all_faq/1668242958923-72e5cb92-1219-4946-a2e0-5058d2966d55.png)
+![image.png](/img/FAQ/all_faq/1668242992148-84c46d49-81ea-4f73-aba2-26614aa058b4.png)
 信息：3.1.4
 解决方案：检查节点间的时差是否超出50ms，或者调大系统参数
 alter system set _ob_clog_timeout_to_force_switch_leader ='10s';
@@ -811,7 +809,7 @@ alter system set _ob_clog_timeout_to_force_switch_leader ='10s';
 ```
 ```bash
 现象：ODC上执行sql报错
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1669539589485-040e0a5f-16f6-4bff-85e8-2b5d3589924a.png#clientId=ucbe6304a-a6ff-4&from=paste&height=398&id=HRaMA&originHeight=795&originWidth=2585&originalType=binary&ratio=1&rotation=0&showTitle=false&size=3504733&status=done&style=none&taskId=u61cfbb30-adff-482a-9df6-2e32068e4ed&title=&width=1292.5)
+![image.png](/img/FAQ/all_faq/1669539589485-040e0a5f-16f6-4bff-85e8-2b5d3589924a.png)
 报错：Unkown thread id
 信息：3.1.4
 解决方案：增大超时参数ob_query_timeout，事务参数也建议增大ob_trx_timeout、ob_trx_idle_timeout
@@ -873,7 +871,7 @@ alter system set _ob_clog_timeout_to_force_switch_leader ='10s';
 ```
 ```bash
 现象：手动修改observer.config.bin文件后启动失败
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670657367060-af9a5525-b9d6-448f-bdb8-a94e93f3ae9d.png#clientId=uca109fd7-747b-4&from=paste&height=142&id=nUh2n&originHeight=283&originWidth=2047&originalType=binary&ratio=1&rotation=0&showTitle=false&size=132481&status=done&style=none&taskId=u8b1d3620-e188-476f-bac1-0354135b1f2&title=&width=1023.5)
+![image.png](/img/FAQ/all_faq/1670657367060-af9a5525-b9d6-448f-bdb8-a94e93f3ae9d.png)
 报错：check data checksum failed(ret=-4103)
 信息：3.1.4
 解决方案：etc2和etc3下有备份文件，find /home/admin/oceanbase  |grep  "observer.conf"
@@ -977,7 +975,7 @@ ob日志报错：ERROR [SERVER.OMT] alloc (ob_worker_pool.cpp:93) [24864][454][Y
 ```
 ```bash
 报错：java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
-现象：使用mysql驱动，连接报错找不到驱动信息![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1673165722440-5addaf82-c034-4e37-82cd-8c5f3842c84c.png#clientId=u534e82ba-037b-4&from=paste&height=75&id=CAnUV&originHeight=150&originWidth=1471&originalType=binary&ratio=1&rotation=0&showTitle=false&size=292333&status=done&style=none&taskId=uab4ed658-5905-4a99-b039-a8b440d7cbd&title=&width=735.5)
+现象：使用mysql驱动，连接报错找不到驱动信息![image.png](/img/FAQ/all_faq/1673165722440-5addaf82-c034-4e37-82cd-8c5f3842c84c.png)
 信息：4.0.0
 解决方案：修改驱动连接为jdbc:mysql
 原因：mysql驱动写mysql的信息jdbc:mysql，如果是oceanbase驱动需要写oceanbase信息jdbc:oceanbase
@@ -994,7 +992,7 @@ ob日志报错：ERROR [SERVER.OMT] alloc (ob_worker_pool.cpp:93) [24864][454][Y
 ```
 ```bash
 报错：ERROR 1564:This partition function is not allowed
-现象：给日期类型datetime的字段按年分区报错![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1685863518267-caae7175-4423-4415-a508-53517fac19e3.png#clientId=u17cd2a19-d4ca-4&from=paste&height=129&id=ue7f76726&originHeight=258&originWidth=3048&originalType=binary&ratio=2&rotation=0&showTitle=false&size=115298&status=done&style=none&taskId=u7a3f3c3e-91a3-48a8-a604-667f3df66a6&title=&width=1524)
+现象：给日期类型datetime的字段按年分区报错![image.png](/img/FAQ/all_faq/1685863518267-caae7175-4423-4415-a508-53517fac19e3.png)
 信息：4.0.0
 解决方案：可以按如下函数语法获取年/月
 PARTITION BY RANGE( YEAR(dt) )
@@ -1004,7 +1002,7 @@ SUBPARTITION BY HASH( MONTH(dt) )
 ```
 ```bash
 现象：write only场景时，磁盘读在一个较高的频率，纯写场景为什么会有这个高的读操作？
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1685871560930-10712934-79b6-4810-abc0-546f39cf2899.png#clientId=ub67fffb5-67e7-4&from=paste&height=243&id=u9c2a6e35&originHeight=1070&originWidth=1548&originalType=binary&ratio=2&rotation=0&showTitle=false&size=261368&status=done&style=none&taskId=u2730b087-11b2-45b4-bcbd-9ceb75f7429&title=&width=352)
+![image.png](/img/FAQ/all_faq/1685871560930-10712934-79b6-4810-abc0-546f39cf2899.png)
 报错：无报错
 信息：4.0.0
 解决方案：符合预期
@@ -1096,7 +1094,7 @@ ALTER SYSTEM ARCHIVELOG
 ```bash
 报错：ocp precheck failed
 现象：部署OCP报错预检测失败
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1677054083006-45acdf0a-de75-4077-962c-cb64ed224fe1.png#clientId=ub79473a2-330b-4&from=paste&height=166&id=wuoJT&originHeight=332&originWidth=1072&originalType=binary&ratio=2&rotation=0&showTitle=false&size=65074&status=done&style=none&taskId=u395fdd49-b47f-4ed3-abb7-3fca37e66a6&title=&width=536)
+![image.png](/img/FAQ/all_faq/1677054083006-45acdf0a-de75-4077-962c-cb64ed224fe1.png)
 信息：OCP4.0
 解决方案：关闭预检参数precheck_ignore: true
 原因：预检测会检查服务器硬件资源是否符合生产环境标准，如果不通过会报此错误，测试环境建议关闭预检测功能。
@@ -1113,7 +1111,7 @@ ALTER SYSTEM ARCHIVELOG
 ```bash
 报错：failed to load docker image
 现象：ocp部署时加载docker镜像流程失败
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1668845077153-b9ff9a57-0209-4bcd-be4d-8a8c2e1b61a4.png#clientId=ua8277a33-b2ec-4&from=paste&height=292&id=bLF1i&originHeight=583&originWidth=1607&originalType=binary&ratio=1&rotation=0&showTitle=false&size=401292&status=done&style=none&taskId=ubb56fe70-33db-497c-b8e7-5dca62269e2&title=&width=803.5)
+![image.png](/img/FAQ/all_faq/1668845077153-b9ff9a57-0209-4bcd-be4d-8a8c2e1b61a4.png)
 信息：3.3.0
 解决方案：检查ssh互信是否正常
 原因：安装的时候是当成远程主机，需要涉及节点之间ssh互信
@@ -1121,7 +1119,7 @@ ALTER SYSTEM ARCHIVELOG
 ```
 ```bash
 现象：ocp部署obproxy时，check if process not exit阶段失败
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670131241278-78cdfae8-ae76-4960-8b72-c508421880d9.png#clientId=ua756860e-4490-4&from=paste&height=858&id=C1jMp&originHeight=1716&originWidth=3356&originalType=binary&ratio=1&rotation=0&showTitle=false&size=842800&status=done&style=none&taskId=uc5669180-c651-460f-ba32-096330cc0df&title=&width=1678)
+![image.png](/img/FAQ/all_faq/1670131241278-78cdfae8-ae76-4960-8b72-c508421880d9.png)
 报错：status=500 INTERNAL_SERVER_ERROR, errorCode=COMMON_UNEXPECTED, args=process obproxy should not exists on host
 信息：4.0
 解决方案：更换默认的2883端口，或者卸载该节点已经部署的obproxy服务
@@ -1132,7 +1130,7 @@ ALTER SYSTEM ARCHIVELOG
 ```bash
 报错：2003：Can't connect to MySQL on 'xx.xx.xx.xx' (111  Connection refused)
 现象：ocp部署报错无法连接到metadb
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670161481022-cbfd877d-fc4c-4d16-8ce4-028e43bbabb7.png#clientId=u298b3ab5-1ef0-4&from=paste&height=242&id=footL&originHeight=1066&originWidth=2238&originalType=binary&ratio=1&rotation=0&showTitle=false&size=2760132&status=done&style=none&taskId=uf76f828c-ec87-49c8-8d24-3c4cb3ea706&title=&width=508)
+![image.png](/img/FAQ/all_faq/1670161481022-cbfd877d-fc4c-4d16-8ce4-028e43bbabb7.png)
 信息：3.3.0
 解决方案：配置文件create_metadb_cluster设置为true，默认安装个metadb数据库
 原因：create_metadb_cluster参数默认为false，会使用配置中ob_cluster模块信息当metadb，实际现场不存在。
@@ -1150,7 +1148,7 @@ ALTER SYSTEM ARCHIVELOG
 ```bash
 报错：PermissionError: [Errno 13] Permission denied: '/root/installer/config.yaml'
 现象：ocp部署报错/root/installer/config.yaml没有权限？
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670572772711-54b3f21a-e127-4cd9-9e35-e977d8d429be.png#clientId=ub038972b-aba7-4&from=paste&height=123&id=GiaIm&originHeight=246&originWidth=1492&originalType=binary&ratio=1&rotation=0&showTitle=false&size=34756&status=done&style=none&taskId=ucb72491c-4146-4e21-8753-52c40657cf6&title=&width=746)
+![image.png](/img/FAQ/all_faq/1670572772711-54b3f21a-e127-4cd9-9e35-e977d8d429be.png)
 信息：4.0.0
 解决方案：关闭selinux
 原因：selinux会影响程序的访问文件，影响程序的服务程序功能，影响服务所使用的资源，部署前需要关闭。
@@ -1159,7 +1157,7 @@ ALTER SYSTEM ARCHIVELOG
 ```bash
 报错：NameError: name ‘traceback’ is not defined
 现象：ocp部署到create meta user阶段报错
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670661197103-eb4f28ed-0eb6-4277-b719-417938c4419f.png#clientId=uca109fd7-747b-4&from=paste&height=432&id=cYiy0&originHeight=863&originWidth=1270&originalType=binary&ratio=1&rotation=0&showTitle=false&size=1175632&status=done&style=none&taskId=ud8071bad-9680-43af-a16e-7c7590faf25&title=&width=635)
+![image.png](/img/FAQ/all_faq/1670661197103-eb4f28ed-0eb6-4277-b719-417938c4419f.png)
 信息：3.3.0
 解决方案：检查/tmp目录下是否有precheck-*.sh文件，如果有，则删除
 原因：-*是当时生成的uuid，可能找不到对应的文件导致，删除重新部署会产生新的文件
@@ -1168,7 +1166,7 @@ ALTER SYSTEM ARCHIVELOG
 ```bash
 报错：Access denied for user 'meta_user'@'xxx.xxx.xxx.xxx
 现象：metadb初始化阶段报错连接不上ob
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670846524338-9faab5d8-3ce6-4b85-bf50-7e128b4b28c4.png#clientId=uc0b9eee7-8753-4&from=paste&height=394&id=DUPFB&originHeight=788&originWidth=1960&originalType=binary&ratio=1&rotation=0&showTitle=false&size=1245052&status=done&style=none&taskId=u3609bc58-b03b-4a1b-aa56-7d61d60d873&title=&width=980)
+![image.png](/img/FAQ/all_faq/1670846524338-9faab5d8-3ce6-4b85-bf50-7e128b4b28c4.png)
 信息：3.3.0
 解决方案：内存不足导致，增加内存。
 原因：仅仅只有5G内存，此处报错不一定是连接密码问题，启动容器失败，还未到连接抛出异常
@@ -1176,7 +1174,7 @@ ALTER SYSTEM ARCHIVELOG
 ```
 ```bash
 现象：ocp安装过程中报错sudo命令找不到，最终导致failed to load docker image
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1671331216078-9b93aeea-70a6-43dc-8997-8ae5ee4453d7.png#clientId=u1e004034-980c-4&from=paste&height=193&id=hnom3&originHeight=386&originWidth=1439&originalType=binary&ratio=1&rotation=0&showTitle=false&size=80734&status=done&style=none&taskId=u8cb96ffb-be90-45bd-ad66-98715c8dd5b&title=&width=719.5)
+![image.png](/img/FAQ/all_faq/1671331216078-9b93aeea-70a6-43dc-8997-8ae5ee4453d7.png)
 报错：/bin/sh: sudo: command not found
 信息：ocp：4.0.0
 解决方案：config.yaml的ssh模块配置上密码信息
@@ -1188,7 +1186,7 @@ ALTER SYSTEM ARCHIVELOG
 
 ```bash
 现象：OCP添加主机，无法安装ocp agent服务
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1685439897417-af7f8be4-67bc-4a68-af42-3ddb52ee120f.png#clientId=u3ff61c41-8347-4&from=paste&height=359&id=uk8LM&originHeight=717&originWidth=2619&originalType=binary&ratio=2&rotation=0&showTitle=false&size=365009&status=done&style=none&taskId=ubc975091-1439-4280-a6dd-de6269f901f&title=&width=1309.5)
+![image.png](/img/FAQ/all_faq/1685439897417-af7f8be4-67bc-4a68-af42-3ddb52ee120f.png)
 报错：args:/tmp/8c76f061414e4d6/pos.py uninstall_package ^t-oceanbase-ocp-agent, return code:2, output:failed to call pos: func=uninstall_package, args=['^t-oceanbase-ocp-agent'], code=2, output=/tmp/a463f6de-fde4-11ed-8e6e-fefcfeb8fb: line 1: unexpected EOF while looking for matching `''
 信息：OCP4.0.3
 解决方案：卸载dpkg命令，rpm -qa|grep dpkg , rpm -e --nodeps $dpkg
@@ -1198,7 +1196,7 @@ ALTER SYSTEM ARCHIVELOG
 ```
 ```bash
 现象：使用ocp部署obproxy后，使用obproxy连接报错密码错误
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1683272882395-d8607cdb-3ef2-4e33-a783-2ef2d69cd1ee.png#clientId=u15824b23-5f90-4&from=paste&height=106&id=yndjn&originHeight=212&originWidth=2852&originalType=binary&ratio=2&rotation=0&showTitle=false&size=737257&status=done&style=none&taskId=u7b608b35-7f7e-440c-9dda-a5913b3b52c&title=&width=1426)
+![image.png](/img/FAQ/all_faq/1683272882395-d8607cdb-3ef2-4e33-a783-2ef2d69cd1ee.png)
 报错：查看obproxy日志显示，fail to get cluster name(ret=-4018)
 信息：obproxy4.1
 解决方案：-u参数写完整，带上集群名称，-uroot@sys#集群名称
@@ -1207,9 +1205,9 @@ ALTER SYSTEM ARCHIVELOG
 ```
 ```bash
 现象：添加主机报错，没有找到指定OCP Agent类型的记录
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1679294604936-21502072-f996-49b8-a69c-2ea5a9583539.png#clientId=u67dd9505-051a-4&from=paste&height=110&id=Plo8N&originHeight=220&originWidth=1238&originalType=binary&ratio=2&rotation=0&showTitle=false&size=30472&status=done&style=none&taskId=u6b0d7a08-6812-409c-b9bb-ab83afd85f5&title=&width=619)
+![image.png](/img/FAQ/all_faq/1679294604936-21502072-f996-49b8-a69c-2ea5a9583539.png)
 报错：No route to host (Host unreachable)
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1679294670666-987ea895-1277-4cb1-bd5d-1761b065e343.png#clientId=u67dd9505-051a-4&from=paste&height=100&id=Z1ZEl&originHeight=200&originWidth=1930&originalType=binary&ratio=2&rotation=0&showTitle=false&size=125641&status=done&style=none&taskId=u0a124c30-3e61-4751-990f-cd86c5942d1&title=&width=965)
+![image.png](/img/FAQ/all_faq/1679294670666-987ea895-1277-4cb1-bd5d-1761b065e343.png)
 信息：OCP4.0
 解决方案：关闭防火墙即可
 原因：添加主机防火墙开启，安装程序路由不到该节点。
@@ -1236,7 +1234,7 @@ ALTER SYSTEM ARCHIVELOG
 ```
 ```bash
 现象：ocp部署的ob，使用root用户后台启动observer后，重新ocp或者后台admin用户启动失败
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670653105470-80824e4b-b9d5-4b23-8c53-fbcd928294c4.png#clientId=uc946722f-914b-4&from=paste&height=225&id=NKqik&originHeight=449&originWidth=2047&originalType=binary&ratio=1&rotation=0&showTitle=false&size=206999&status=done&style=none&taskId=u40fb498c-a4b3-49c6-b0b9-ec478b72fe3&title=&width=1023.5)
+![image.png](/img/FAQ/all_faq/1670653105470-80824e4b-b9d5-4b23-8c53-fbcd928294c4.png)
 报错： ERROR [COMMON] inner_open_fd (ob_log_disk_manager.cpp:1043) [5889][0][Y0-0000000000000000] [lt=5] [dc=0] open file fail(ret=-4009, fname="/home/admin/oceanbase/store/lzq/slog/4", flag=1069122, errno=13, errmsg="Permission denied")
 ERROR [SERVER] init (ob_server.cpp:172) [4195][0][Y0-0000000000000000] [lt=2] init config fail(ret=-4009)
 信息：3.1.2
@@ -1249,9 +1247,9 @@ chown -R admin.admin /data/log1
 ```
 ```bash
 现象：部署OB时安装路径检测失败
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670662138500-5195c3f6-80ae-4640-b1ba-267a878f3bf3.png#clientId=uca109fd7-747b-4&from=paste&height=363&id=mLKho&originHeight=726&originWidth=988&originalType=binary&ratio=1&rotation=0&showTitle=false&size=84495&status=done&style=none&taskId=u4c24628c-d24b-4e6a-8137-402e734dd68&title=&width=494)
+![image.png](/img/FAQ/all_faq/1670662138500-5195c3f6-80ae-4640-b1ba-267a878f3bf3.png)
 报错：权限不足
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670662200520-accb94fc-e87a-4ea8-9dde-c0dd62b7c363.png#clientId=uca109fd7-747b-4&from=paste&height=465&id=Q4Z6B&originHeight=930&originWidth=1273&originalType=binary&ratio=1&rotation=0&showTitle=false&size=1606097&status=done&style=none&taskId=ud073aecb-52bc-4f88-b4ff-910bdf6dc21&title=&width=636.5)
+![image.png](/img/FAQ/all_faq/1670662200520-accb94fc-e87a-4ea8-9dde-c0dd62b7c363.png)
 信息：3.3.0
 解决方案：chown -R admin:admin /data &&  chown -R admin:admin /redo && chown -R admin:admin /home/admin 
 原因：安装和数据目录需要递归admin用户权限
@@ -1282,7 +1280,7 @@ chown -R admin.admin /data/log1
 ```
 ```bash
 现象：接管obd部署ob集群失败
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1671164550736-33458eb8-886e-4ad5-b0c2-900d895e514f.png#clientId=u46ee8383-3291-4&from=paste&height=140&id=PmhJ0&originHeight=280&originWidth=1472&originalType=binary&ratio=1&rotation=0&showTitle=false&size=39996&status=done&style=none&taskId=u60fd6b41-6275-407d-8a43-cde33c09347&title=&width=736)
+![image.png](/img/FAQ/all_faq/1671164550736-33458eb8-886e-4ad5-b0c2-900d895e514f.png)
 报错：操作OB失败，错误信息: (conn=10) Table 'oceanbase.v$ob_cluster' doesn't exist
 信息：ocp:3.3.0，ob:4.0.0
 解决方案：升级ocp版本到4.0.0
@@ -1300,7 +1298,7 @@ curl -X POST --user {user}:{password} -H "Content-Type:application/json" -d '{}'
 curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "http://11.11.11.11:8080/api/v2/ob/clusters/2/moveOut"
 原因：ocp暂不支持迁出部署和接管的集群，但可以使用接口实现，并且迁出的集群不管是obd部署的还是ocp部署的均能再次接管。后续版本会增加迁出集群功能。
 注意，上面的cluster_id指的是ocp页面浏览器地址行中的那个ob集群资源id
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1669197720558-6ef785ab-5fa6-44ac-be09-b479f0a6fe7a.png#clientId=ue37635d4-8059-4&from=paste&height=297&id=lGqIA&originHeight=594&originWidth=994&originalType=binary&ratio=1&rotation=0&showTitle=false&size=87208&status=done&style=none&taskId=ude8b3cdb-dad3-45f6-8792-c55714b9a7f&title=&width=497)
+![image.png](/img/FAQ/all_faq/1669197720558-6ef785ab-5fa6-44ac-be09-b479f0a6fe7a.png)
 
 
 ```
@@ -1315,7 +1313,7 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 ```bash
 报错：Connect to xx.xx.xx.xx:62888 [/xx.xx.xx.xx] failed: Connection refused (Connection refused）
 现象：ocp上重启集群卡住，obd重启ob是正常的
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1671330730151-a86d1780-969f-469c-b778-0603e730219e.png#clientId=u1e004034-980c-4&from=paste&height=462&id=kCyEm&originHeight=924&originWidth=2918&originalType=binary&ratio=1&rotation=0&showTitle=false&size=236187&status=done&style=none&taskId=u65a28bfe-d5df-4bb0-9b76-9e372d2fccf&title=&width=1459)
+![image.png](/img/FAQ/all_faq/1671330730151-a86d1780-969f-469c-b778-0603e730219e.png)
 信息：ocp3.3.0，ob3.1.4
 解决方案：重启主机节点的ocp-agent服务
 原因：ocp-agent服务的端口62888，报错连接被拒绝，基本为ocp-agent服务异常无法通过agent服务下发指令导致
@@ -1324,7 +1322,7 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 ```bash
 现象：OCP关闭集群页面报错403
 报错：集群obcluster不允许进行操作
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1676864800701-308adf5b-2473-4c80-8219-2e5aa7b50029.png#clientId=u22b9bcd6-0d36-4&from=paste&height=340&id=OtJv7&originHeight=680&originWidth=1306&originalType=binary&ratio=2&rotation=0&showTitle=false&size=67621&status=done&style=none&taskId=u295a8f9b-95ea-4be5-925a-07009e57dd3&title=&width=653)
+![image.png](/img/FAQ/all_faq/1676864800701-308adf5b-2473-4c80-8219-2e5aa7b50029.png)
 信息：OCP4.0
 解决方案：不能使用OCP停止接管的metadb
 原因：metadb被接管，如果使用OCP管理该集群会导致OCP服务不可用
@@ -1343,14 +1341,14 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 ```bash
 报错：OCP操作页面报错403
 现象：通过OCP删除租户下的test1库，提示不允许进行该操作？
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1684810148859-3d4ebd0c-5c6f-4efb-9c09-e8be5d825fca.png#clientId=uec3bab1a-4a94-4&from=paste&height=163&id=Kc4lT&originHeight=735&originWidth=1510&originalType=binary&ratio=2&rotation=0&showTitle=false&size=69055&status=done&style=none&taskId=u7ae14bd7-7591-4644-bce7-5826db292c9&title=&width=334)
+![image.png](/img/FAQ/all_faq/1684810148859-3d4ebd0c-5c6f-4efb-9c09-e8be5d825fca.png)
 信息：ocp4.x
 解决方案：ocp meta租户下操作 update config_properties set value='' where `key`='ocp.ob.cluster.ops.blacklist';
 原因：此集群和metadb共用，ocp metadb默认是不允许通过ocp做运维操作的，如果希望支持，需要将黑名单对应的value置空。
 ```
 ```bash
 现象：ocp升级失败，报错yaml格式不正确
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1665307305238-ceb2f464-3711-42c4-8ac1-698ef8c880fe.png#clientId=u5021f322-84a4-4&from=paste&height=290&id=JFasw&originHeight=580&originWidth=1189&originalType=binary&ratio=1&rotation=0&showTitle=false&size=674947&status=done&style=none&taskId=u83ba360d-bbe2-4609-b906-74ee1eeb374&title=&width=594.5)
+![image.png](/img/FAQ/all_faq/1665307305238-ceb2f464-3711-42c4-8ac1-698ef8c880fe.png)
 报错：yaml line column
 信息：OCP3.1.1升级3.3.0
 解决方案：按3.3.0版本配置模版文件改写
@@ -1360,7 +1358,7 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 ```bash
 报错：KeyError：'metadb'
 现象：ocp升级失败，报错metadb的key值找不到
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1665307499897-36b98b84-243b-40df-8401-63c72484e1eb.png?x-oss-process=image/format,png#clientId=u5021f322-84a4-4&from=paste&height=180&id=julVs&originHeight=233&originWidth=764&originalType=binary&ratio=1&rotation=0&showTitle=false&size=538314&status=done&style=none&taskId=ue830a621-faf7-4e5d-8e11-072d0661827&title=&width=591)
+![image.png](/img/FAQ/all_faq/1665307499897-36b98b84-243b-40df-8401-63c72484e1eb.png?x-oss-process=image/format,png)
 信息：OCP3.1.1升级3.3.0
 解决方案：保留config.yaml配置文件中的metadb模块信息，不得注释或删除，并改写正确
 原因：文档描述config.yaml中的metadb模块是部署时候使用的参数，实际升级也是需要的通过此模块信息进行连接验证的，不能删掉或注释改模块的内容
@@ -1369,7 +1367,7 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 ```bash
 报错：Can't connect to MySQL server on xx.xx.xx.xx:2883(-2 Name or server not know)
 现象：ocp升级失败，使用obproxy配置测试可以连接，但升级报错连接不上metadb
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1665308205549-d0ee5e92-5853-4024-b003-8fd9b28ff3bb.png#clientId=u5021f322-84a4-4&from=paste&height=373&id=TMR88&originHeight=746&originWidth=3250&originalType=binary&ratio=1&rotation=0&showTitle=false&size=1446417&status=done&style=none&taskId=ubffbe5c6-4cdf-42c5-9823-2aec032c23e&title=&width=1625)
+![image.png](/img/FAQ/all_faq/1665308205549-d0ee5e92-5853-4024-b003-8fd9b28ff3bb.png)
 信息：OCP3.1.1升级3.3.0
 解决方案：该版本未采用proxy方式连接metadb，配置改为使用直连方式
 原因：107是obproxy的地址，非metadb地址，程序的这一步是要ssh到ocp节点IP，运行ocp的docker命令指向的地址是该IP，但107非ob元数据库也非ocp地址，所以报错连不上，因此不能使用非metadb本机的proxy地址。当然这里的版本升级也不建议使用proxy连接的方式
@@ -1378,7 +1376,7 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 ```bash
 现象：ocp升级失败，报错连接不上metadb
 报错：Can't connect to MySQL server on xx.xx.xx.xx:2881(-2 Name or server not know)
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1665308040282-69fbfbc7-38cc-4b1b-9ab8-7542921f6f0f.png#clientId=u5021f322-84a4-4&from=paste&height=300&id=IVyXz&originHeight=600&originWidth=3196&originalType=binary&ratio=1&rotation=0&showTitle=false&size=1343089&status=done&style=none&taskId=ub38896b2-4611-442f-bb1b-7a3eda1f7f0&title=&width=1598)
+![image.png](/img/FAQ/all_faq/1665308040282-69fbfbc7-38cc-4b1b-9ab8-7542921f6f0f.png)
 信息：3.1.1升级3.3.0
 解决方案：yaml配置文件metadb模块使用直连方式，去掉租户的#集群信息
 原因：3.1.1版本配置是直连方案，3.3.0版本配置是proxy连接方案，升级需要保持原方案，直连不能带集群名称，否则会被误把 “租户#集群名称” 解析成租户。
@@ -1398,7 +1396,7 @@ UPDATE config_properties SET value='true' WHERE `key` = 'ocp.operation.ob.tenant
 ```bash
 报错：KeyError: 'buildVersion'
 现象：ocp升级4.0报错
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1671178876425-4f89a6d7-14e7-4c5f-81a7-7b45d832204b.png#clientId=ud8ee79cd-48f4-4&from=paste&height=231&id=NDYO8&originHeight=462&originWidth=1282&originalType=binary&ratio=1&rotation=0&showTitle=false&size=512864&status=done&style=none&taskId=u35b8b4a9-c993-48a5-bfea-c4b06c2c7be&title=&width=641)
+![image.png](/img/FAQ/all_faq/1671178876425-4f89a6d7-14e7-4c5f-81a7-7b45d832204b.png)
 信息：3.3.0升级4.0.0
 解决方案：cinfig.yaml文件auth模块的信息改为ocp白屏登录用户和密码
 原因：升级需要调用接口连接ocp，使用的账户为配置文件中的auth模块信息，auth模块配置只有升级过程会用到。如果做过ocp白屏登录密码修改，该配置中也修改即可。
@@ -1407,7 +1405,7 @@ UPDATE config_properties SET value='true' WHERE `key` = 'ocp.operation.ob.tenant
 ```bash
 现象：replace方式修改ocp的obproxy地址或端口失败或者监控信息不显示
 报错：ocp.log报错：connection refused
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1686110140303-58e9a553-23c2-4479-a548-cfc17e432d9a.png#clientId=udbb3f516-4b5f-4&from=paste&height=99&id=ud2f4b3d7&originHeight=198&originWidth=3080&originalType=binary&ratio=2&rotation=0&showTitle=false&size=483517&status=done&style=none&taskId=u384febe8-403d-4ce7-85b0-6795ee13ca5&title=&width=1540)
+![image.png](/img/FAQ/all_faq/1686110140303-58e9a553-23c2-4479-a548-cfc17e432d9a.png)
 信息：OCP3.x-4.x
 解决方案：meta租户连接metadb，修改monitordb相关连接信息。
 select * from config_properties where `key` like '%ocp.monitordb.port%';
@@ -1450,7 +1448,7 @@ select * from config_properties where `key` like '%ocp.monitordb.host%';
 ```bash
 报错：BadRequest exception, type=IllegalArgumentException, message=Not a valid secret key
 现象：ODC新建连接报错
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670485766785-ba8e1d24-8779-4102-9ade-ba1a04cdf1e9.png#clientId=u65982661-c69f-4&from=paste&height=119&id=DuPhN&originHeight=238&originWidth=752&originalType=binary&ratio=1&rotation=0&showTitle=false&size=72004&status=done&style=none&taskId=ueff2183b-0d9e-47a4-86a8-cd7b2f92b33&title=&width=376)
+![image.png](/img/FAQ/all_faq/1670485766785-ba8e1d24-8779-4102-9ade-ba1a04cdf1e9.png)
 信息：ODC3.x
 解决方案：下载最新ODC版本，推荐使用内置 jre 的 ODC 版本
 原因：JRE 版本过低，出现加密失败导致，JRE选择了1.8.121以上版本
@@ -1470,17 +1468,17 @@ select * from config_properties where `key` like '%ocp.monitordb.host%';
 报错：ErrorCode = 1317, SQLState = 70100, Details = (conn=405741) Query timed out
 信息：ODC3.2.3
 解决方案：需要在连接详情界面更改“SQL 查询超时时间”，使其大于SQL的实际执行时间：
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1670659134978-31a3f79b-c8f8-446f-b5b4-6ee80a5683a5.png#clientId=uca109fd7-747b-4&from=paste&height=72&id=pPIzQ&originHeight=70&originWidth=211&originalType=binary&ratio=1&rotation=0&showTitle=false&size=6750&status=done&style=none&taskId=u21ccf017-6b12-42f0-95fc-41abe39cd90&title=&width=217.5)
+![image.png](/img/FAQ/all_faq/1670659134978-31a3f79b-c8f8-446f-b5b4-6ee80a5683a5.png)
 原因：SQL的执行时间超过了 ODC 在驱动层设定的超时时间导致，ODC工具自身有个 “SQL 查询超时时间” 设置
 
 ```
 ```bash
 现象：刚部署的ODC打开保存Java进程异常退出
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1685864534556-2172dfa7-d407-4d33-b8cc-c409a3b2c97d.png#clientId=u17cd2a19-d4ca-4&from=paste&height=189&id=uc7e4c19a&originHeight=377&originWidth=750&originalType=binary&ratio=2&rotation=0&showTitle=false&size=69212&status=done&style=none&taskId=ueec93cfc-4756-4d53-b2c5-eabef567b7e&title=&width=375)
+![image.png](/img/FAQ/all_faq/1685864534556-2172dfa7-d407-4d33-b8cc-c409a3b2c97d.png)
 报错：Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker': Invocation of init method failed; nested exception is org.springframework.jdbc.datasource.init.UncategorizedScriptException: Failed to execute database script; nested exception is org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: Chunk 3233 not found [1.4.200/9]" [50000-200] 
 信息：3.2.3
 解决方案：H2修复方式参考如下
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1685864853944-65066b28-0894-4253-aa31-6b1c5d2aa699.png#clientId=u17cd2a19-d4ca-4&from=paste&height=165&id=ud8e98e79&originHeight=330&originWidth=807&originalType=binary&ratio=2&rotation=0&showTitle=false&size=69181&status=done&style=none&taskId=u185e49c4-260b-4d92-b7ee-f23c7ae7049&title=&width=403.5)
+![image.png](/img/FAQ/all_faq/1685864853944-65066b28-0894-4253-aa31-6b1c5d2aa699.png)
 原因：桌面版的 H2 database 元数据库损坏导致。
 
 ```
@@ -1607,14 +1605,14 @@ A：数据文件放置一个文件夹内，-f指定文件夹即可
 现象：执行obdumper --version报错
 信息：ob-loader-dumper-3.0.0-RELEASE-ce
 解决方案：编辑obdumper脚本，增加参数-Dpicocli.usage.width=180
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1673161412003-95726b07-dd81-4714-a19d-b91d42b29408.png#clientId=uae2e4ee9-93ad-4&from=paste&height=163&id=o0tpn&originHeight=326&originWidth=1380&originalType=binary&ratio=1&rotation=0&showTitle=false&size=546982&status=done&style=none&taskId=u90181415-4cd3-4d85-8b0d-1afcea62e00&title=&width=690)
+![image.png](/img/FAQ/all_faq/1673161412003-95726b07-dd81-4714-a19d-b91d42b29408.png)
 原因：已知的命令行框架bug，ob-loader-dumper-4.0.0版本修复
 
 ```
 ```bash
 报错：Invalid usage long options max width 60. Value must not exceed width(55) - 20
 现象：在执行obloader导入时遇到如下错误
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2022/png/71456382/1671345885973-1fddcabc-cd28-4140-a522-d821a9d30843.png#clientId=u2132a87f-c7c3-4&from=paste&height=90&id=nc3WG&originHeight=180&originWidth=1170&originalType=binary&ratio=1&rotation=0&showTitle=false&size=71085&status=done&style=none&taskId=u9da73bf5-244c-402e-86a0-1c6c18b9512&title=&width=585)
+![image.png](/img/FAQ/all_faq/1671345885973-1fddcabc-cd28-4140-a522-d821a9d30843.png)
 信息：3.0.0
 解决方案：运行脚本中添加jvm启动参数 -Dpicocli.usage.width=180
 原因：由命令行框架导致的
@@ -1626,7 +1624,7 @@ A：数据文件放置一个文件夹内，-f指定文件夹即可
 ```bash
 报错：Failed to create oblogreader
 现象：使用canal同步ob数据，oblogproxy部署后，oblogreader进程未启动
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/71456382/1685861368736-f1250a43-f7ff-4c25-9b58-5eec663599ea.png#clientId=u17cd2a19-d4ca-4&from=paste&height=326&id=uc4f99e73&originHeight=651&originWidth=1881&originalType=binary&ratio=2&rotation=0&showTitle=false&size=157854&status=done&style=none&taskId=ue7d98153-09b9-47fc-a2a9-20b508e9bfb&title=&width=940.5)
+![image.png](/img/FAQ/all_faq/1685861368736-f1250a43-f7ff-4c25-9b58-5eec663599ea.png)
 信息：OB4.0 ，oblogproxy1.0.0
 解决办法：使用最新oblogproxy1.1.0版本即可
 原因：1.0.0版本是3.x版本适配，4.0使用1.1.0版本，注意：建议使用oblogproxy最新版本。
