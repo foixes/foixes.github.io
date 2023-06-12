@@ -1,7 +1,6 @@
 ---
 title: 生态组件FAQ大全
-bookCollapseSection: true
-weight: 12
+weight: 1
 ---
 
 **格式要求:**
