@@ -442,6 +442,7 @@ Worker 083: ERROR: Internal error
 ```
 
 **问：系统租户root@sys用户密码忘记了？**
+
 答：
 1）OCP对应集群总览界面-修改密码。
 ![image.png](/img/FAQ/all_faq/1669531503193-3103f39a-b2c1-44e9-8a01-b71323c6f235.png)
