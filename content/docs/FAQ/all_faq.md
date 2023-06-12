@@ -556,7 +556,7 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 # OBD部署问题
 ```
 
-**现象：部署卡在Remote oceanbase-ce* repository install 阶段**
+**现象：部署卡在Remote oceanbase-ce\* repository install 阶段**
 ![image.png](/img/FAQ/all_faq/1682389370244-dedd852a-3c9d-487f-96ef-0d69dce7b26f.png)
 
 报错：检查obd日志报错
@@ -568,7 +568,6 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 4）本地磁盘满  -- 下载包较大，磁盘满下载将失败
 原因：此处会涉及是拉包和传包过程，涉及基础命令，如果非公网是无法使用远程仓库的，如果磁盘可使用空间不足，也无法下载成功。
 
-```
 ```bash
 报错：[WARN] (x.x.x.x) clog and data use the same disk (/)
 现象：安装提示warn级别的报错信息，安装流程可正常进行，程序正常
@@ -689,7 +688,7 @@ ModuleNotFoundError：No module name 'pymysql'
 
 
 **现象：obd web白屏部署，报错ping不通**
-![image.png](/img/FAQ/all_faq/1686104635581-64717c92-f7ef-404c-be4b-84b27c0c80ab.png)
+![image.png](/img/FAQ/all_faq/1686579787732-99c9006b-a46e-4bb2-913e-1bae8a4300b9.png)
 报错：OBD-2007：xx.xx.xx.xx lo fail to ping xx.xx.xx.xx. Please check configuration `devname`
 信息：OBD2.1
 解决方案：返回上一步`集群配置`下的`更多配置`中`devname`设置为自定义，填写IP对应的网卡名称即可
