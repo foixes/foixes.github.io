@@ -298,11 +298,11 @@ OB 4.0支持对每个租户单独设置合并时间点，相关配置项为major
 问：oceanbase的索引采用的是哪种方式？
 答：MemTable 使用的是 B+ 树结构，而 SSTable 使用的是宏块结构
 ```
-```bash
-问：ob内存是怎么规划的？
-```
+
+**问：ob内存是怎么规划的？**
 答：
 ![image.png](/img/FAQ/all_faq/1668247000430-b1ee6f69-76c1-47de-9490-81703b27afd5.png)
+
 ```bash
 问：plan cache分配资源过少或者大并发会造成plan cache命中率较低的问题吗？
 答：
@@ -342,10 +342,10 @@ GV$OB_SERVER_SCHEMA_INFO可以理解为每台ObServer每个租户已经刷新的
 
 
 ```
-```bash
-问：OB的sql执行流程
-```
-答：![image.png](/img/FAQ/all_faq/1679833693317-53646c42-6030-4025-9a9e-ef1ae0cdc6a4.png)
+
+**问：OB的sql执行流程**
+答：
+![image.png](/img/FAQ/all_faq/1679833693317-53646c42-6030-4025-9a9e-ef1ae0cdc6a4.png)
 ![image.png](/img/FAQ/all_faq/1679833729438-ff8ed706-d886-4cce-a024-e5677c46fe67.png)
 
 
@@ -440,15 +440,15 @@ Worker 083: ERROR: Internal error
 1）超出单表最大分区数限制（8192个）
 2）租户内存不足。
 ```
-```bash
-问：系统租户root@sys用户密码忘记了？
+
+**问：系统租户root@sys用户密码忘记了？**
 答：
-1）OCP对应集群总览界面-修改密码。![image.png](/img/FAQ/all_faq/71456382/1669531503193-3103f39a-b2c1-44e9-8a01-b71323c6f235.png)
+1）OCP对应集群总览界面-修改密码。
+![image.png](/img/FAQ/all_faq/71456382/1669531503193-3103f39a-b2c1-44e9-8a01-b71323c6f235.png)
 2）obd cluster edit-config 部署名称 查看配置文件中的密码信息。
 
-```
-```bash
-问：ocp怎么关联oms的告警信息？
+
+**问：ocp怎么关联oms的告警信息？**
 答：1）OMS上添加关联OCP
 ![image.png](/img/FAQ/all_faq/1683343829395-a9f15b52-9680-46d7-8471-d70e0d48b7bd.png)
 2）OMS上新建告警通道
@@ -458,7 +458,7 @@ Worker 083: ERROR: Internal error
 4）ocp同样能收到告警
 ![image.png](/img/FAQ/all_faq/1683343869507-e28028c5-c9ec-4180-8762-20b596d1a425.png)
 
-```
+
 ### 性能调优
 
 
@@ -554,9 +554,10 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 
 # OBD部署问题
 ```
-```bash
-现象：部署卡在Remote oceanbase-ce* repository install 阶段
+
+**现象：部署卡在Remote oceanbase-ce* repository install 阶段**
 ![image.png](/img/FAQ/all_faq/1682389370244-dedd852a-3c9d-487f-96ef-0d69dce7b26f.png)
+
 报错：检查obd日志报错
 信息：obd2.0
 解决方案：具体根据obd日志分析，目前已知有如下可能：
@@ -575,15 +576,14 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 原因：小规模且短期的测试环境可以忽略，生产环境必须保证安装目录、数据目录、日志目录均是分盘目录，否则后期使用会出现非业务数据占满磁盘而出现磁盘使用率满问题。
 
 ```
-```bash
-报错：[ERROR] Cluster NTP is out of sync
+
+**报错：[ERROR] Cluster NTP is out of sync**
 现象：部署报错NTP服务未同步
 ![image.png](/img/FAQ/all_faq/1668859623282-6964f341-7192-4d06-84ab-37da69464f1b.png)
 信息：3.1.3
 解决方案：
 原因：服务器之间时差超过100ms，会出现rootserver无主情况，部署时做了时差校验
 
-```
 ```bash
 报错：ERROR 2013 (HY000): Lost connection to MySQL server at ‘reading authorization packet’
 现象：新部署环境，使用obproxy登录数据库报错
@@ -592,26 +592,26 @@ select svr_ip,count(1) from __all_virtual_ls_meta_table where tenant_id=1002 gro
 原因：配置文件中要求，这2个参数密码需要保持一致。
 
 ```
-```bash
-报错：[ERROR] Cluster init failed
+
+**报错：[ERROR] Cluster init failed**
+
 ![image.png](/img/FAQ/all_faq/1670835604707-b526c34a-d51f-482c-8cdb-af4c578cd5f9.png)
+
 现象：安装初始化失败。observer.log日志：fail to send rpc(tmp_ret=-4122
 信息：4.0.0
 解决方案：关闭防火墙
 原因：现场防火墙做了限制，导致rpc无法互相通信
 
-```
-```bash
-报错：Cluster bootstrap x
+
+**报错：Cluster bootstrap x**
 现象：部署失败，无明显提示
 ![image.png](/img/FAQ/all_faq/1670656607163-a8cc5851-fedd-402c-ba24-5c27462718c3.png)
 信息：3.1.4
 解决方案：现场双网卡环境导致，改成静态固定IP，将网卡文件BOOTPROTO=dhcp 改成 static 重启网络
 原因：IP检测可能失败
 
-```
-```bash
-报错：[ERROR] import connect failed
+
+**报错：[ERROR] import connect failed**
 现象：使用OBD命令安装OceanBase集群的时候提示缺少pymysql模块，但是这个模块已经安装
 ModuleNotFoundError：No module name 'pymysql'
 ![image.png](/img/FAQ/all_faq/1670665435483-e597b7b5-1ade-485a-8b32-bf683933f950.png)
@@ -620,7 +620,6 @@ ModuleNotFoundError：No module name 'pymysql'
 解决方案：安装时不要使用sudo方式，安装使用的是当前用户进行的，创建缺少的/usr/obd/lib/site-packages目录，把python模块拷贝进去
 原因：现场启动用户不对，直接使用root即可，不要切换用户再sudo，并且看报错缺少/usr/obd/lib/site-packages目录应该是obd安装有问题，可以重新安装obd，现场通过创建目录拷贝方式最终也能解决。
 
-```
 ```bash
 报错：Open ssh connection x
 现象：obd部署在ssh连接处报错 
@@ -630,8 +629,8 @@ ModuleNotFoundError：No module name 'pymysql'
 
 
 ```
-```bash
-报错：type object 'ConfigUtil' has no attribute 'get_random_pwd_by_rule'
+
+**报错：type object 'ConfigUtil' has no attribute 'get_random_pwd_by_rule'**
 现象：all-in-one4.1高版本换4.0低版本安装后，obd web部署报错
 ![image.png](/img/FAQ/all_faq/1686118020920-bd707347-d28f-45e6-bf38-d9b86f61d521.png)
 信息：obd2.0.1
@@ -644,7 +643,6 @@ ModuleNotFoundError：No module name 'pymysql'
 4）obd web部署即可
 原因：obd2.1版本支持随机密码功能，但重新安装的2.0.1版本不支持，导致此类无法找到。obd不支持降级，如果需要降级，需要清理环境再安装obd，生产环境可以使用方法1，方法2会清理部署环境信息。
 
-```
 ```bash
 现象：obd web 无法访问到白屏部署界面
 报错：白屏界面无法访问
@@ -688,25 +686,23 @@ ModuleNotFoundError：No module name 'pymysql'
 ```
 ## OB部署问题
 
-```bash
-现象：obd web白屏部署，报错ping不通
+
+**现象：obd web白屏部署，报错ping不通**
 ![image.png](/img/FAQ/all_faq/1686104635581-64717c92-f7ef-404c-be4b-84b27c0c80ab.png)
 报错：OBD-2007：xx.xx.xx.xx lo fail to ping xx.xx.xx.xx. Please check configuration `devname`
 信息：OBD2.1
 解决方案：返回上一步`集群配置`下的`更多配置`中`devname`设置为自定义，填写IP对应的网卡名称即可
 原因：默认使用lo网卡，对应IP是本地127.0.0.1。后续版本会考虑优化。
 
-```
-```bash
-报错：ERROR [SHARE] operator() (ob_common_config.cpp:128) [20728][][T0][Y0-0000000000000000-0-0] [lt=5] Invalid config, value out of [1073741824,) (for reference only). name=min_full_resource_pool_memory, value=268435456, ret=-4147 
-现象：源码编译ob再部署失败[ERROR] oceanbase-ce start failed
+
+
+**现象：源码编译ob再部署失败[ERROR] oceanbase-ce start failed**
+报错：ERROR [SHARE] operator() (ob_common_config.cpp:128) [20728][][T0][Y0-0000000000000000-0-0] [lt=5] Invalid config, value out of [1073741824,) (for reference only). name=min_full_resource_pool_memory, value=268435456, ret=-4147
 ![image.png](/img/FAQ/all_faq/1671363516865-030ecc03-2a08-4d4e-b16a-9b7af65a2c1f.png)
 信息：4.0.0
 解决方案：配置文件中调大__min_full_resource_pool_memory参数的值2147483648，alter system __min_full_resource_pool_memory=2147483648，隐藏参数查看方式SELECT * FROM oceanbase.__all_virtual_sys_parameter_stat WHERE name='__min_full_resource_pool_memory';
 原因：该参数为允许以最小多少内存的规格创建租户。
 
-
-```
 ```bash
 报错：ERROR 4015 (HY000): System error
 现象：手动部署OB，初始化alter system bootstrap报错
@@ -776,18 +772,18 @@ ODP端故障：[https://www.oceanbase.com/docs/enterprise-oceanbase-database-cn-
 原因：4.0引入了用户的meta租户概念，其规格配置不支持用户独立设置，具体的规则详见官网文档[https://www.oceanbase.com/docs/community-observer-cn-10000000000901425](https://www.oceanbase.com/docs/community-observer-cn-10000000000901425)
 
 ```
-```bash
-现象：用obd管理集群报错无法连接到集群，实际集群状态正常，obd日志报错密码不正确Access denied for user
+
+**现象：用obd管理集群报错无法连接到集群，实际集群状态正常，obd日志报错密码不正确Access denied for user**
+
 ![image.png](/img/FAQ/all_faq/1668842141080-38f78b3b-ce4d-4359-b57d-b6ef1efbb0de.png)
 报错：OBD-1006: Failed to connect to oceanbase-ce
 信息：3.1.4
 解决方案：登录数据库设置系统租户密码和obd配置root_password参数保持一致
 原因：用户未通过obd方式修改密码，直接登录数据库修改，但obd配置文件不会同步修改，导致密码配置不一致，且当前情况下不能再通过obd修改密码，因为密码已经不一致，edit-config编辑仍然是原密码信息
 
-```
-```bash
 
-现象：日常使用抛出报错ERROR 4654 (HY000) at line 1: location leader not exist
+
+**现象：日常使用抛出报错ERROR 4654 (HY000) at line 1: location leader not exist**
 报错：leader revoke，please attention!（revoke reason="clog sliding_window_timeout"）
 ![image.png](/img/FAQ/all_faq/1668242958923-72e5cb92-1219-4946-a2e0-5058d2966d55.png)
 ![image.png](/img/FAQ/all_faq/1668242992148-84c46d49-81ea-4f73-aba2-26614aa058b4.png)
@@ -795,8 +791,6 @@ ODP端故障：[https://www.oceanbase.com/docs/enterprise-oceanbase-database-cn-
 解决方案：检查节点间的时差是否超出50ms，或者调大系统参数
 alter system set _ob_clog_timeout_to_force_switch_leader ='10s';
 原因：看第一个日志是leader被revoke，observer.log是超时了，有可能是与其他节点ntp时钟同步有较大差值
-
-```
 ```bash
 
 现象：停止zone操作失败
@@ -807,8 +801,8 @@ alter system set _ob_clog_timeout_to_force_switch_leader ='10s';
 
 
 ```
-```bash
-现象：ODC上执行sql报错
+
+**现象：ODC上执行sql报错**
 ![image.png](/img/FAQ/all_faq/1669539589485-040e0a5f-16f6-4bff-85e8-2b5d3589924a.png)
 报错：Unkown thread id
 信息：3.1.4
@@ -816,7 +810,6 @@ alter system set _ob_clog_timeout_to_force_switch_leader ='10s';
 原因：unknow thread id是因为在jdbc代码执行SQL时，设置了ob_query_timeout，超时了，驱动就会执行kill query connectionId命令将超时执行的SQL取消掉。但是这个命令在多个obproxy时，可能会发给其他的，就会报错unknow thread id
 
 
-```
 ```bash
 现象：新建租户，使用租户信息无法登录集群？
 报错：ERROR 1227 (42501): Access denied
@@ -869,8 +862,9 @@ alter system set _ob_clog_timeout_to_force_switch_leader ='10s';
 
 
 ```
-```bash
-现象：手动修改observer.config.bin文件后启动失败
+
+**现象：手动修改observer.config.bin文件后启动失败**
+
 ![image.png](/img/FAQ/all_faq/1670657367060-af9a5525-b9d6-448f-bdb8-a94e93f3ae9d.png)
 报错：check data checksum failed(ret=-4103)
 信息：3.1.4
@@ -883,8 +877,6 @@ alter system set _ob_clog_timeout_to_force_switch_leader ='10s';
 /home/admin/oceanbase/etc/observer.config.bin.history
 原因：首先不支持直接手动修改该二进制文件，该文件配置参数是通过alter system方式持久化此处的，可以通过./bin/observer -o 参数=参数值的方式启动成功后也会持久化到该配置，当然该配置文件加上history一共有6份，可以cp etc2/observer.conf.bin etc/observer.config.bin也能恢复配置
 
-
-```
 ```bash
 现象：obd升级ob失败
 报错：fail to get upgrade graph: ‘NoneType’ object has no attribute ‘version’
@@ -973,14 +965,14 @@ ob日志报错：ERROR [SERVER.OMT] alloc (ob_worker_pool.cpp:93) [24864][454][Y
 
 
 ```
-```bash
-报错：java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
-现象：使用mysql驱动，连接报错找不到驱动信息![image.png](/img/FAQ/all_faq/1673165722440-5addaf82-c034-4e37-82cd-8c5f3842c84c.png)
+
+**报错：java.lang.ClassNotFoundException: com.mysql.jdbc.Driver**
+现象：使用mysql驱动，连接报错找不到驱动信息
+![image.png](/img/FAQ/all_faq/1673165722440-5addaf82-c034-4e37-82cd-8c5f3842c84c.png)
 信息：4.0.0
 解决方案：修改驱动连接为jdbc:mysql
 原因：mysql驱动写mysql的信息jdbc:mysql，如果是oceanbase驱动需要写oceanbase信息jdbc:oceanbase
 
-```
 ```bash
 现象：springboot项目使用ob数据库，数据库中字段是datetime格式，用bean接收sql查询的结果，bean中使用string来接收，出现2022-12-08 12:23:56.0，预期结果是2022-12-08 12:23:56
 报错：结果不符合预期
@@ -990,26 +982,24 @@ ob日志报错：ERROR [SERVER.OMT] alloc (ob_worker_pool.cpp:93) [24864][454][Y
 
 
 ```
-```bash
-报错：ERROR 1564:This partition function is not allowed
-现象：给日期类型datetime的字段按年分区报错![image.png](/img/FAQ/all_faq/1685863518267-caae7175-4423-4415-a508-53517fac19e3.png)
+
+**报错：ERROR 1564:This partition function is not allowed**
+现象：给日期类型datetime的字段按年分区报错
+![image.png](/img/FAQ/all_faq/1685863518267-caae7175-4423-4415-a508-53517fac19e3.png)
 信息：4.0.0
 解决方案：可以按如下函数语法获取年/月
 PARTITION BY RANGE( YEAR(dt) )
 SUBPARTITION BY HASH( MONTH(dt) )
 原因：原生mysql也如此表现，报错符合预期，Hash 分区键的表达式必须返回 INT 类型，left截取方式返回的是字符串类型。
 
-```
-```bash
-现象：write only场景时，磁盘读在一个较高的频率，纯写场景为什么会有这个高的读操作？
+
+**现象：write only场景时，磁盘读在一个较高的频率，纯写场景为什么会有这个高的读操作？**
 ![image.png](/img/FAQ/all_faq/1685871560930-10712934-79b6-4810-abc0-546f39cf2899.png)
 报错：无报错
 信息：4.0.0
 解决方案：符合预期
 原因：ob的存储整体是一个LSM架构，从上到下是memtable，minor sstable，major sstable，数据从memtable到sstable会写盘，从minor到minor/major会读盘 + 写盘，minor sstable累积一定数量后也会触发合并，合并需要重排列，需要读+写磁盘。
 
-
-```
 ```bash
 报错：observer日志报错：Fail to alloc data block, (ret=-9202)
 现象：申请不到内存，合并超时，转储卡住
@@ -1091,15 +1081,15 @@ ALTER SYSTEM ARCHIVELOG
 原因：system_memory 默认是30G，memory_limit_percentage默认是占用80%物理内存，如果不指定这2个参数配置信息，小规格服务器配置可能出现申请不到内存问题。
 
 ```
-```bash
-报错：ocp precheck failed
+
+**报错：ocp precheck failed**
 现象：部署OCP报错预检测失败
 ![image.png](/img/FAQ/all_faq/1677054083006-45acdf0a-de75-4077-962c-cb64ed224fe1.png)
 信息：OCP4.0
 解决方案：关闭预检参数precheck_ignore: true
 原因：预检测会检查服务器硬件资源是否符合生产环境标准，如果不通过会报此错误，测试环境建议关闭预检测功能。
 
-```
+
 ```bash
 报错：1146(42S02)：Table‘meta_database.compute_vpc’ doesn’t exist
 现象：OCP部署过程中遇到了meta data的一个表不存在的问题
@@ -1108,17 +1098,17 @@ ALTER SYSTEM ARCHIVELOG
 原因：这个是 OCP 3.3.0 一个已知bug问题，已发布 bp 版本中已经修复。
 
 ```
-```bash
-报错：failed to load docker image
+
+**报错：failed to load docker image**
 现象：ocp部署时加载docker镜像流程失败
 ![image.png](/img/FAQ/all_faq/1668845077153-b9ff9a57-0209-4bcd-be4d-8a8c2e1b61a4.png)
 信息：3.3.0
 解决方案：检查ssh互信是否正常
 原因：安装的时候是当成远程主机，需要涉及节点之间ssh互信
 
-```
-```bash
-现象：ocp部署obproxy时，check if process not exit阶段失败
+
+
+**现象：ocp部署obproxy时，check if process not exit阶段失败**
 ![image.png](/img/FAQ/all_faq/1670131241278-78cdfae8-ae76-4960-8b72-c508421880d9.png)
 报错：status=500 INTERNAL_SERVER_ERROR, errorCode=COMMON_UNEXPECTED, args=process obproxy should not exists on host
 信息：4.0
@@ -1126,9 +1116,8 @@ ALTER SYSTEM ARCHIVELOG
 原因：该节点已经存在了obproxy服务和进程了
 
 
-```
-```bash
-报错：2003：Can't connect to MySQL on 'xx.xx.xx.xx' (111  Connection refused)
+
+**报错：2003：Can't connect to MySQL on 'xx.xx.xx.xx' (111  Connection refused)**
 现象：ocp部署报错无法连接到metadb
 ![image.png](/img/FAQ/all_faq/1670161481022-cbfd877d-fc4c-4d16-8ce4-028e43bbabb7.png)
 信息：3.3.0
@@ -1136,7 +1125,6 @@ ALTER SYSTEM ARCHIVELOG
 原因：create_metadb_cluster参数默认为false，会使用配置中ob_cluster模块信息当metadb，实际现场不存在。
 
 
-```
 ```bash
 报错：create monitor tenant failed
 现象：ocp安装时报错resource not enough:memory(Avail:1.6G,Need:8.0G)
@@ -1145,47 +1133,45 @@ ALTER SYSTEM ARCHIVELOG
 原因：memory_limit默认使用物理总内存80%，但如果可用内存不足，会出现创建租户时申请不到资源
 
 ```
-```bash
-报错：PermissionError: [Errno 13] Permission denied: '/root/installer/config.yaml'
+
+**报错：PermissionError: [Errno 13] Permission denied: '/root/installer/config.yaml'**
 现象：ocp部署报错/root/installer/config.yaml没有权限？
 ![image.png](/img/FAQ/all_faq/1670572772711-54b3f21a-e127-4cd9-9e35-e977d8d429be.png)
 信息：4.0.0
 解决方案：关闭selinux
 原因：selinux会影响程序的访问文件，影响程序的服务程序功能，影响服务所使用的资源，部署前需要关闭。
 
-```
-```bash
-报错：NameError: name ‘traceback’ is not defined
+
+**报错：NameError: name ‘traceback’ is not defined**
 现象：ocp部署到create meta user阶段报错
 ![image.png](/img/FAQ/all_faq/1670661197103-eb4f28ed-0eb6-4277-b719-417938c4419f.png)
 信息：3.3.0
 解决方案：检查/tmp目录下是否有precheck-*.sh文件，如果有，则删除
 原因：-*是当时生成的uuid，可能找不到对应的文件导致，删除重新部署会产生新的文件
 
-```
-```bash
-报错：Access denied for user 'meta_user'@'xxx.xxx.xxx.xxx
+
+
+**报错：Access denied for user 'meta_user'@'xxx.xxx.xxx.xxx**
 现象：metadb初始化阶段报错连接不上ob
 ![image.png](/img/FAQ/all_faq/1670846524338-9faab5d8-3ce6-4b85-bf50-7e128b4b28c4.png)
 信息：3.3.0
 解决方案：内存不足导致，增加内存。
 原因：仅仅只有5G内存，此处报错不一定是连接密码问题，启动容器失败，还未到连接抛出异常
 
-```
-```bash
-现象：ocp安装过程中报错sudo命令找不到，最终导致failed to load docker image
+
+**现象：ocp安装过程中报错sudo命令找不到，最终导致failed to load docker image**
 ![image.png](/img/FAQ/all_faq/1671331216078-9b93aeea-70a6-43dc-8997-8ae5ee4453d7.png)
 报错：/bin/sh: sudo: command not found
 信息：ocp：4.0.0
 解决方案：config.yaml的ssh模块配置上密码信息
 原因：暂未复现，用户配置环境问题影响较大
 
-```
+
 ## OCP使用问题
 
 
-```bash
-现象：OCP添加主机，无法安装ocp agent服务
+
+**现象：OCP添加主机，无法安装ocp agent服务**
 ![image.png](/img/FAQ/all_faq/1685439897417-af7f8be4-67bc-4a68-af42-3ddb52ee120f.png)
 报错：args:/tmp/8c76f061414e4d6/pos.py uninstall_package ^t-oceanbase-ocp-agent, return code:2, output:failed to call pos: func=uninstall_package, args=['^t-oceanbase-ocp-agent'], code=2, output=/tmp/a463f6de-fde4-11ed-8e6e-fefcfeb8fb: line 1: unexpected EOF while looking for matching `''
 信息：OCP4.0.3
@@ -1193,18 +1179,17 @@ ALTER SYSTEM ARCHIVELOG
 原因：现场是centos7系统，安装ocp-agent前会做操作系统检查，dpkg命令会错误的判断现场操作系统类型。
 
 
-```
-```bash
-现象：使用ocp部署obproxy后，使用obproxy连接报错密码错误
+
+
+**现象：使用ocp部署obproxy后，使用obproxy连接报错密码错误**
 ![image.png](/img/FAQ/all_faq/1683272882395-d8607cdb-3ef2-4e33-a783-2ef2d69cd1ee.png)
 报错：查看obproxy日志显示，fail to get cluster name(ret=-4018)
 信息：obproxy4.1
 解决方案：-u参数写完整，带上集群名称，-uroot@sys#集群名称
 原因：ocp部署的obproxy虽然关联了ob集群，但是
 
-```
-```bash
-现象：添加主机报错，没有找到指定OCP Agent类型的记录
+
+**现象：添加主机报错，没有找到指定OCP Agent类型的记录**
 ![image.png](/img/FAQ/all_faq/1679294604936-21502072-f996-49b8-a69c-2ea5a9583539.png)
 报错：No route to host (Host unreachable)
 ![image.png](/img/FAQ/all_faq/1679294670666-987ea895-1277-4cb1-bd5d-1761b065e343.png)
@@ -1212,7 +1197,7 @@ ALTER SYSTEM ARCHIVELOG
 解决方案：关闭防火墙即可
 原因：添加主机防火墙开启，安装程序路由不到该节点。
 
-```
+
 ```bash
 现象：ocp接管报错
 报错：observer进程属于root，需要是admin账号
@@ -1232,8 +1217,8 @@ ALTER SYSTEM ARCHIVELOG
 原因：ocp不支持在已有observer集群环境再部署一套ob集群
 
 ```
-```bash
-现象：ocp部署的ob，使用root用户后台启动observer后，重新ocp或者后台admin用户启动失败
+
+**现象：ocp部署的ob，使用root用户后台启动observer后，重新ocp或者后台admin用户启动失败**
 ![image.png](/img/FAQ/all_faq/1670653105470-80824e4b-b9d5-4b23-8c53-fbcd928294c4.png)
 报错： ERROR [COMMON] inner_open_fd (ob_log_disk_manager.cpp:1043) [5889][0][Y0-0000000000000000] [lt=5] [dc=0] open file fail(ret=-4009, fname="/home/admin/oceanbase/store/lzq/slog/4", flag=1069122, errno=13, errmsg="Permission denied")
 ERROR [SERVER] init (ob_server.cpp:172) [4195][0][Y0-0000000000000000] [lt=2] init config fail(ret=-4009)
@@ -1244,9 +1229,9 @@ chown -R admin.admin /data/1
 chown -R admin.admin /data/log1
 原因：ocp部署或接管的ob，均是admin用户权限，使用root启用后会导致observer.conf.bin文件和redo日志目录下的文件权限变更，无法再使用admin启动成功
 
-```
-```bash
-现象：部署OB时安装路径检测失败
+
+
+**现象：部署OB时安装路径检测失败**
 ![image.png](/img/FAQ/all_faq/1670662138500-5195c3f6-80ae-4640-b1ba-267a878f3bf3.png)
 报错：权限不足
 ![image.png](/img/FAQ/all_faq/1670662200520-accb94fc-e87a-4ea8-9dde-c0dd62b7c363.png)
@@ -1255,7 +1240,6 @@ chown -R admin.admin /data/log1
 原因：安装和数据目录需要递归admin用户权限
 
 
-```
 ```bash
 报错：OBProxy proxyro 用户密码与 OCP 设置不相同
 现象：OCP接管集群时，使用proxy连接ocp报错
@@ -1278,17 +1262,16 @@ chown -R admin.admin /data/log1
 
 
 ```
-```bash
-现象：接管obd部署ob集群失败
+
+**现象：接管obd部署ob集群失败**
 ![image.png](/img/FAQ/all_faq/1671164550736-33458eb8-886e-4ad5-b0c2-900d895e514f.png)
 报错：操作OB失败，错误信息: (conn=10) Table 'oceanbase.v$ob_cluster' doesn't exist
 信息：ocp:3.3.0，ob:4.0.0
 解决方案：升级ocp版本到4.0.0
 原因：ob4.0.0.0版本架构变动较大，部分系统表进行调整，使用不配套的ocp版本无法接管
 
-```
-```bash
-现象：OCP怎么把管理的OB移除
+
+**现象：OCP怎么把管理的OB移除**
 可以通过调用后端restful api的方式来迁出OB集群。
 命令如下：
 curl -X POST --user {user}:{password} -H "Content-Type:application/json" -d '{}' "http://{ocp-url}：{port}/api/v2/ob/clusters/{cluster_id}/moveOut"
@@ -1301,7 +1284,6 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 ![image.png](/img/FAQ/all_faq/1669197720558-6ef785ab-5fa6-44ac-be09-b479f0a6fe7a.png)
 
 
-```
 ```bash
 报错：所在idc与目标observer的idc不匹配
 现象：接管集群报错信息不匹配
@@ -1310,17 +1292,17 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 原因：因为接管前已经人为将节点添加到主机列表中了，列表中的idc机房和region地区信息和接管的集群默认信息不一致，当然也可以登录ob通过sql修改idc和region信息alter system alter zone 'zone1' set idc = 'xx;alter system alter zone 'zone1' set region = 'xx';
 
 ```
-```bash
-报错：Connect to xx.xx.xx.xx:62888 [/xx.xx.xx.xx] failed: Connection refused (Connection refused）
+
+**报错：Connect to xx.xx.xx.xx:62888 [/xx.xx.xx.xx] failed: Connection refused (Connection refused）**
 现象：ocp上重启集群卡住，obd重启ob是正常的
 ![image.png](/img/FAQ/all_faq/1671330730151-a86d1780-969f-469c-b778-0603e730219e.png)
 信息：ocp3.3.0，ob3.1.4
 解决方案：重启主机节点的ocp-agent服务
 原因：ocp-agent服务的端口62888，报错连接被拒绝，基本为ocp-agent服务异常无法通过agent服务下发指令导致
 
-```
-```bash
-现象：OCP关闭集群页面报错403
+
+
+**现象：OCP关闭集群页面报错403**
 报错：集群obcluster不允许进行操作
 ![image.png](/img/FAQ/all_faq/1676864800701-308adf5b-2473-4c80-8219-2e5aa7b50029.png)
 信息：OCP4.0
@@ -1328,7 +1310,6 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 原因：metadb被接管，如果使用OCP管理该集群会导致OCP服务不可用
 
 
-```
 ```bash
 报错：plan cache memory used reach limit
 现象：在业务租户有批量或者手工导数期间，偶然性会有上述告警
@@ -1338,52 +1319,47 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 
 
 ```
-```bash
-报错：OCP操作页面报错403
+
+**报错：OCP操作页面报错403**
 现象：通过OCP删除租户下的test1库，提示不允许进行该操作？
 ![image.png](/img/FAQ/all_faq/1684810148859-3d4ebd0c-5c6f-4efb-9c09-e8be5d825fca.png)
 信息：ocp4.x
 解决方案：ocp meta租户下操作 update config_properties set value='' where `key`='ocp.ob.cluster.ops.blacklist';
 原因：此集群和metadb共用，ocp metadb默认是不允许通过ocp做运维操作的，如果希望支持，需要将黑名单对应的value置空。
-```
-```bash
-现象：ocp升级失败，报错yaml格式不正确
+
+
+**现象：ocp升级失败，报错yaml格式不正确**
 ![image.png](/img/FAQ/all_faq/1665307305238-ceb2f464-3711-42c4-8ac1-698ef8c880fe.png)
 报错：yaml line column
 信息：OCP3.1.1升级3.3.0
 解决方案：按3.3.0版本配置模版文件改写
 原因：3.1.1和3.3.0的配置文件格式差异较大，升级需要使用3.3.0的配置格式
 
-```
-```bash
-报错：KeyError：'metadb'
+
+**报错：KeyError：'metadb'**
 现象：ocp升级失败，报错metadb的key值找不到
 ![image.png](/img/FAQ/all_faq/1665307499897-36b98b84-243b-40df-8401-63c72484e1eb.png?x-oss-process=image/format,png)
 信息：OCP3.1.1升级3.3.0
 解决方案：保留config.yaml配置文件中的metadb模块信息，不得注释或删除，并改写正确
 原因：文档描述config.yaml中的metadb模块是部署时候使用的参数，实际升级也是需要的通过此模块信息进行连接验证的，不能删掉或注释改模块的内容
 
-```
-```bash
-报错：Can't connect to MySQL server on xx.xx.xx.xx:2883(-2 Name or server not know)
+
+**报错：Can't connect to MySQL server on xx.xx.xx.xx:2883(-2 Name or server not know)**
 现象：ocp升级失败，使用obproxy配置测试可以连接，但升级报错连接不上metadb
 ![image.png](/img/FAQ/all_faq/1665308205549-d0ee5e92-5853-4024-b003-8fd9b28ff3bb.png)
 信息：OCP3.1.1升级3.3.0
 解决方案：该版本未采用proxy方式连接metadb，配置改为使用直连方式
 原因：107是obproxy的地址，非metadb地址，程序的这一步是要ssh到ocp节点IP，运行ocp的docker命令指向的地址是该IP，但107非ob元数据库也非ocp地址，所以报错连不上，因此不能使用非metadb本机的proxy地址。当然这里的版本升级也不建议使用proxy连接的方式
 
-```
-```bash
-现象：ocp升级失败，报错连接不上metadb
+
+
+**现象：ocp升级失败，报错连接不上metadb**
 报错：Can't connect to MySQL server on xx.xx.xx.xx:2881(-2 Name or server not know)
 ![image.png](/img/FAQ/all_faq/1665308040282-69fbfbc7-38cc-4b1b-9ab8-7542921f6f0f.png)
 信息：3.1.1升级3.3.0
 解决方案：yaml配置文件metadb模块使用直连方式，去掉租户的#集群信息
 原因：3.1.1版本配置是直连方案，3.3.0版本配置是proxy连接方案，升级需要保持原方案，直连不能带集群名称，否则会被误把 “租户#集群名称” 解析成租户。
-```
-```bash
 
-```
 ```bash
 现象：ocp上创建的unit规格配置不显示？
 报错：无报错
@@ -1393,18 +1369,19 @@ UPDATE config_properties SET value='true' WHERE `key` = 'ocp.operation.ob.tenant
 原因：小于 5G 的 Unit 规格在前端展示的时候会被过滤掉
 
 ```
-```bash
-报错：KeyError: 'buildVersion'
+
+**报错：KeyError: 'buildVersion'**
 现象：ocp升级4.0报错
 ![image.png](/img/FAQ/all_faq/1671178876425-4f89a6d7-14e7-4c5f-81a7-7b45d832204b.png)
 信息：3.3.0升级4.0.0
 解决方案：cinfig.yaml文件auth模块的信息改为ocp白屏登录用户和密码
 原因：升级需要调用接口连接ocp，使用的账户为配置文件中的auth模块信息，auth模块配置只有升级过程会用到。如果做过ocp白屏登录密码修改，该配置中也修改即可。
 
-```
-```bash
-现象：replace方式修改ocp的obproxy地址或端口失败或者监控信息不显示
+
+
+**现象：replace方式修改ocp的obproxy地址或端口失败或者监控信息不显示**
 报错：ocp.log报错：connection refused
+
 ![image.png](/img/FAQ/all_faq/1686110140303-58e9a553-23c2-4479-a548-cfc17e432d9a.png)
 信息：OCP3.x-4.x
 解决方案：meta租户连接metadb，修改monitordb相关连接信息。
@@ -1412,7 +1389,6 @@ select * from config_properties where `key` like '%ocp.monitordb.port%';
 select * from config_properties where `key` like '%ocp.monitordb.host%';
 原因：设计原因，replace未修改monitor监控相关连接参数，后续版本考虑优化。
 
-```
 ## OMS使用问题
 
 
@@ -1445,16 +1421,14 @@ select * from config_properties where `key` like '%ocp.monitordb.host%';
 ```
 ## ODC问题
 
-```bash
-报错：BadRequest exception, type=IllegalArgumentException, message=Not a valid secret key
+
+**报错：BadRequest exception, type=IllegalArgumentException, message=Not a valid secret key**
 现象：ODC新建连接报错
 ![image.png](/img/FAQ/all_faq/1670485766785-ba8e1d24-8779-4102-9ade-ba1a04cdf1e9.png)
 信息：ODC3.x
 解决方案：下载最新ODC版本，推荐使用内置 jre 的 ODC 版本
 原因：JRE 版本过低，出现加密失败导致，JRE选择了1.8.121以上版本
 
-
-```
 ```bash
 报错：[com.alipay.odc.config.BeanCreateFailedAnalyzer][21]: bean create failed
 现象：mac安装odc报错
@@ -1463,17 +1437,16 @@ select * from config_properties where `key` like '%ocp.monitordb.host%';
 原因：有可能是 JAVA 版本的问题
 
 ```
-```bash
-现象：ODC 客户端报 ： (conn=33406) Query timed out 错误
+
+**现象：ODC 客户端报 ： (conn=33406) Query timed out 错误**
 报错：ErrorCode = 1317, SQLState = 70100, Details = (conn=405741) Query timed out
 信息：ODC3.2.3
 解决方案：需要在连接详情界面更改“SQL 查询超时时间”，使其大于SQL的实际执行时间：
 ![image.png](/img/FAQ/all_faq/1670659134978-31a3f79b-c8f8-446f-b5b4-6ee80a5683a5.png)
 原因：SQL的执行时间超过了 ODC 在驱动层设定的超时时间导致，ODC工具自身有个 “SQL 查询超时时间” 设置
 
-```
-```bash
-现象：刚部署的ODC打开保存Java进程异常退出
+
+**现象：刚部署的ODC打开保存Java进程异常退出**
 ![image.png](/img/FAQ/all_faq/1685864534556-2172dfa7-d407-4d33-b8cc-c409a3b2c97d.png)
 报错：Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker': Invocation of init method failed; nested exception is org.springframework.jdbc.datasource.init.UncategorizedScriptException: Failed to execute database script; nested exception is org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: Chunk 3233 not found [1.4.200/9]" [50000-200] 
 信息：3.2.3
@@ -1481,7 +1454,7 @@ select * from config_properties where `key` like '%ocp.monitordb.host%';
 ![image.png](/img/FAQ/all_faq/1685864853944-65066b28-0894-4253-aa31-6b1c5d2aa699.png)
 原因：桌面版的 H2 database 元数据库损坏导致。
 
-```
+
 ## OBDUMP/LOADER使用问题
 
 ```bash
@@ -1600,36 +1573,33 @@ Q：obloader怎么一次性加载多个文件导入？
 A：数据文件放置一个文件夹内，-f指定文件夹即可
 
 ```
-```bash
-报错：Invalid usage long options max width 60. Value must not exceed width
+
+**报错：Invalid usage long options max width 60. Value must not exceed width**
 现象：执行obdumper --version报错
 信息：ob-loader-dumper-3.0.0-RELEASE-ce
 解决方案：编辑obdumper脚本，增加参数-Dpicocli.usage.width=180
 ![image.png](/img/FAQ/all_faq/1673161412003-95726b07-dd81-4714-a19d-b91d42b29408.png)
 原因：已知的命令行框架bug，ob-loader-dumper-4.0.0版本修复
 
-```
-```bash
-报错：Invalid usage long options max width 60. Value must not exceed width(55) - 20
+
+**报错：Invalid usage long options max width 60. Value must not exceed width(55) - 20**
 现象：在执行obloader导入时遇到如下错误
 ![image.png](/img/FAQ/all_faq/1671345885973-1fddcabc-cd28-4140-a522-d821a9d30843.png)
 信息：3.0.0
 解决方案：运行脚本中添加jvm启动参数 -Dpicocli.usage.width=180
 原因：由命令行框架导致的
 
-```
 ## OBLOGPROXY部署问题
 
 
-```bash
-报错：Failed to create oblogreader
+
+**报错：Failed to create oblogreader**
 现象：使用canal同步ob数据，oblogproxy部署后，oblogreader进程未启动
 ![image.png](/img/FAQ/all_faq/1685861368736-f1250a43-f7ff-4c25-9b58-5eec663599ea.png)
 信息：OB4.0 ，oblogproxy1.0.0
 解决办法：使用最新oblogproxy1.1.0版本即可
 原因：1.0.0版本是3.x版本适配，4.0使用1.1.0版本，注意：建议使用oblogproxy最新版本。
 
-```
 ## 其他
 
 
