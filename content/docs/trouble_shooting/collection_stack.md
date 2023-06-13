@@ -5,7 +5,7 @@ weight: 2
 # OBServer core 掉后如何收集堆栈
 <!-- 这个是单个的机器 core掉么，还是集群 core -->
 本文介绍 OBServer core 掉后如何排查确认，并收集堆栈。
-
+<!-- 测试 -->
 ## 问题现象
 
 正常运行的 OBServer 突然异常退出。
