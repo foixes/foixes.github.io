@@ -8,7 +8,7 @@ OceanBase 集群默认是 n-n-n 的三副本架构，代表三个可用区（Zon
 
 如下图所示是 2-2-2 的集群架构图，每个 Zone 内有两个节点，默认数据分片是三副本。应用访问默认通过 OBProxy 进行连接，OBProxy 会解析 SQL 内容，自动将请求下发到对应的 OBServer 并返回结果。
 
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/35913569/1685937588603-3c0e8694-ca32-4a3c-a8e3-373834e30105.png?x-oss-process=image%2Fresize%2Cw_1135%2Climit_0)
+![image.png](/img/about_oceanbase/overall_architecture/framework.png)
 <!-- 名词定义放到这里感觉有点儿冲突 -->
 ## 名词定义
 
@@ -28,7 +28,7 @@ OceanBase 集群默认是 n-n-n 的三副本架构，代表三个可用区（Zon
 
 资源池，每个 Unit 都归属于一个资源池，每个资源池由若干个 Unit 组成，资源池是资源分配的基本单位，同一个资源池内的各个 Unit 具有相同的资源规格，即该资源池内 Unit 的物理资源大小都相同。您可参考 [创建资源池](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001699432) 一文创建资源池。
 
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/35913569/1685937607302-6c7acf7c-ceed-4ab9-9273-d5262461435a.png)
+![image.png](/img/about_oceanbase/overall_architecture/resource_pool.png)
 <!-- 看不懂 -->
 上图展示了一个由 6 个 Unit 组成的资源池 a_pool，该资源池具有如下重要属性：
 
@@ -62,6 +62,6 @@ OceanBase 集群默认是 n-n-n 的三副本架构，代表三个可用区（Zon
 
 OceanBase 数据库的系统架构如下图所示，更多的系统架构介绍可以参考官网 OceanBase 数据库文档 [系统架构](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001687855) 一文。
 
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/35913569/1685937623886-e84d5965-529a-461a-8f14-478b266debbe.png?x-oss-process=image%2Fresize%2Cw_1500%2Climit_0)
+![image.png](/img/about_oceanbase/overall_architecture/logstream.png)
 
 <!-- 这个图看下是否需要更换，参考文档中给出的是 2-2-2 架构的系统图，本文上面的集群架构图用的也是 2-2-2 架构，但是本图中是 1-1-1 的架构 -->

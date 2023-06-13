@@ -10,8 +10,6 @@ weight: 3
   select * from DBA_OB_SERVERS;
   ```
 
-  ![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/65656351/1684295698535-d8c9d84f-daea-40dc-9cb7-f2e289547470.png#clientId=uab26b267-0ee0-4&from=paste&height=134&id=ubc777091&originHeight=268&originWidth=4140&originalType=binary&ratio=2&rotation=0&showTitle=false&size=101387&status=done&style=none&taskId=u5273d7c2-8356-43c2-970f-c84031045ae&title=&width=2070)
-
 - 查看各个 Zone 状态、IDC、Region、TYPE 等信息
 
   ```sql
@@ -33,5 +31,3 @@ weight: 3
   ```sql
   select svr_ip as RootService from DBA_OB_SERVERS where with_rootserver='yes';
   ```
-
-  ![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/65656351/1684295863447-69f9b2ac-5d7c-4b5d-9dbb-395e036297a4.png#clientId=uab26b267-0ee0-4&from=paste&height=106&id=u09ca7f83&originHeight=212&originWidth=360&originalType=binary&ratio=2&rotation=0&showTitle=false&size=16063&status=done&style=none&taskId=u70115dc2-12bc-4644-89d9-fd699393354&title=&width=180)

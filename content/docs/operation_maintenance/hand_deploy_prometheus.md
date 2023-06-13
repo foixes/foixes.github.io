@@ -21,7 +21,7 @@ OBAgent 是一个监控采集框架。OBAgent 支持推、拉两种数据采集�
 select user,host from mysql.user;
 
 # 如果不存在则需要手动创建
-GRANT SELECT ON `oceanbase`.* TO 'ocp_monitor'@'%' identified by 'xxxx';
+GRANT SELECT ON `oceanbase`.* TO 'ocp_monitor'@'%' identified by '******';
 ```
 
 如果是启动 OBAgent 后续添加的账号，那么需要重启 OBAgent 才能识别。
@@ -70,7 +70,7 @@ After=network-online.target
 
 [Service]
 Restart=on-failure
-ExecStart=/usr/local/Prometheus-2.30.3.linux-amd64/Prometheus --config.file=/usr/local/Prometheus-2.30.3.linux-amd64/Prometheus_config/Prometheus.yaml --storage.tsdb.path=/var/lib/Prometheus --web.enable-lifecycle --web.external-url=http://172.20.xx.xx:9090
+ExecStart=/usr/local/Prometheus-2.30.3.linux-amd64/Prometheus --config.file=/usr/local/Prometheus-2.30.3.linux-amd64/Prometheus_config/Prometheus.yaml --storage.tsdb.path=/var/lib/Prometheus --web.enable-lifecycle --web.external-url=http://x.x.x.x:9090
 
 [Install]
 WantedBy=multi-user.target

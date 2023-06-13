@@ -17,7 +17,7 @@ OceanBase 数据库 MySQL 租户支持传统 MySQL 客户端连接，连接方�
 连接示例如下：
 
 ```bash
-mysql -hxxx -uroot@sys#obdemo -P2883 -p -c -A oceanbase
+mysql -h xxx.xxx.xxx.xxx -uroot@sys#obdemo -P2883 -p -c -A oceanbase
 ```
 
 说明：
@@ -42,7 +42,7 @@ mysql -hxxx -uroot@sys#obdemo -P2883 -p -c -A oceanbase
 $ strings /dev/urandom |tr -dc A-Za-z0-9 | head -c8; echo
 b******t
 
-mysql -hxxx -uroot@obmysql#obdemo -P2883 -p -c -A oceanbase
+mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p -c -A oceanbase
 
 MySQL [oceanbase]> alter user root identified by 'b******t' ;
 Query OK, 0 rows affected (0.118 sec)
@@ -58,7 +58,7 @@ sudo yum -y install mariadb-server.x86_64
 # 安装官方 mysql 客户端
 sudo yum -y install mysql.x86_64
 
-mysql -hxxx -uroot@obmysql#obdemo -P2883 -pbJ****Vt -c -A --default-auth=mysql_native_password  oceanbase
+mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p****** -c -A --default-auth=mysql_native_password  oceanbase
 ```
 <!-- 好久远的版本了吧，用户不会使用这个版本了，所以是否还需要介绍 -->
 > **说明**
@@ -72,7 +72,7 @@ OceanBase 数据库提供了专用的命令行客户端工具 obclient。使用�
 连接示例如下：
 
 ```bash
-obclient -hxxx -uroot@obmysql#obdemo -P2883 -p -c -A oceanbase
+obclient -h xxx.xxx.xxx.xxx -uroot@obmysql#obdemo -P2883 -p -c -A oceanbase
 ```
 
 ## OceanBase 连接驱动（JDBC）

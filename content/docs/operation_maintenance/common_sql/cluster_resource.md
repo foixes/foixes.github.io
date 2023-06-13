@@ -43,10 +43,6 @@ round((data_disk_capacity-data_disk_in_use)/1024/1024/1024,2) as data_disk_free
 from gv$ob_servers;
 ```
 
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/65656351/1684294075006-4bd9be53-3c4e-4611-b9e3-d9328ef927e4.png#clientId=uab26b267-0ee0-4&from=paste&height=141&id=u5cd4501f&originHeight=282&originWidth=3230&originalType=binary&ratio=2&rotation=0&showTitle=false&size=63830&status=done&style=none&taskId=ua7bb9eb9-9aeb-42c6-a80b-a827d35d1c8&title=&width=1615)
-
-## 查询某租户 Unit 信息
-
 ```sql
 select c.tenant_name,b.tenant_id,a.name as unit_config_name,
 concat(b.svr_ip,':',b.svr_port) as observer,
@@ -77,8 +73,6 @@ left join __all_tenant t4 on (t1.tenant_id=t4.tenant_id)
 order by t1.`resource_pool_id`, t2.`unit_config_id`, t3.unit_id;
 ```
 
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/65656351/1684294249740-92b029c0-6ce2-4e5b-8ee7-b4796c2d135c.png#clientId=uab26b267-0ee0-4&from=paste&height=183&id=u01274c0a&originHeight=366&originWidth=2546&originalType=binary&ratio=2&rotation=0&showTitle=false&size=97107&status=done&style=none&taskId=ubd04acc7-896b-4e90-ac0a-21e8a2ef739&title=&width=1273)
-
 ## 查看租户磁盘使用细节
 
 ```sql
@@ -89,5 +83,3 @@ CAST(a.log_disk_in_use/1024/1024/1024 as DECIMAL(15,2)) log_disk_use_G
 from __all_virtual_unit a,dba_ob_tenants b 
 where a.tenant_id=b.tenant_id;
 ```
-
-![image.png](https://intranetproxy.alipay.com/skylark/lark/0/2023/png/65656351/1684294432458-b9c99554-8393-418c-9926-01880f7bcef1.png#clientId=uab26b267-0ee0-4&from=paste&height=237&id=u95baf060&originHeight=474&originWidth=1488&originalType=binary&ratio=2&rotation=0&showTitle=false&size=92075&status=done&style=none&taskId=u65c68362-78d9-4ccc-9364-3896480f20a&title=&width=744)

@@ -10,7 +10,7 @@ weight: 1
 -- 操作
 ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER='目标ip:rpc_port' TENANT ='sys';
 -- 实例
-ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER ='172.30.199.191:2882' TENANT ='sys'
+ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER ='x.x.x.x:2882' TENANT ='sys'
 ```
 
 ## 清理租户并释放空间
