@@ -2,23 +2,32 @@
 title: SQL 审计视图
 weight: 3
 ---
+# SQL 审计视图
 
-SQL 审计视图可以查看在 OceanBase 里执行过的所有 SQL，不管是成功的还是失败的。这对开发同学了解自己的业务 SQL 和定位问题细节非常有帮助。
+SQL 审计视图可以查看在 OceanBase 数据库里执行过的所有 SQL（包含执行失败 SQL）。这对开发同学了解自己的业务 SQL 和定位问题细节非常有帮助。
 
-其中，当前的 SQL 审计视图仅支持 Select 操作。
+> **说明**
+>
+> 当前的 SQL 审计视图仅支持 Select 操作。
+
 ## SQL 审计视图概述
-SQL 审计视图 gv$ob_sql_audit 是虚拟表，是内存中一个 FIFO 队列。3.x版本是 gv$sql_audit。
-功能的开启和数据大小是通过下面的 OceanBase 集群参数控制的。
+<!-- 需要讲解 -->
+SQL 审计视图 `gv$ob_sql_audit` 是虚拟表，是内存中一个 FIFO 队列。OceanBase 数据库 3.x 版本是 `gv$sql_audit` 虚拟表。
 
+功能的开启和数据大小是通过下面的 OceanBase 集群参数控制的。
+<!-- 只有这一个参数控制么 -->
 | 参数名 | 参数值 | 参数含义 |
 | --- | --- | --- |
 | enable_sql_audit | TRUE | 指定是否开启 SQL 审计。默认 TRUE 是开启。FALSE 是关闭。 |
 
-SQL 审计能保留的数据大小跟租户内存资源的大小也有关系，通常不会特别大。建议自行实时将 SQL 审计视图的数据抽取走，然后做二次分析。
-您可以在租户里开启或关闭 SQL 审计功能。
+SQL 审计能保留的数据大小和租户内存资源的大小也有关系，通常不会特别大。建议自行实时将 SQL 审计视图的数据抽取走，之后做二次分析。
+
+您可以在租户里执行如下命令开启或关闭 SQL 审计功能。
+
 ```sql
 set global ob_enable_sql_audit = on;
 ```
+<!-- 这个视图介绍放到这里不合适 -->
 视图列定义如下：
 
 | 列名 | 含义 |
@@ -54,54 +63,66 @@ set global ob_enable_sql_audit = on;
 | EXECUTE_TIME | 该 SQL 实际内部执行时间（不包括 CPU 排队时间） |
 
 ## 如何查看 SQL 审计视图
-以下 SQL 可以在 sys 租户和业务租户里执行。业务租户只能查看属于自己租户的 SQL 数据。
+
+您可在 sys 租户或业务租户中执行如下命令查看 SQL 审计视图，在 sys 租户中执行时可以查看所有租户的 SQL 数据，在业务租户中执行仅可查看自身租户的 SQL 数据。
 
 - 查看近期所有 SQL
-```sql
-SELECT /*+ read_consistency(weak) ob_querytimeout(100000000) */  substr(usec_to_time(request_time),1,19) request_time_, s.svr_ip, s.client_Ip, s.sid,s.tenant_id, s.tenant_name, s.user_name, s.db_name, s.query_sql, s.affected_rows, s.return_rows, s.ret_code, s.event, s.elapsed_time, s.queue_time, s.execute_time, round(s.request_memory_used/1024/1024/1024,2) req_mem_mb, plan_type, is_executor_rpc, is_inner_sql, trace_id 
-FROM gv$ob_sql_audit s
-WHERE 1=1  and s.tenant_id = 1002
- and user_name='u_tpcc' 
- and request_time >= time_to_usec(DATE_SUB(current_timestamp, INTERVAL 30 MINUTE) )
-ORDER BY request_time DESC
-LIMIT 100;
-```
-request_time 是时间戳，可通过函数 usec_to_time 和 time_to_usec 与微秒数转换。
 
-- 分析统计近期所有 SQL根据 sql_id 统计平均总耗时、平均执行时间等。
-```sql
-SELECT sql_id, count(*), round(avg(elapsed_time)) avg_elapsed_time, round(avg(execute_time)) avg_exec_time
-FROM gv$ob_sql_audit s
-WHERE 1=1  and s.tenant_id = 1002
- and user_name='u_tpcc' 
- and request_time >= time_to_usec(DATE_SUB(current_timestamp, INTERVAL 30 MINUTE) )
-GROUP BY sql_id
-order by avg_elapsed_time desc 
-;
-```
+  ```sql
+  SELECT /*+ read_consistency(weak) ob_querytimeout(100000000) */  substr(usec_to_time(request_time),1,19) request_time_, s.svr_ip, s.client_Ip, s.sid,s.tenant_id, s.tenant_name, s.user_name, s.db_name, s.query_sql, s.affected_rows, s.return_rows, s.ret_code, s.event, s.elapsed_time, s.queue_time, s.execute_time, round(s.request_memory_used/1024/1024/1024,2) req_mem_mb, plan_type, is_executor_rpc, is_inner_sql, trace_id 
+  FROM gv$ob_sql_audit s
+  WHERE 1=1  and s.tenant_id = 1002
+   and user_name='u_tpcc' 
+   and request_time >= time_to_usec(DATE_SUB(current_timestamp, INTERVAL 30 MINUTE) )
+  ORDER BY request_time DESC
+  LIMIT 100;
+  ```
+  <!-- 没看懂  可通过函数 `usec_to_time` 和 `time_to_usec` 与微秒数转换 -->
+  request_time 是时间戳，可通过函数 `usec_to_time` 和 `time_to_usec` 与微秒数转换。
 
-- 查看报错的 SQLret_code 是 SQL 执行报错时的错误码。正常是 0，错误码为负数。
-```sql
-SELECT /*+ read_consistency(weak) ob_querytimeout(100000000) */  substr(usec_to_time(request_time),1,19) request_time_, s.svr_ip, s.client_Ip, s.sid,s.tenant_id, s.tenant_name, s.user_name, s.db_name, s.sql_id,  s.query_sql, s.affected_rows, s.return_rows, s.ret_code, s.event, s.elapsed_time, s.queue_time, s.execute_time, round(s.request_memory_used/1024/1024/1024,2) req_mem_mb, plan_type, is_executor_rpc, is_inner_sql, trace_id 
-FROM gv$ob_sql_audit s
-WHERE 1=1  and s.tenant_id = 1002
- and user_name='u_tpcc' 
- and ret_code < 0
- and request_time >= time_to_usec(DATE_SUB(current_timestamp, INTERVAL 30 MINUTE) )
-ORDER BY request_time DESC
-LIMIT 500;
-```
+- 分析统计近期所有 SQL
+  
+  根据 sql_id 统计平均总耗时、平均执行时间等。
 
-- 查看远程 SQL 和分布式 SQLplan_type 的值有三个：1 表示本地 SQL；2 表示远程 SQL；3 表示分布式 SQL。
-```sql
-SELECT /*+ read_consistency(weak) ob_querytimeout(100000000) */  substr(usec_to_time(request_time),1,19) request_time_, s.svr_ip, s.client_Ip, s.sid,s.tenant_id, s.tenant_name, s.user_name, s.db_name, s.sql_id,  s.query_sql, s.affected_rows, s.return_rows, s.ret_code, s.event, s.elapsed_time, s.queue_time, s.execute_time, round(s.request_memory_used/1024/1024/1024,2) req_mem_mb, plan_type, is_executor_rpc, is_inner_sql, trace_id 
-FROM gv$ob_sql_audit s
-WHERE 1=1  and s.tenant_id = 1002
- and user_name='u_tpcc' 
- and plan_type > 1
- and request_time >= time_to_usec(DATE_SUB(current_timestamp, INTERVAL 30 MINUTE) )
-ORDER BY request_time DESC
-LIMIT 500;
-```
-远程 SQL 的出现需要结合事务的业务逻辑分析。
+  ```sql
+  SELECT sql_id, count(*), round(avg(elapsed_time)) avg_elapsed_time, round(avg(execute_time)) avg_exec_time
+  FROM gv$ob_sql_audit s
+  WHERE 1=1  and s.tenant_id = 1002
+   and user_name='u_tpcc' 
+   and request_time >= time_to_usec(DATE_SUB(current_timestamp, INTERVAL 30 MINUTE) )
+  GROUP BY sql_id
+  order by avg_elapsed_time desc 
+  ;
+  ```
 
+- 查看报错的 SQL
+  
+  ret_code 是 SQL 执行报错时的错误码，无报错时为 0，出现报错时错误码为负数。
+
+  ```sql
+  SELECT /*+ read_consistency(weak) ob_querytimeout(100000000) */  substr(usec_to_time(request_time),1,19) request_time_, s.svr_ip, s.client_Ip, s.sid,s.tenant_id, s.tenant_name, s.user_name, s.db_name, s.sql_id,  s.query_sql, s.affected_rows, s.return_rows, s.ret_code, s.event, s.elapsed_time, s.queue_time, s.execute_time, round(s.request_memory_used/1024/1024/1024,2) req_mem_mb, plan_type, is_executor_rpc, is_inner_sql, trace_id 
+  FROM gv$ob_sql_audit s
+  WHERE 1=1  and s.tenant_id = 1002
+   and user_name='u_tpcc' 
+   and ret_code < 0
+   and request_time >= time_to_usec(DATE_SUB(current_timestamp, INTERVAL 30 MINUTE) )
+  ORDER BY request_time DESC
+  LIMIT 500;
+  ```
+
+- 查看远程 SQL 和分布式 SQL
+  
+  plan_type 的值有三个：1 表示本地 SQL；2 表示远程 SQL；3 表示分布式 SQL。
+
+  ```sql
+  SELECT /*+ read_consistency(weak) ob_querytimeout(100000000) */  substr(usec_to_time(request_time),1,19) request_time_, s.svr_ip, s.client_Ip, s.sid,s.tenant_id, s.tenant_name, s.user_name, s.db_name, s.sql_id,  s.query_sql, s.affected_rows, s.return_rows, s.ret_code, s.event, s.elapsed_time, s.queue_time, s.execute_time, round(s.request_memory_used/1024/1024/1024,2) req_mem_mb, plan_type, is_executor_rpc, is_inner_sql, trace_id 
+  FROM gv$ob_sql_audit s
+  WHERE 1=1  and s.tenant_id = 1002
+   and user_name='u_tpcc' 
+   and plan_type > 1
+   and request_time >= time_to_usec(DATE_SUB(current_timestamp, INTERVAL 30 MINUTE) )
+  ORDER BY request_time DESC
+  LIMIT 500;
+  ```
+
+  远程 SQL 的出现需要结合事务的业务逻辑分析。

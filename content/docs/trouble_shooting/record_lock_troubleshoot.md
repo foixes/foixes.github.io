@@ -2,33 +2,36 @@
 title: 行锁问题排查
 weight: 1
 ---
-
+# 行锁问题排查
 
 本文介绍行锁问题的排查思路，并提供部分排查案例。
+<!-- 本文是基于哪个版本来写的，4.x中是否已不对外透出这些内部表，3.x 中各表的介绍和文档不一致 -->
 ## 适用版本
+<!-- 所以是适用什么版本 -->
 OceanBase 4.x，3.x 版本表名相同但是字段以及字段内容是有变化的，可以参考：[https://www.oceanbase.com/knowledge-base/oceanbase-database-20000000016?back=kb](https://www.oceanbase.com/knowledge-base/oceanbase-database-20000000016?back=kb)
-## **锁冲突问题的排查思路**
+
+## 锁冲突问题的排查思路
+
 在业务环境中，可以将锁抽象为两个与行锁有密切关系的对象，即行锁的持有者与等待者。而行锁的持有者与等待者都是事务的一部分，因此在监控活跃事务中监控锁的持有者与等待者会对锁冲突的问题排查提供很大的帮助。
+
 OceanBase 数据库提供了以下虚拟表，分别用于监控活跃事务、行锁持有者与行锁等待者。
 
 **__all_virtual_trans_stat：用于监控活跃事务。**
 
-各主要表列的说明如下表所示
+各主要表列的说明如下表所示。
 
 | **列名** | **说明** |
 | --- | --- |
-| svr_ip | 表示创建该事务上下文的 OBServer 的 IP 地址。 |
+| svr_ip | 表示创建该事务上下文的 OBServer 节点的 IP 地址。 |
 | session_id | 表示该事务上下文所属会话的唯一 ID。 |
 | trans_id | 表示该事务的唯一 ID。 |
-| participants | 当前事务的参与者列表。 |
-| ctx_create_time | 事务上下文的创建时间。 |
+| participants | 表示当前事务的参与者列表。 |
+| ctx_create_time | 表示事务上下文的创建时间。 |
 | ref_cnt | 表示事务上下文当前的引用计数。 |
 | state | 表示事务上下文当前的状态。 |
-| part_trans_action | 当前语句处于的执行阶段。1: 说明语句的task正在执行; 2: 说明语句task执行完成; 3: 说明进入了事务提交阶段; 4: 说明事务正在进入回滚。
- |
+| part_trans_action | 表示当前语句处于的执行阶段，可选值为 1、2、3、4，分别代表如下含义。</br>1：说明语句的 task 正在执行。</br> 2：说明语句 task 执行完成。</br> 3：说明进入了事务提交阶段。</br> 4：说明事务正在进入回滚。  |
 | is_exiting | 表示当前事务上下文是否正在退出。 |
-| pending_log_size | 表示事务内存中有多少数据量需要去写clog。 |
-
+| pending_log_size | 表示事务内存中有多少数据量需要去写 clog。 |
 
 **__all_virtual_trans_lock_stat：记录了当前集群中所有活跃事务持有行锁的相关信息。**
 
@@ -37,10 +40,9 @@ OceanBase 数据库提供了以下虚拟表，分别用于监控活跃事务、�
 | **列名** | **说明** |
 | --- | --- |
 | rowkey | 表示持有锁的行的 rowkey。 |
-| session_id | 持有锁的事务所属的会话唯一 ID。 |
+| session_id | 表示持有锁的事务所属的会话唯一 ID。 |
 | proxy_session_id | 表示持有锁的事务所属客户端 OBProxy/Java Client 对应的 IP 地址与端口号。 |
 | trans_id | 表示持有锁的事务的唯一 ID。 |
-
 
 **__all_virtual_lock_wait_stat：统计了当前集群中所有等待行锁的请求或语句的相关信息。**
 
@@ -53,8 +55,7 @@ OceanBase 数据库提供了以下虚拟表，分别用于监控活跃事务、�
 | lock_ts | 表示该请求开始等待锁的时间点。 |
 | abs_timeout | 表示等待锁的语句的绝对超时时间。 |
 | try_lock_times | 表示等待锁的语句重试加锁的次数。 |
-| block_session_id | 表示在该行第一个等待事务的session_id。 |
-
+| block_session_id | 表示在该行第一个等待事务的 session_id。 |
 
 **说明：**
 
@@ -63,12 +64,15 @@ OceanBase 数据库提供了以下虚拟表，分别用于监控活跃事务、�
 _all_virtual_lock_wait_stat 表中主要用于展示写写冲突的情况。
 
 ## 锁冲突问题的排查案例
+
 ### 场景一
+
 业务使用了较大的超时事件，且存在一个会话中的未知长事务持有锁，阻塞了其他事务的执行，需要找到并停止该长事务。
 
 **方案一：通过无法加锁的事务查询持有锁的事务。**
 
 1. 通过 show full processlist; 获取无法加锁的事务的 session_id，找到等待锁的行的 rowkey。
+
 ```bash
 MySQL [oceanbase]> select * from __all_virtual_lock_wait_stat where session_id=3222247256 \G
 *************************** 1. row ***************************
@@ -94,6 +98,7 @@ total_update_cnt: 2
 ```
 
 2. 可以发现等待锁的事务在等待主键为 pk 的行。
+
 ```bash
 MySQL [oceanbase]> select * from __all_virtual_trans_lock_stat where tablet_id=200002 and rowkey like '%{"INT":1}%'\G
 *************************** 1. row ***************************
@@ -114,6 +119,7 @@ proxy_session_id: NULL
 ```
 
 3. 根据查到的 session_id 停止该事务的会话
+
 ```bash
 MySQL [oceanbase]> kill 3222015200;
 Query OK, 0 rows affected (0.00 sec)
@@ -122,6 +128,7 @@ Query OK, 0 rows affected (0.00 sec)
 **方案二：通过查询长事务。**
 
 1. 根据事务执行时间，找到执行时间最长且未结束事务的 trans_id。
+
 ```bash
 MySQL [oceanbase]> select * from __all_virtual_trans_stat where session_id!=0 order by ctx_create_time desc limit 5\G
 *************************** 1. row ***************************
@@ -156,6 +163,7 @@ last_request_time: 2023-05-22 16:41:49.754470
 ```
 
 2. 通过事务的 trans_id 找到其所持有的所有锁，并根据 rowkey 明确哪一个是需要停止的服务，相同的 trans_id 说明是同一个事务内的不同行锁信息。
+
 ```bash
 MySQL [oceanbase]> select * from __all_virtual_trans_lock_stat where trans_id like '%4210669%'\G
 *************************** 1. row ***************************
@@ -205,15 +213,18 @@ proxy_session_id: NULL
 ```
 
 3. 确认要停止的事务的 session_id 后，停止对应事务的会话。
+
 ```bash
 MySQL [oceanbase]> kill 3222110265;
 Query OK, 0 rows affected (0.00 sec)
 ```
 
 ### 场景二
+
 业务反馈某张表上执行的事务总超时，已知该表的表名以及库名，本场景以库名为 test，表名为 t0522 为例。
 
 1. 根据库表信息找到对应的持锁事务，如果数据比较大，可以拆分SQL。
+
 ```bash
 MySQL [oceanbase]> select 
   avtls.trans_id,
@@ -278,9 +289,8 @@ last_request_time: 2023-05-22 16:12:01.161296
 ```
 
 3. kill 连接
+
 ```bash
 MySQL [oceanbase]> kill 3221618369;
 Query OK, 0 rows affected (0.00 sec)
 ```
-
-

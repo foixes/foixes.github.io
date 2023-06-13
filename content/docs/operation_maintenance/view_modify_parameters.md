@@ -2,10 +2,16 @@
 title: 查看及修改参数
 weight: 5
 ---
+# 查看及修改参数
 
-# 集群参数
+本文介绍如何查看和修改集群参数、租户参数。
+
+## 集群参数
+
 OceanBase 数据库以集群形态运行，提供多租户（也叫多实例）能力。集群初始化成功后，默认会有一个 sys 租户，用以保存集群的所有元数据、参数等。您也可通过登录 sys 租户管理 OceanBase 集群。
-## 查看和修改 OceanBase 集群参数
+
+### 查看和修改 OceanBase 集群参数
+
 您可通过命令 show parameters [ like '%参数名特征%' ] ; 或 show parameters where name in ( '参数名1' , '参数名2' ) ; 查看 OceanBase 集群参数。
 
 在命令 show parameters [ like '%参数名特征%' ] ; 中不带 like 子句表示查看所有参数。
@@ -55,6 +61,7 @@ edit_level: DYNAMIC_EFFECTIVE
 edit_level: DYNAMIC_EFFECTIVE
 2 rows in set (0.002 sec)0
 ```
+
 上述参数输出结果说明如下：
 
 | 列名 | 列值 | 备注 |
@@ -74,6 +81,7 @@ edit_level: DYNAMIC_EFFECTIVE
 OceanBase 集群参数可通过命令 alter system set 参数名='参数值' [ server = '节点IP:节点RPC端口' ] ; 进行修改。不指定 server 子句表示参数修改应用于所有 OceanBase 集群节点。
 
 示例：调整参数 syslog_level 值为 USER_ERROR。
+
 ```sql
 MySQL [oceanbase]> alter system set syslog_level = 'USER_ERR' server='172.20.249.50:2882' ;
 Query OK, 0 rows affected (0.021 sec)
@@ -94,7 +102,9 @@ MySQL [oceanbase]> show parameters like 'syslog_level'\G
 edit_level: DYNAMIC_EFFECTIVE
 1 row in set (0.002 sec)
 ```
-## OceanBase 集群参数文件
+
+### OceanBase 集群参数文件
+
 上述参数的修改都是立即生效，并且参数修改会持久化到 OceanBase 集群节点自己的参数文件。
 
 **注意**
@@ -125,6 +135,7 @@ edit_level: DYNAMIC_EFFECTIVE
 
 9 directories, 20 files
 ```
+
 从上述目录结构可得，启动目录下有三个文件夹：etc、etc2、etc3，每个文件夹下都有其参数文件及其历史文件备份。
 
 observer 进程默认会读取文件夹 etc 中的参数文件，其他两个目录是参数文件的备份，这个备份路径也是通过参数 config_additional_dir 指定的，默认值是同一个启动目录的 etc2 和 etc3。
@@ -134,6 +145,7 @@ observer 进程默认会读取文件夹 etc 中的参数文件，其他两个目
 **说明**
 
 etc2 和 etc3 下的参数文件名跟 etc 下参数文件名并不完全一致。
+
 ```sql
 MySQL [oceanbase]> show parameters like 'config_additional_dir'\G
 *************************** 1. row ***************************
@@ -158,8 +170,11 @@ edit_level: DYNAMIC_EFFECTIVE
 [admin@obce00 oceanbase-ce]$ strings etc3/observer.conf.bin | grep -n memory_limit
 25:memory_limit=8G
 ```
+
 查看实际参数文件内容，可以看出不是所有参数都在这个参数文件中。只有那些被 alter system set 命令修改过的参数，以及在进程 observer 启动时通过 -o 指定的参数才会记录在参数文件里。其他参数都是取默认值（写在进程 observer 的代码里）。
-## 使用 OBD 修改 OceanBase 集群参数
+
+### 使用 OBD 修改 OceanBase 集群参数
+
 上文中直接在 OceanBase 集群里修改参数后，会立即同步到集群节点自身的参数文件中，但是不会同步到 OBD 的集群部署配置文件中（后期 OBD 可能会改进这个功能）。
 
 所以，在您使用 OBD 工具重启 OceanBase 集群时，默认又会带参数启动进程 observer。如果前面在 OceanBase 集群里修改的参数在 OBD 集群部署配置文件中也有，并且 OBD 集群部署配置文件的值还是未经修改的，那就意味着修改过的参数又被调整回原来的设置值了（运维需要理解这里变化的原理）。
@@ -170,6 +185,7 @@ edit_level: DYNAMIC_EFFECTIVE
 - OBD 重启集群的时候不带参数启动节点进程。
 
 您可使用命令 obd cluster edit-config 编辑集群部署配置文件，退出时会保存到上文的工作目录中。
+
 ```bash
 obd cluster edit-config obce-single
 
@@ -180,7 +196,9 @@ Parameter check ok
 Save deploy "obce-single" configuration
 deploy "need reload"
 ```
+
 使用命令 edit-config 退出后会提示 reload 集群配置。
+
 ```bash
 [admin@obce00 ~]$ obd cluster reload obce-single
 Get local repositories and plugins ok
@@ -193,12 +211,15 @@ obce-single reload
 **说明**
 
 如果 OBD 命令运行出错，可以运行命令 tail -n 50 ~/.obd/log/obd 查看日志。
-## 进程启动时指定参数
+
+### 进程启动时指定参数
+
 前面说到 OBD 在启动集群节点进程 observer 时，会在命令行下通过 -o 指定参数。对于运维来说，如果某个节点的进程 observer 因为某种原因退出，启动进程是当务之急。可能需要调整某个参数再启动一次，通过 OBD 工具会导致效率低下。所以，掌握 OceanBase 集群节点进程 observer 的启动方法是很有必要的。
 
 首先进入到工作目录。必须在上一次启动 observer 进程的工作目录（假设它是正确的）下再次尝试。前面分析过，工作目录在 OBD 集群部署配置文件中指定 home_path。本教程里工作目录都默认是 /home/admin/oceanbase-ce。进程 observer 启动后会在这个目录找目录 etc，找默认的参数文件 observer.config.bin。启动后的日志会默认写到 log/{observer.log, rootservice.log, election.log}。所以，工作目录不能错，目录的权限也不能错。
 
 示例：不带参数启动进程 observer 。为了模拟故障，先强行杀掉进程 observer。
+
 ```bash
 [admin@obce00 ~]$ cd
 [admin@obce00 ~]$ cd oceanbase-ce/
@@ -222,7 +243,9 @@ tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      
 tcp        0      0 0.0.0.0:2881            0.0.0.0:*               LISTEN      35280/bin/observer
 tcp        0      0 0.0.0.0:2882            0.0.0.0:*               LISTEN      35280/bin/observer
 ```
+
 示例：带参数启动进程 observer。为了模拟故障，先强行杀掉进程 observer。
+
 ```bash
 [admin@obce00 oceanbase-ce]$ kill -9 `pidof observer`
 [admin@obce00 oceanbase-ce]$ sleep 3
@@ -242,9 +265,12 @@ tcp        0      0 0.0.0.0:2881            0.0.0.0:*               LISTEN      
 tcp        0      0 0.0.0.0:2882            0.0.0.0:*               LISTEN      35867/bin/observer
 ```
 
-# 租户参数
-## 通过 SYS 租户修改业务租户参数
+## 租户参数
+
+### 通过 SYS 租户修改业务租户参数
+
 上一节介绍了 OceanBase 集群参数设置，其中有部分参数生效范围是租户（TENANT）。在 OceanBase 内部租户（sys）里，可以修改业务实例的部分参数。比如参数 writing_throttling_trigger_percentage，用于对指定租户进行内存限流（增量内存使用率达到这个阈值就对写入降速）。
+
 ```sql
 MySQL [oceanbase]> show parameters like 'writing_throttling_trigger_percentage%'\G
 *************************** 1. row ***************************
@@ -265,7 +291,9 @@ edit_level: DYNAMIC_EFFECTIVE
 MySQL [oceanbase]> alter system set writing_throttling_trigger_percentage = 90 tenant='obmysql';
 Query OK, 0 rows affected (0.011 sec)
 ```
+
 修改后的参数值只能在对应租户里查看。
+
 ```sql
 $ mysql -h 172.20.249.50 -u root@obmysql -P 2881 -p -c -A oceanbase
 Enter password:
@@ -293,14 +321,17 @@ MySQL [oceanbase]> show parameters like 'writing_throttling_trigger_percentage%'
 edit_level: DYNAMIC_EFFECTIVE
 1 row in set (0.004 sec)
 ```
-## 修改业务租户参数
+
+### 修改业务租户参数
+
 在业务租户里，可以自己设置参数。比如，参数 writing_throttling_maximum_duration，用于控制增量内存的剩余内存根据当前写入速度的最长写入时间。触发写入限速后，剩余 memstore 的内存量预期在 writing_throttling_maximum_duration 时间内分配完。
 
 **说明**
 
 该参数仅供参考，准确性不及参数 writing_throttling_trigger_percentage。
+
 ```sql
-# 在业务租户里修改参数，后面就不需要指定租户名。
+## 在业务租户里修改参数，后面就不需要指定租户名。
 
 MySQL [oceanbase]> alter system set writing_throttling_maximum_duration = '2h';
 Query OK, 0 rows affected (0.006 sec)
@@ -321,7 +352,9 @@ MySQL [oceanbase]> show parameters like 'writing_throttling_maximum_duration'\G
 edit_level: DYNAMIC_EFFECTIVE
 1 row in set (0.004 sec)
 ```
-## 修改业务租户变量
+
+### 修改业务租户变量
+
 OceanBase 租户还有一个名为变量（VARIABLE）的设计，这个和 MySQL 实例很像。变量其实就是租户的参数。可以在租户全局层面修改，也可以在会话层面修改，很多变量和对应的 SQL HINT 还可在语句级别修改。
 
 全局层面的修改影响的是后续的会话，会话层面的修改仅影响当前会话，语句级别的修改只影响当前语句。
@@ -334,12 +367,15 @@ OceanBase 租户还有一个名为变量（VARIABLE）的设计，这个和 MySQ
 - ob_trx_lock_timeout：事务申请加锁等待超时时间，单位 us，默认值是 -1，即不控制。超时依然会受 ob_query_timeout 限制。当调大语句超时时间变量（ob_query_timeout）后，可以将这个锁等待超时改为 10000000 （即 10s），以减少阻塞和死锁的概率。
 
 您可运行以下命令查看和修改变量：
+
 ```sql
 show global | session variables like '%变量名部分字段%' ;
 
 set global | session 变量名 =  '变量值' ;
 ```
+
 示例：
+
 ```sql
 MySQL [oceanbase]> show global variables like '%timeout%';
 +---------------------+------------------+
@@ -371,16 +407,20 @@ Query OK, 0 rows affected (0.010 sec)
 MySQL [oceanbase]> SET GLOBAL ob_trx_lock_timeout=10000000;
 Query OK, 0 rows affected (0.011 sec)
 ```
+
 对于复杂的 SQL 场景或者 OLAP 场景，租户还需要调整 ob_sql_work_area_percentage 变量。该变量影响 SQL 里排序统计能利用的内存大小，可以根据情况进行调整。
+
 ```sql
 set global ob_sql_work_area_percentage=50;
 ```
-## 通过 SYS 租户修改业务租户变量
+
+### 通过 SYS 租户修改业务租户变量
 
 **注意**
 
 部分变量属于租户初始化变量，不能在业务租户里直接修改，需要在 sys 租户里修改。
 示例：
+
 ```
 $ mysql -h127.1 -uroot@obmysql#obdemo -P2883 -p1****6 -c -A oceanbase -Ns
 MySQL [oceanbase]> set global lower_case_table_names=0;
@@ -393,13 +433,15 @@ $ mysql -h127.1 -uroot@obmysql#obdemo -P2883 -p1****6 -c -A oceanbase -Ns
 MySQL [oceanbase]> show global variables like 'lower_case_table_names';
 lower_case_table_names  0
 ```
+
 有些变量比较特殊，比如：
 
 - 变量 ob_tcp_invited_nodes，表示租户访问 IP 白名单。初始化租户的时候在 sys 租户中设置，后期可以在业务租户里修改。
+
 ```
 set global ob_tcp_invited_nodes='11.xxx.xxx.0/16,127.0.0.1';
 ```
+
 如果业务租户设置错误导致无法登录，可以通过 sys 租户再改回正确值。
 
 - 变量 ob_compatibility_mode 表示租户兼容性。这个在租户创建时指定，后期不能修改。
-
