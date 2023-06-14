@@ -630,18 +630,6 @@ ModuleNotFoundError：No module name 'pymysql'
 
 ```
 
-**报错：type object 'ConfigUtil' has no attribute 'get_random_pwd_by_rule'**
-现象：all-in-one4.1高版本换4.0低版本安装后，obd web部署报错
-![image.png](/img/FAQ/all_faq/1686118020920-bd707347-d28f-45e6-bf38-d9b86f61d521.png)
-信息：obd2.0.1
-解决方案：
-方法1：
-1）cd  ~/.obd/    2）rm -f versiom (隐藏文件)  3）执行obd --version  会重新生成新的plugins
-4）obd web部署即可
-方法2：
-1）rpm -e  卸载obd包  2）rm -rf ~/.obd/  删除.obd目录  3）重新install.sh 安装obd 初始化环境
-4）obd web部署即可
-原因：obd2.1版本支持随机密码功能，但重新安装的2.0.1版本不支持，导致此类无法找到。obd不支持降级，如果需要降级，需要清理环境再安装obd，生产环境可以使用方法1，方法2会清理部署环境信息。
 
 ```bash
 现象：obd web 无法访问到白屏部署界面
@@ -695,13 +683,6 @@ ModuleNotFoundError：No module name 'pymysql'
 原因：默认使用lo网卡，对应IP是本地127.0.0.1。后续版本会考虑优化。
 
 
-
-**现象：源码编译ob再部署失败[ERROR] oceanbase-ce start failed**
-报错：ERROR [SHARE] operator() (ob_common_config.cpp:128) [20728][][T0][Y0-0000000000000000-0-0] [lt=5] Invalid config, value out of [1073741824,) (for reference only). name=min_full_resource_pool_memory, value=268435456, ret=-4147
-![image.png](/img/FAQ/all_faq/1671363516865-030ecc03-2a08-4d4e-b16a-9b7af65a2c1f.png)
-信息：4.0.0
-解决方案：配置文件中调大__min_full_resource_pool_memory参数的值2147483648，alter system __min_full_resource_pool_memory=2147483648，隐藏参数查看方式SELECT * FROM oceanbase.__all_virtual_sys_parameter_stat WHERE name='__min_full_resource_pool_memory';
-原因：该参数为允许以最小多少内存的规格创建租户。
 
 ```bash
 报错：ERROR 4015 (HY000): System error
@@ -1336,13 +1317,6 @@ curl -X POST --user admin:aaAA11__ -H "Content-Type:application/json" -d '{}' "h
 原因：3.1.1和3.3.0的配置文件格式差异较大，升级需要使用3.3.0的配置格式
 
 
-**报错：KeyError：'metadb'**
-现象：ocp升级失败，报错metadb的key值找不到
-![image.png](/img/FAQ/all_faq/1665307499897-36b98b84-243b-40df-8401-63c72484e1eb.png?x-oss-process=image/format,png)
-信息：OCP3.1.1升级3.3.0
-解决方案：保留config.yaml配置文件中的metadb模块信息，不得注释或删除，并改写正确
-原因：文档描述config.yaml中的metadb模块是部署时候使用的参数，实际升级也是需要的通过此模块信息进行连接验证的，不能删掉或注释改模块的内容
-
 
 **报错：Can't connect to MySQL server on xx.xx.xx.xx:2883(-2 Name or server not know)**
 现象：ocp升级失败，使用obproxy配置测试可以连接，但升级报错连接不上metadb
@@ -1379,15 +1353,7 @@ UPDATE config_properties SET value='true' WHERE `key` = 'ocp.operation.ob.tenant
 
 
 
-**现象：replace方式修改ocp的obproxy地址或端口失败或者监控信息不显示**
-报错：ocp.log报错：connection refused
 
-![image.png](/img/FAQ/all_faq/1686110140303-58e9a553-23c2-4479-a548-cfc17e432d9a.png)
-信息：OCP3.x-4.x
-解决方案：meta租户连接metadb，修改monitordb相关连接信息。
-select * from config_properties where `key` like '%ocp.monitordb.port%';
-select * from config_properties where `key` like '%ocp.monitordb.host%';
-原因：设计原因，replace未修改monitor监控相关连接参数，后续版本考虑优化。
 
 ## OMS使用问题
 
