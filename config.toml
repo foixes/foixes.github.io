@@ -44,7 +44,7 @@ disableKinds = ['taxonomy', 'taxonomyTerm']
 
   # Set source repository location.
   # Used for 'Last Modified' and 'Edit this page' links.
-  BookRepo = 'https://github.com/alex-shpak/hugo-book'
+  BookRepo = 'https://github.com/foixes/foixes.github.io'
 
   # Specifies commit portion of the link to the page's last modified commit hash for 'doc' page
   # type.
@@ -56,7 +56,7 @@ disableKinds = ['taxonomy', 'taxonomyTerm']
   # Enable 'Edit this page' links for 'doc' page type.
   # Disabled by default. Uncomment to enable. Requires 'BookRepo' param.
   # Path must point to the site directory.
-  BookEditPath = 'edit/master/exampleSite'
+  BookEditPath = 'edit/main'
 
   # (Optional, default January 2, 2006) Configure the date format used on the pages
   # - In git information
