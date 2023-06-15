@@ -82,7 +82,7 @@ weight: 3
 
    1. 使用 admin 用户登录待启动进程的节点所在的机器。
       <!-- 没看明白 -->
-   2. 启动 observer 进程，可以 ps -ef 参照其他节点的启动命令。
+   2. 启动 observer 进程
 
       ```bash
       [admin@xxx oceanbase]$ cd /home/admin/oceanbase  &&  ./bin/observer

@@ -6,9 +6,9 @@ weight: 6
 
 OceanBase 数据库开源版仅兼容 MySQL 租户，连接协议兼容 MySQL 5.6。因此使用 MySQL 命令行客户端或者图形化工具理论上也能连接 OceanBase 数据库的租户。此外，OceanBase 数据库也提供专属的命令行客户端工具 OBClient 和图形化客户端工具 ODC。
 
-## MySQL 客户端连接
+## 客户端连接
 
-OceanBase 数据库 MySQL 租户支持传统 MySQL 客户端连接，连接方式基本不变，跟传统 MySQL 不一样的地方是用户名的格式。
+OceanBase 数据库 MySQL 租户支持传统 MySQL 客户端以及 OBClient 客户端连接，跟传统 MySQL 不一样的地方是用户名的格式。
 
 > **说明**
 >
@@ -39,40 +39,10 @@ mysql -h xxx.xxx.xxx.xxx -uroot@sys#obdemo -P2883 -p -c -A oceanbase
 新创建的业务租户的管理员（root）密码默认为空，需要修改密码。
 <!-- 刚开始这一串命令是干啥的 -->
 ```bash
-$ strings /dev/urandom |tr -dc A-Za-z0-9 | head -c8; echo
-b******t
-
 mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p -c -A oceanbase
 
 MySQL [oceanbase]> alter user root identified by 'b******t' ;
 Query OK, 0 rows affected (0.118 sec)
-```
-
-如果没有安装 MySQL 客户端，可以安装 mariadb-server。MySQL 官方 8.0 的客户端连接协议在密码处调整了逻辑，导致无法通过早期的 OBProxy 连接到 OceanBase 的 MySQL 租户，会报密码错误。可以通过选项 --default-auth=mysql_native_password 解决这个问题。
-
-```bash
-# 安装 mariadb
-sudo yum -y install mariadb-server.x86_64
-
-# 或者
-# 安装官方 mysql 客户端
-sudo yum -y install mysql.x86_64
-
-mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p****** -c -A --default-auth=mysql_native_password  oceanbase
-```
-<!-- 好久远的版本了吧，用户不会使用这个版本了，所以是否还需要介绍 -->
-> **说明**
->
-> ODP V2.0 版本已经修复了这个问题。
-
-## OBClient 客户端连接
-<!-- 或许可以和 MySQL 放到一起介绍 -->
-OceanBase 数据库提供了专用的命令行客户端工具 obclient。使用方法和使用 MySQL 客户端一样。
-
-连接示例如下：
-
-```bash
-obclient -h xxx.xxx.xxx.xxx -uroot@obmysql#obdemo -P2883 -p -c -A oceanbase
 ```
 
 ## OceanBase 连接驱动（JDBC）

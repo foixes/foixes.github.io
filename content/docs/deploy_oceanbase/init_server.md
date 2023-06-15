@@ -16,6 +16,7 @@ weight: 1
 
 # 运行命令
 ```bash
+# 修改脚本内的 pubkey，运行脚本
 bash init_ob.sh ob
 ```
 
@@ -52,7 +53,7 @@ esac
 
 logName=`basename $0 | awk -F. '{print $1}'`".log."`date '+%Y%m%d%H%M%S'`
 logFile="/tmp/$logName"
-# 中控机公钥
+# OBD所在机器公钥
 pubKey=""
 
 logPrint()

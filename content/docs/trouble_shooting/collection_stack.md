@@ -17,24 +17,24 @@ weight: 2
 - 执行如下命令查看 OBServer 进程是否存在，若输出为 0 表示进程不存在。
   
   ```shell
-  [root@172.30.199.49 ~]$ ps -ef | grep 3.1.5 | grep -v grep | wc -l
+  [root@x.x.x.x ~]$ ps -ef | grep 3.1.5 | grep -v grep | wc -l
   0
   ```
 
 - 查看对应的 OBServer 日志里是否输出 `CRASH ERROR` 关键字，如下所示。
   
   ```shell
-  [root@172.30.199.49 ~]$grep "CRASH ERROR" /home/admin/ob3.1.5/log/observer.log
+  [root@x.x.x.x ~]$ grep "CRASH ERROR" /home/admin/ob3.1.5/log/observer.log
   CRASH ERROR!!! sig=11, sig_code=0, sig_addr=59ef, timestamp=1683513011732829, tid=27670, tname=observer, trace_id=0-0, extra_info=((null)), lbt=0x9bac9c8 0x9b9d248 0x2ac7a28ac62f 0x2ac7a2f8a9fd 0x2ac7a2f8a893 0x9461d97 0x22ed172 0x2ac7a2ee7554 0x22ebe28
   ```
 
 - 查看对应的 OBServer 机器 `/etc/sysctl.conf` 文件中指定的 kernel.core_pattern 位置是否生成对应的 core 文件，如下所示。
   
   ```shell
-  [root@172.30.199.49 ~]$grep "kernel.core_pattern" /etc/sysctl.conf
+  [root@x.x.x.x ~]$ grep "kernel.core_pattern" /etc/sysctl.conf
   kernel.core_pattern = /home/admin/core_test/core-%e-%p-%t
   <!-- 这个命令是啥意思，为啥知道后面是 observer-27670-1683513011 -->
-  [root@172.30.199.49 ~]$ls -l /home/admin/core_test/core-observer-27670-1683513011
+  [root@x.x.x.x ~]$ ls -l /home/admin/core_test/core-observer-27670-1683513011
   -rw------- 1 admin admin 8723914752 5月   8 10:30 /home/admin/core_test/core-observer-27670-1683513011
   ```
   
@@ -77,9 +77,9 @@ weight: 2
 3. 将安装后的 observer.debug 文件拷贝到跟 OBServer 可执行文件同一级目录下
 
    ```shell
-   [root@172.30.199.49 opt]$ rpm -ql oceanbase-ce-debuginfo | grep observer.debug
+   [root@x.x.x.x opt]$ rpm -ql oceanbase-ce-debuginfo | grep observer.debug
    /usr/lib/debug/home/admin/oceanbase/bin/observer.debug
-   [root@172.30.199.49 opt]$ cp /usr/lib/debug/home/admin/oceanbase/bin/observer.debug /home/admin/ob3.1.5/bin/
+   [root@x.x.x.x opt]$ cp /usr/lib/debug/home/admin/oceanbase/bin/observer.debug /home/admin/ob3.1.5/bin/
    ```
 
 ### 收集堆栈

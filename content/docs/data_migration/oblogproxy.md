@@ -193,6 +193,7 @@ Starting taskexecutor daemon on host obtest004.
 从启动结果可以看到主要启动了两个进程standalonesession和askexecutor，其中standalonesession进程对应的是 JobManager 类型，taskexecutor进程对应的是 TaskManager 类型。
 
 在 <http://localhost:8081/#/overview> 中查看 Flink 的 Web 页面。
+![image.png](/img/data_migration/oblogproxy/flink.png)
 
 ## 数据同步测试
 

@@ -8,7 +8,7 @@ OceanBase 集群默认是 n-n-n 的三副本架构，代表三个可用区（Zon
 
 如下图所示是 2-2-2 的集群架构图，每个 Zone 内有两个节点，默认数据分片是三副本。应用访问默认通过 OBProxy 进行连接，OBProxy 会解析 SQL 内容，自动将请求下发到对应的 OBServer 并返回结果。
 
-![image.png](/img/about_oceanbase/overall_architecture/framework.png)
+![image.png](/img/about_oceanbase/overall_architecture/framework1.jpeg)
 <!-- 名词定义放到这里感觉有点儿冲突 -->
 ## 名词定义
 
@@ -27,16 +27,7 @@ OceanBase 集群默认是 n-n-n 的三副本架构，代表三个可用区（Zon
 **Resource Pool**
 
 资源池，每个 Unit 都归属于一个资源池，每个资源池由若干个 Unit 组成，资源池是资源分配的基本单位，同一个资源池内的各个 Unit 具有相同的资源规格，即该资源池内 Unit 的物理资源大小都相同。您可参考 [创建资源池](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001699432) 一文创建资源池。
-
-![image.png](/img/about_oceanbase/overall_architecture/resource_pool.png)
 <!-- 看不懂 -->
-上图展示了一个由 6 个 Unit 组成的资源池 a_pool，该资源池具有如下重要属性：
-
-- ZONE_LIST：描述了该资源池中的 Unit 分布在哪些 Zone 中，本例为 ZONE_LIST='zone1,zone2,zone3'。
-
-- Unit_NUM：描述了 ZONE_LIST 中每个 Zone 中的 Unit 个数，本例为 Unit_NUM=2。
-
-- Unit_CONFIG_ID：描述了该资源池关联的资源规格，从而决定该资源池中每个 Unit 的物理资源大小，包括 CPU、内存、日志盘空间、IOPS 等。
 
 **Tenant**
 
@@ -50,18 +41,12 @@ OceanBase 集群默认是 n-n-n 的三副本架构，代表三个可用区（Zon
 
 **Locality**
 
-描述的对象是承载数据的容器，定义副本类型以及副本数量。
+用来描述一个表的副本类型以及分布位置的方式。
 
 <!-- 内核文档里描述的是：用来描述一个表的副本类型以及分布位置的方式 -->
 
 **副本**
 
 指的是实际的分片数据，单分片最大的副本数量不会超过 Zone 的数量。
-
-## 系统架构
-
-OceanBase 数据库的系统架构如下图所示，更多的系统架构介绍可以参考官网 OceanBase 数据库文档 [系统架构](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001687855) 一文。
-
-![image.png](/img/about_oceanbase/overall_architecture/logstream.png)
 
 <!-- 这个图看下是否需要更换，参考文档中给出的是 2-2-2 架构的系统图，本文上面的集群架构图用的也是 2-2-2 架构，但是本图中是 1-1-1 的架构 -->

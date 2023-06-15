@@ -62,10 +62,10 @@ Outputs & filters:
 ```json
 {
   "ID": 1,
-  "OPERATOR": "GROUP BY",
-  "NAME": "GROUP BY",
+  "OPERATOR": "SCALAR GROUP BY",
+  "NAME": "SCALAR GROUP BY",
   "EST.ROWS": 1,
-  "COST": 4352454,
+  "COST": 78754,
   "output": [
     "T_FUN_COUNT(*)"
   ],
@@ -73,8 +73,8 @@ Outputs & filters:
     "ID": 0,
     "OPERATOR": "TABLE SCAN",
     "NAME": "TABLE SCAN",
-    "EST.ROWS": 10000000,
-    "COST": 2442330,
+    "EST.ROWS": 99995,
+    "COST": 59653,
     "output": [
       "1"
     ]
