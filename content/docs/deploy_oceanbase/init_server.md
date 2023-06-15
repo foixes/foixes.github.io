@@ -2,7 +2,7 @@
 title: 初始化服务器
 weight: 1
 ---
-
+<!-- 一个全新的机器只需要执行文档里的脚本就可以初始化为可以直接部署OB的机器了么 -->
 
 # 说明
 
@@ -12,14 +12,14 @@ weight: 1
 
 下面是一个初始化服务器的自动化脚本，仅供参考，如果使用可以根据实际详情进行变更。
 
-
-
 # 运行命令
+
 ```bash
 bash init_ob.sh ob
 ```
 
 # 自动化脚本
+
 ```bash
 #!/bin/bash
 set -e
@@ -218,5 +218,3 @@ sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 
 logPrint "INFO" "Completed Successfully"
 ```
-
-

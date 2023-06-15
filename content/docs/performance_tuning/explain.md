@@ -9,9 +9,22 @@ weight: 2
 EXPLAIN 命令完整的语法如下：
 <!-- 和内核给出的语法不一致 https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001702354 -->
 ```sql
-{EXPLAIN | DESCRIBE | DESC} 
-[BASIC | OUTLINE | EXTENDED | EXTENDED_NOADDR | PARTITIONS | FORMAT = {TRADITIONAL| JSON}] 
-{SELECT statement | DELETE statement | INSERT statement | REPLACE statement| UPDATE statement}
+{EXPLAIN | DESCRIBE | DESC} [explain_type] dml_statement;
+
+explain_type：
+    BASIC 
+  | OUTLINE
+  | EXTENDED
+  | EXTENDED_NOADDR
+  | PARTITIONS 
+  | FORMAT = {TRADITIONAL| JSON}
+
+dml_statement:
+    SELECT statement 
+  | DELETE statement
+  | INSERT statement
+  | REPLACE statement
+
 ```
 
 其中，FORMAT 有 TRADITIONAL 和 JSON 两种格式，默认是 TRADITIONAL 格式，可读性更好，JSON 格式对程序解析比较友好。
@@ -56,8 +69,8 @@ Outputs & filters:
   - output：表示当前算子输出的表达式（包含列）。
   
   - filter：表示当前算子的过滤表达式，nil 表示无。如果当前算子是访问存储层，这个过滤表达式可以下推（push）。
-<!-- 整个 EXPLAIN 结果是一行  没看懂 -->
-整个 EXPLAIN 结果是一行。在 OceanBase 数据库内部，这个结果是以 JSON 格式存储。示例如下：
+
+在 OceanBase 数据库内部，这个结果是以 JSON 格式存储。示例如下：
 <!-- 这个 json 和示例是否不匹配 -->
 ```json
 {

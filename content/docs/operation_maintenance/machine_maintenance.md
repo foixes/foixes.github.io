@@ -4,8 +4,7 @@ weight: 3
 ---
 # 机器维护
 
-<!-- 本文介绍如何对机器进行临时停机维护。 -->
-该场景适用于机器临时停机维护的场景。
+本文介绍如何对机器进行临时停机维护。
 
 ## OBServer 节点停机维护
 
@@ -82,7 +81,7 @@ weight: 3
 
    1. 使用 admin 用户登录待启动进程的节点所在的机器。
       <!-- 没看明白 -->
-   2. 启动 observer 进程，可以 ps -ef 参照其他节点的启动命令。
+   2. 启动 observer 进程。
 
       ```bash
       [admin@xxx oceanbase]$ cd /home/admin/oceanbase  &&  ./bin/observer

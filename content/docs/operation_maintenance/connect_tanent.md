@@ -48,7 +48,7 @@ MySQL [oceanbase]> alter user root identified by 'b******t' ;
 Query OK, 0 rows affected (0.118 sec)
 ```
 
-如果没有安装 MySQL 客户端，可以安装 mariadb-server。MySQL 官方 8.0 的客户端连接协议在密码处调整了逻辑，导致无法通过早期的 OBProxy 连接到 OceanBase 的 MySQL 租户，会报密码错误。可以通过选项 --default-auth=mysql_native_password 解决这个问题。
+<!-- 如果没有安装 MySQL 客户端，可以安装 mariadb-server。MySQL 官方 8.0 的客户端连接协议在密码处调整了逻辑，导致无法通过早期的 OBProxy 连接到 OceanBase 的 MySQL 租户，会报密码错误。可以通过选项 --default-auth=mysql_native_password 解决这个问题。
 
 ```bash
 # 安装 mariadb
@@ -62,8 +62,8 @@ mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p****** -c -A --default-auth=mysq
 ```
 <!-- 好久远的版本了吧，用户不会使用这个版本了，所以是否还需要介绍 -->
 > **说明**
->
-> ODP V2.0 版本已经修复了这个问题。
+> ODP V2.0 版本已经修复了这个问题。 
+-->
 
 ## OBClient 客户端连接
 <!-- 或许可以和 MySQL 放到一起介绍 -->

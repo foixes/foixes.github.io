@@ -3,8 +3,9 @@ title: 配置文件
 weight: 3
 ---
 # 配置文件
+<!-- 这篇文档需要重新写吧 -->
+## 基础配置说明
 
-# 基础配置说明
 | 配置 | 默认值 | 推荐值 | 详细解释 |
 | --- | --- | --- | --- |
 | memory_limit | 0 | 系统总内存的80%~90%。 | 能从OS 获取的最大内存。也可以通过 memory_limit_percentage 设置占用百分比。 |
@@ -18,10 +19,11 @@ weight: 3
 | enable_syslog_recycle | TRUE |  | 指定运行日志是否以滚动方式输出，最多保留指定数量的运行日志。 |
 | max_syslog_file_count | 4 |  | 根据磁盘空间大小定，这里默认保留最多 10 个历史运行日志文件。 |
 
+## 基础配置文件
 
-# 基础配置文件
 最新配置可以参照: xxx/.oceanbase-all-in-one/conf/distributed-with-obproxy-example.yaml，其中如果在 admin 用户下，xxx 默认为 /home/admin。
-```
+
+```shell
 #如果中控机（obd机器）是远程访问observer，需要提供用户和密码或者用户和对应的公钥。（如果部署单节点，只有在ip为127.0.0.1，用户为当前用户时才不需要身份校验，其他时候需要填写正确的密码或者密钥。）
 user:
    username: admin
@@ -96,7 +98,7 @@ obproxy-ce:
 
 如果需要prometheus监控，可以添加obagent以及prometheus的配置
 
-# 其他组件
+## 其他组件
 
 - OBAgent：监控采集框架。OBAgent 默认支持的插件包括主机数据采集、OceanBase 数据库指标的采集、监控数据标签处理和 Prometheus 协议的 HTTP 服务。
 - OCP Express：支持数据库集群关键性能指标查看及基本数据库管理功能的管理平台。
@@ -114,4 +116,3 @@ xxx/.oceanbase-all-in-one/conf/grafana/all-components-with-prometheus-and-grafan
 **也可以到 Github 上面查看**
 
 [https://github.com/oceanbase/obdeploy/blob/ae0f3bcac764d9365a6f1f7db68049edee7074ff/example/all-components.yaml](https://github.com/oceanbase/obdeploy/blob/ae0f3bcac764d9365a6f1f7db68049edee7074ff/example/all-components.yaml)
-

@@ -4,6 +4,8 @@ weight: 1
 ---
 # 使用 OMS 进行数据迁移和数据同步
 
+本文主要介绍使用 OMS 进行数据迁移和数据同步的适用版本和目前支持的源端/目标端，详细的操作过程请参见官网 [OMS 文档](https://www.oceanbase.com/docs/oms-cn)。
+
 ## 适用版本
 
 数据迁移和数据同步功能中，OceanBase 社区版和其它数据终端的适用版本如下。
@@ -32,7 +34,3 @@ weight: 1
 如需使用 OMS 做 TiDB 增量数据迁移，需要先为 TiDB 集群部署 TiCDC，并且把数据写到 kafka，之后在 OMS 创建数据源。
 
 在 OMS 中创建数据源时需先创建 kafka 数据源，再创建 TiDB 数据源，并且 TiDB 数据源里需要包含创建的 kafka 数据源，这样在创建迁移项目的时候才能选择增量同步
-
-## 详情
-
-详细操作步骤可以参照官网 [OMS 文档](https://www.oceanbase.com/docs/oms-cn)。

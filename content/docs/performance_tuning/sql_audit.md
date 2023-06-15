@@ -6,10 +6,6 @@ weight: 3
 
 SQL 审计视图可以查看在 OceanBase 数据库里执行过的所有 SQL（包含执行失败 SQL）。这对开发同学了解自己的业务 SQL 和定位问题细节非常有帮助。
 
-> **说明**
->
-> 当前的 SQL 审计视图仅支持 Select 操作。
-
 ## SQL 审计视图概述
 <!-- 需要讲解 -->
 SQL 审计视图 `gv$ob_sql_audit` 是虚拟表，是内存中一个 FIFO 队列。OceanBase 数据库 3.x 版本是 `gv$sql_audit` 虚拟表。
@@ -77,8 +73,8 @@ set global ob_enable_sql_audit = on;
   ORDER BY request_time DESC
   LIMIT 100;
   ```
-  <!-- 没看懂  可通过函数 `usec_to_time` 和 `time_to_usec` 与微秒数转换 -->
-  request_time 是时间戳，可通过函数 `usec_to_time` 和 `time_to_usec` 与微秒数转换。
+
+  request_time 是时间戳，可通过函数 `usec_to_time` 和 `time_to_usec` 进行时间戳和微秒数的转换。
 
 - 分析统计近期所有 SQL
   

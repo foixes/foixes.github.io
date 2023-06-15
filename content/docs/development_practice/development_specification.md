@@ -232,20 +232,32 @@ OceanBase 数据库在 MySQL 模式下支持 range/range columns 分区、hash/k
 
 1. 【强制】批量操作数据时，程序必须有异常处理能力，以及事务失败重试机制。
     <!-- 2.x 版本是指什么 -->
-2. 【推荐】2.X 版本控制事务大小，单分区事务数据量不超过 100MB。大事务场景下，建议采用批量操作并及时 commit 提交。
+2. 【推荐】OceanBase 2.X 版本控制事务大小，单分区事务数据量不超过 100MB。大事务场景下，建议采用批量操作并及时 commit 提交。
 
 3. 【强制】应用程序中禁止设置 timezone、SQL_mode 和 isolation_level 变量。
 
 4. 【强制】事务隔离级别应使用默认的 RC 读已提交，目前 RR 和 serialize 对并发限制较大。
-    <!-- 目前文档中 OBProxy 统一为 ODP，需 确认该文档中是否统一写为 ODP，还是仍写为 OBProxy -->
-5. 【强制】ODP 路由 SQL 规则注意如下的情况：
+    <!-- 目前文档中 OBProxy 统一为 ODP，本文档中统一为 OBProxy -->
+5. 【强制】OBProxy 路由 SQL 规则注意如下的情况：
     <!-- 一下几种情况？ -->
-    a. 以下几种情况，proxy 能够将请求发送至正确的 server，但是 server 反馈的信息可能不准，不建议使用：select '1'; select * from t1;select '1' from dual;
+    a. 以下几种情况，proxy 能够将请求发送至正确的 server，但是 server 反馈的信息可能不准，不建议使用。
+
+       select '1'; 
+       select * from t1;
+       select '1' from dual;
   
-    b. 以下几种情况，proxy会强制将请求路由至上一次使用的server，但是server反馈信息可能不准，不建议使用：show warnings; select *from t1; show count(*) errors; select * from t1;
+    b. 以下几种情况，proxy会强制将请求路由至上一次使用的server，但是server反馈信息可能不准，不建议使用：
+
+       ```sql
+       show warnings; 
+       select *from t1; 
+       show count(*) errors; 
+       select * from t1;
+       ```
+
 6. 【强制】DDL 和 DML 不要在同一个事务里面。
 
-### 3.5 DDL规范
+### 3.5 DDL 规范
 
 1. 【强制】truncate table 完需要等待 1s~3s，确认数据清空后再操作插入数据。
 
@@ -315,7 +327,7 @@ OceanBase 数据库的 MySQL 租户兼容 MySQL 的连接协议，使用标准�
 | allowMultiQueries | FALSE | 设置为 TRUE 时，JDBC 驱动允许应用代码把多个 SQL 用分号（`;`）拼接在一起，作为一个 SQL 发给 server 端。 |
 | rewriteBatchedStatements | FALSE | 设置为 FALSE 时，OceanBase 的 JDBC 驱动在默认情况下会无视 `executeBatch()` 语句，把批量执行的一组 SQL 语句拆散，一条一条地发给数据库，此时批量插入实际上是单条插入，直接造成较低的性能。要想实际执行批量插入，需要将该参数置为 TRUE，驱动才会批量执行 SQL。</br>即使用 addBatch 方法把同一张表上的多条 insert 语句合在一起，做成一条 insert 语句里的多个 values 值的形式，提高 batch insert 的性能。必须使用 prepareStatement 方式来把每条 insert 做 prepare，然后再 addBatch，否则不能合并执行。 |
 | useServerPrepStmts | FALSE | 设置为 False 的时候采用文本协议，设置为 True 的时候会采用二进制协议。如果 rewriteBatchedStatements 设置为 true，则此选项将设置为 false。默认值：false。 |
-<!-- 大小写需统一 -->
+<!-- 大小写需统一 ，全小写-->
 > **注意**
 >
 > 使用批量更新中，需要如果一个 Batch 中存在对相同行的更新，不能走到批量更新的优化，为了保证更新顺序，退化为单条顺序执行。且在 OceanBase 数据库 3.2.3 版本前，批量更新中的语句必须是按主键更新才能走到批量更新的优化。
@@ -390,8 +402,7 @@ OceanBase 数据库的 MySQL 租户兼容 MySQL 的连接协议，使用标准�
    <!-- property name="connectionProperties"          value="oracle.net.CONNECT_TIMEOUT=2000;oracle.jdbc.ReadTimeout=10000"></property-->
    <!-- 打开 PSCache，并且指定每个连接上 PSCache 的大小，Oracle 等支持游标的数据库，打开此开关，会以数量级提升性能，具体查阅 PSCache 相关资料。不建议配置 PSCache，否则有可能出现断开连接问题。 -->
    <!-- property name="poolPreparedStatements" value="true" /-->
-   <!-- property name="maxPoolPreparedStatementPerConnectionSize"
-   value="20" /-->   
+   <!-- property name="maxPoolPreparedStatementPerConnectionSize" value="20" /-->   
    <!-- 配置监控统计拦截的 filters -->
    <!-- <property name="filters" value="stat,slf4j" /> -->
    <property name="proxyFilters">
@@ -404,4 +415,3 @@ OceanBase 数据库的 MySQL 租户兼容 MySQL 的连接协议，使用标准�
    <!-- property name="timeBetweenLogStatsMillis" value="120000" /-->
    </bean> 
    ```
-<!-- 393 和 394 确认是分为两行的么 -->

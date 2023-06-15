@@ -1,10 +1,10 @@
 ---
-title: OBServer core掉后如何收集堆栈
+title: OBServer 节点 core 掉后如何收集堆栈
 weight: 2
 ---
-# OBServer core 掉后如何收集堆栈
+# OBServer 节点 core 掉后如何收集堆栈
 <!-- 这个是单个的机器 core掉么，还是集群 core -->
-本文介绍 OBServer core 掉后如何排查确认，并收集堆栈。
+本文介绍 OBServer 节点 core 掉后如何排查确认，并收集堆栈。
 
 ## 问题现象
 
@@ -33,7 +33,7 @@ weight: 2
   ```shell
   [root@172.30.199.49 ~]$grep "kernel.core_pattern" /etc/sysctl.conf
   kernel.core_pattern = /home/admin/core_test/core-%e-%p-%t
-  <!-- 这个命令是啥意思，为啥知道后面是 observer-27670-1683513011 -->
+
   [root@172.30.199.49 ~]$ls -l /home/admin/core_test/core-observer-27670-1683513011
   -rw------- 1 admin admin 8723914752 5月   8 10:30 /home/admin/core_test/core-observer-27670-1683513011
   ```
@@ -84,7 +84,7 @@ weight: 2
 
 ### 收集堆栈
 <!-- 没有看懂 -->
-此时我们需要借助 addr2line 或者 gdb 来分析发生 core 时刻的堆栈：
+此时我们需要借助 addr2line 或者 gdb 来收集发生 core 时刻的堆栈：
 
 1. 使用 addr2line 收集堆栈
 

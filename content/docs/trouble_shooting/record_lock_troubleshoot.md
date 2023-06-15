@@ -7,7 +7,9 @@ weight: 1
 本文介绍行锁问题的排查思路，并提供部分排查案例。
 <!-- 本文是基于哪个版本来写的，4.x中是否已不对外透出这些内部表，3.x 中各表的介绍和文档不一致 -->
 ## 适用版本
-<!-- 所以是适用什么版本 -->
+
+OceanBase 4.x
+
 OceanBase 4.x，3.x 版本表名相同但是字段以及字段内容是有变化的，可以参考：[https://www.oceanbase.com/knowledge-base/oceanbase-database-20000000016?back=kb](https://www.oceanbase.com/knowledge-base/oceanbase-database-20000000016?back=kb)
 
 ## 锁冲突问题的排查思路

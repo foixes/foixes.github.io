@@ -40,7 +40,7 @@ OceanBase 数据库具有如下特点：
 
 OceanBase 数据库支持支付宝的全部核心业务，以及银行、保险、证券、运营商等多个行业的数百个客户的核心业务系统。
 
-## OceanBase 社区版简介
+**## OceanBase 社区版简介**
 
 OceanBase 数据库社区版使用 [MulanPubL-2.0 许可证](http://license.coscl.org.cn/MulanPubL-2.0) ，您可以免费复制及使用源代码。当您修改或分发源代码时，请遵守木兰协议。
 
