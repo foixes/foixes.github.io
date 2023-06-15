@@ -1,12 +1,22 @@
 baseURL = 'http://example.org/'
 languageCode = 'zh-CN'
 title = 'OceanBase GitBook'
-theme = "hugo-book"
+theme = 'hugo-book'
 
 # (Optional) Set this to true if you use capital letters in file names
 disablePathToLower = true
-# enableGitInfo: true
+enableGitInfo = true
 
+# (Optional) Set this to true to enable 'Last Modified by' date and git author
+#  information on 'doc' type pages.
+
+
+# Needed for mermaid/katex shortcodes
+[markup]
+[markup.goldmark.renderer]
+  unsafe = true
+[markup.tableOfContents]
+  startLevel = 1
 # (Optional) Set this to true to enable 'Last Modified by' date and git author
 #  information on 'doc' type pages.
 
@@ -34,7 +44,7 @@ disableKinds = ['taxonomy', 'taxonomyTerm']
 
   # Set source repository location.
   # Used for 'Last Modified' and 'Edit this page' links.
-  BookRepo = 'https://github.com/alex-shpak/hugo-book'
+  BookRepo = 'https://github.com/foixes/foixes.github.io'
 
   # Specifies commit portion of the link to the page's last modified commit hash for 'doc' page
   # type.
@@ -46,12 +56,12 @@ disableKinds = ['taxonomy', 'taxonomyTerm']
   # Enable 'Edit this page' links for 'doc' page type.
   # Disabled by default. Uncomment to enable. Requires 'BookRepo' param.
   # Path must point to the site directory.
-  BookEditPath = 'edit/master/exampleSite'
+  BookEditPath = 'edit/main'
 
   # (Optional, default January 2, 2006) Configure the date format used on the pages
   # - In git information
   # - In blog posts
-  BookDateFormat = 'Jan 2, 2006'
+  BookDateFormat = 'January 2, 2006'
 
   # (Optional, default true) Enables search function with flexsearch,
   # Index is built on fly, therefore it might slowdown your website.
@@ -73,3 +83,8 @@ disableKinds = ['taxonomy', 'taxonomyTerm']
   # /!\ This is an experimental feature, might be removed or changed at any time
   # (Optional, experimental, default false) Enables service worker that caches visited pages and resources for offline use.
   BookServiceWorker = true
+
+  # /!\ This is an experimental feature, might be removed or changed at any time
+  # (Optional, experimental, default false) Enables a drop-down menu for translations only if a translation is present.
+  BookTranslatedOnly = false
+
