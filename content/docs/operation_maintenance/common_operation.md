@@ -21,9 +21,18 @@ ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER ='x.x.x.x:2882' TENANT ='sys'
 >
 > 该操作会清理租户下的所有数据。
 
-## 开启慢查询
+## 调整慢查询日志记录配置
 <!-- 没有看懂，优化描述 -->
-租户参数 trace_log_slow_query_watermark，默认超过 1s 就会记录，记录在 observer.log 日志，或 OCP 白屏监控有记录。
+SQL 执行时间默认情况下超过 1s 就会记录到 observer.log 日志或者在 OCP 白屏监控有记录。
+
+该配置受租户参数 trace_log_slow_query_watermark 控制。
+
+```sql
+-- 查看参数配置
+show parameters like '%trace_log_slow_query_watermark%';
+-- 修改参数
+alter system set trace_log_slow_query_watermark='2s';
+```
 
 ## 普通用户租户查看自己租户下所有的表
 
@@ -83,11 +92,6 @@ alter system set max_syslog_file_count=10
 syslog_level (DEBUG/TRACE/INFO/WARN/USER_ERR/ERROR)
 ```
 
-## 磁盘预占用相关
-<!-- 太简洁了，这个不是操作，是概念 -->
-数据磁盘：datafile_size / datafile_disk_percentage
-日志磁盘：log_disk_size / log_disk_percentage
-
 ## SQL 并行执行
 
 您可通过增加并行加快索引创建，具体命令如下所示。
@@ -106,11 +110,13 @@ SET GLOBAL PARALLEL_SERVERS_TARGET = 64;
 您可通过系统租户（root@sys）或者 root@proxysys 连接集群修改。
 
 ```sql
+-- 查询参数
 show proxyconfig like '%log_file_percentage%';
+-- 修改参数
 alter proxyconfig set log_file_percentage=75;
 ```
 
-以下是 ODP 日志相关参数
+OBProxy 日志相关参数
 
 | 参数 | 默认值 | 取值范围 | 解释 |
 | --- | --- | --- | --- |

@@ -31,27 +31,27 @@ Outline 的用法也是通过 SQL Hint 固定 SQL 的执行计划，可以调整
   
   MySQL [tpccdb]> select * from oceanbase.__all_outline \G
   *************************** 1. row ***************************
-       gmt_create: 2021-10-05 12:18:26.032586
-     gmt_modified: 2021-10-05 12:18:26.032586
+       gmt_create: 2023-06-15 14:04:13.366369
+     gmt_modified: 2023-06-15 14:04:13.366369
         tenant_id: 0
-       outline_id: 1001
-      database_id: 1052
-   schema_version: 1633407506030264
+       outline_id: 500008
+      database_id: 500001
+   schema_version: 1686809053365736
              name: otl_test_1
         signature:
   outline_content: /*+leading(i) */
          sql_text:
             owner: root
              used: 0
-          version: 3-b20901e8c84d3ea774beeaca963c67d7802e4b4e
+          version: 101010022023051821-f7379b26f8cd11f026e06846043550f9e0d42ead
        compatible: 1
           enabled: 1
            format: 0
    outline_params: ����
    outline_target:
-           sql_id: 9D276020142C5B8259B85C3E8966C579
+           sql_id: 84954A52770C87F243CE1FD58EE60B7F
          owner_id: NULL
-  1 row in set (0.006 sec)
+  1 row in set (0.007 sec)
   ```
 
 - 删除 Outline
