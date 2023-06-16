@@ -2,13 +2,13 @@
 title: OBLogProxy
 weight: 4
 ---
-# 使用 Flink 同步 OceanBase 不同租户间数据
-<!-- 内容是否和 SOP 一致，若一致的话为什么不直接放连接呢，咱们这个共建文档的规则是需要全部内容整合到这里，还是有链接的放链接就可以 -->
-## 本文参照
+# **使用 Flink 同步 OceanBase 不同租户间数据**
+
+## **本文参照**
 
 [使用 Flink 同步 OceanBase 不同租户之间数据](https://ask.oceanbase.com/t/topic/35602487)
 
-## 概念介绍
+## **概念介绍**
 
 - oblogproxy
   
@@ -18,14 +18,14 @@ weight: 4
   
   Flink CDC 是一个使用 Apache License 2.0 协议的开源项目，支持从 MySQL、MariaDB、Oracle、MongoDB、SqlServer、TiDB、OceanBase 等数据库中实时地读取存量历史数据和增量变更数据。开源项目：<https://github.com/ververica/flink-cdc-connectors>。
 
-## 使用场景
+## **使用场景**
 
-由于当前 OceanBase 社区版不支持跨租户访问，那么在一些用户的大数据场景下使用起来不方便，所以基于 Flink CDC 来同步不同租户的数据回写到第三个租户，最后应用访问第三个租户的数据即可，同时在同步过程中又可以进行数据的预处理，对应用层来说，数据访问更加简单。缺点：数据冗余。
+由于当前 OceanBase 社区版不支持跨租户访问，那么在一些用户的大数据场景下使用起来不方便，所以基于 Flink CDC 来同步不同租户的数据回写到第三个租户，最后应用访问第三个租户的数据即可，同时在同步过程中又可以进行数据的预处理，对应用层来说，数据访问更加简单。但需注意该操作也存在数据冗余的缺点。
 
 本场景为 OceanBase 数据库不同租户之间的数据同步。oblogproxy 调用 liboblog，获取上游 OceanBase 数据库租户中的增量事务数据，Flink 捕获上游数据的变化，实时读取上游节点的全量数据和增量数据，进行计算和处理后发送数据给下游 OceanBase 租户。该方法同样也适用于 MySQL 与 OceanBase 以及 OceanBase 与 OceanBase 之间的数据同步。
 
-## 前提条件
-<!-- Flink 和 Flink CDC 是两个东西么 -->
+## **前提条件**
+
 - java 1.8.0+。
 
 - 部署 OceanBase 4.0 版本集群，并创建 3 个租户（本文示中为 flink_cdc_1、flink_cdc_2、flink_cdc_3）。
@@ -40,17 +40,17 @@ weight: 4
 
   - flink-connector-jdbc-1.16.1.jar（Flink 写入 OceanBase 数据库）
 
-## 软件部署
+## **软件部署**
 
-### 部署 oblogproxy
+### **部署 oblogproxy**
 
 1. 下载 oblogproxy 并解压。
 
    下载地址为：<https://github.com/oceanbase/oblogproxy/releases4>
 
-   ```sql
+   ```shell
    wget https://github.com/oceanbase/oblogproxy/releases/download/v1.1.0/oblogproxy-ce-for-4x-1.1.0-20221201191325.tar.gz
-   tar -zxvf oblogproxy-ce-for-4x-1.1.0-20221201191325.tar.gz
+   mkdir /home.admin/oblogproxy && tar -zxvf oblogproxy-ce-for-4x-1.1.0-20221201191325.tar.gz -C /home.admin/oblogproxy
    ```
 
 2. 配置环境变量。
@@ -63,9 +63,9 @@ weight: 4
    ```
 
 3. 确认 oblogproxy 依赖。
-   <!-- oblogproxy 下载后会在家目录下么 -->
+
    ```bash
-   cd oblogproxy
+   [admin@obtest004 ~]$ cd oblogproxy
    [admin@obtest004 oblogproxy]$ ldd ./bin/logproxy
            linux-vdso.so.1 =>  (0x00007ffe701e8000)
            libobcdc.so.4 => /home/admin/oblogproxy/liboblog/libobcdcso.4 (0x00002b3dbdb58000)
@@ -129,7 +129,7 @@ weight: 4
    admin     4227 28808  6 11:10 pts/2    00:01:22 oblogreader    -f ./conf/conf.json
    ```
 
-### 部署 Flink
+### **部署 Flink**
 
 Flink 部署有集群模式和单节点模式，本次测试主要使用单节点部署。单节点部署比较简单，直接解压安装包就可以使用，不用进行其他的配置。启动成功后，访问 <http://localhost:8081/#/overview>，便可以对 Flink 任务进行监控管理。
 
@@ -194,15 +194,15 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
 在 <http://localhost:8081/#/overview> 中查看 Flink 的 Web 页面。
 ![image.png](/img/data_migration/oblogproxy/flink.png)
 
-## 数据同步测试
+## **数据同步测试**
 
-### OceanBase > Flink
+### **OceanBase > Flink**
 
-#### 测试目的
+#### **测试目的**
 
 测试将 OceanBase 集群 cdc@flink_cdc_1 租户表 test1 的现有数据和增量数据能否正常同步至 Flink 中。
 
-#### 测试步骤
+#### **测试步骤**
 
 1. 在租户 flink_cdc_1 中创建数据库并创建表 test1
 
@@ -215,6 +215,8 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
 | **Tenant** | **DataBase** | **Table** |
 | --- | --- | --- |
 | flink_cdc_1 | cdc_test1 | test1 |
+
+#### **操作步骤**
 
 1. 在上游 OceanBase 集群 cdc@flink_cdc_1 租户中创建表 test1。
 
@@ -305,13 +307,13 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
 
 5. 在 Flink Client 中查看数据的变化，可以看到刚插入进来的一条数据，说明数据可以正常从 OceanBase 集群 cdc@flink_cdc_1 租户中同步至 Flink 侧的表 products 中。
 
-### Flink > OceanBase
+### **Flink > OceanBase**
 
-#### 测试目的
+#### **测试目的**
 
 测试将 Flink 侧的数据能否正常同步至 OceanBase 集群 cdc@flink_cdc_2 租户的表 test2 中。
 
-#### 测试步骤
+#### **测试步骤**
 
 1. 在租户 flink_cdc_2 中创建数据库并创建表 test2
 
@@ -322,6 +324,8 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
 | **Tenant** | **DataBase** | **Table** |
 | --- | --- | --- |
 | flink_cdc_2 | cdc_test2 | test2 |
+
+#### **操作步骤**
 
 1. 在下游 OceanBase 集群 cdc@flink_cdc_2 租户中创建表 test2。
 
@@ -385,13 +389,13 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
    2 rows in set (0.004 sec)
    ```
 
-### OceanBase（一个租户）> Flink > OceanBase
+### **OceanBase（一个租户）> Flink > OceanBase**
 
-#### 测试目的
+#### **测试目的**
 
 测试将 OceanBase 集群 cdc@flink_cdc_1 租户表 test1 中现有的数据和增量数据通过 Flink 同步至 OceanBase 集群 cdc@flink_cdc_2 租户表 test2 中。
 
-#### 测试步骤
+#### **测试步骤**
 
 1. 在 Flink Client 中创建表 flinktest1 和 flinktest2
 
@@ -403,6 +407,8 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
 | --- | --- | --- |
 | flink_cdc_1 | cdc_test1 | test1 |
 | flink_cdc_2 | cdc_test2 | test2 |
+
+#### **操作步骤**
 
 1. 在 Flink Client 中创建接收上游 cdc@flink_cdc_1 租户表 test1 数据的表 flinktest1，以及向下游cdc@flink_cdc_2 租户表 test2 同步数据的表 flinktest2。
 
@@ -480,8 +486,7 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
    5 rows in set (0.000 sec)
    ```
 
-   在 Web 页面中查看 Job 的执行情况。
-   <!-- 缺少图片 -->
+   您也可以在 Web 页面中查看 Job 的执行情况。
 
 6. 在上游 OceanBase 集群 cdc@flink_cdc_1 租户表 test1 中插入一条数据。
 
@@ -604,13 +609,13 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
    Cancelled job 31514c80a7cc1093ce442f71f5618671.
    ```
 
-### OceanBase（两个租户） > Flink > OceanBase
+### **OceanBase（两个租户） > Flink > OceanBase**
 
-#### 测试目的
+#### **测试目的**
 
 测试将上游 OceanBase 集群租户 flink_cdc_1 和租户 flink_cdc_2 中的不同数据通过 Flink 进行 join 同步之后，将数据写入下游 OceanBase 集群租户 flink_cdc_3 中。
 
-#### 测试步骤
+#### **测试步骤**
 
 1. 在上游的两个租户中分别创建表 flinkcdc1、flinkcdc2 并写入数据
 
@@ -625,6 +630,8 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
 | flink_cdc_1 | cdc_test1 | flinkcdc1 |
 | flink_cdc_2 | cdc_test2 | flinkcdc2 |
 | flink_cdc_3 | cdc_test3 | flinkcdc3 |
+
+#### **操作步骤**
 
 1. 在上游的两个租户 flink_cdc_1 和 flink_cdc_2 中分别创建表 flinkcdc1 和 flinkcdc2 并写入数据，在下游的租户 flink_cdc_1 中创建表 flinkcdc3。
 
@@ -735,7 +742,7 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
    1 row in set (0.000 sec)
    ```
 
-在 Web 页面中查看 Job 的执行情况。
+   您也可以在 Web 页面中查看 Job 的执行情况。
 
 4. 分别在上游租户的表 flinkcdc1 和表 flinkcdc2 中插入一条数据。
 
@@ -804,7 +811,7 @@ Flink 部署有集群模式和单节点模式，本次测试主要使用单节�
    +----+------+-------------+--------+---------+--------+
    ```
 
-## 常见问题
+## **常见问题**
 
 1. Flink 的 Web 页面无法访问时，需要修改 /etc/hosts 文件。Flink 进程的监听 IP 端口是 127.0.0.1:8081，只能本机进行访问，外部服务器无法访问，因此需要将 /etc/hosts 文件中的 127.0.0.1 改为实际的 IP。
 

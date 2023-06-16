@@ -2,7 +2,7 @@
 title: 分区相关SQL
 weight: 2
 ---
-# 分区相关 SQL
+# **分区相关 SQL**
 
 > **说明**
 >
@@ -29,5 +29,5 @@ weight: 2
   select count(*) from oceanbase.DBA_OB_TABLE_LOCATIONS 
   where SVR_IP='xxx.xxx.xxx.xxx' 
   and database_name='test' 
-  and ROLE='LEADER'
+  and ROLE='LEADER';
   ```

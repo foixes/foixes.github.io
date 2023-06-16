@@ -2,11 +2,11 @@
 title: SQL 审计视图
 weight: 3
 ---
-# SQL 审计视图
-
+# **SQL 审计视图**
+<!-- 格式已修改，但是内容仍需补充优化 -->
 SQL 审计视图可以查看在 OceanBase 数据库里执行过的所有 SQL（包含执行失败 SQL）。这对开发同学了解自己的业务 SQL 和定位问题细节非常有帮助。
 
-## SQL 审计视图概述
+## **SQL 审计视图概述**
 <!-- 需要讲解 -->
 SQL 审计视图 `gv$ob_sql_audit` 是虚拟表，是内存中一个 FIFO 队列。OceanBase 数据库 3.x 版本是 `gv$sql_audit` 虚拟表。
 
@@ -58,7 +58,7 @@ set global ob_enable_sql_audit = on;
 | GET_PLAN_TIME | 该 SQL 执行计划生成时间 |
 | EXECUTE_TIME | 该 SQL 实际内部执行时间（不包括 CPU 排队时间） |
 
-## 如何查看 SQL 审计视图
+## **如何查看 SQL 审计视图**
 
 您可在 sys 租户或业务租户中执行如下命令查看 SQL 审计视图，在 sys 租户中执行时可以查看所有租户的 SQL 数据，在业务租户中执行仅可查看自身租户的 SQL 数据。
 

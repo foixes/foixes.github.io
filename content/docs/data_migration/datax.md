@@ -2,11 +2,11 @@
 title: Datax
 weight: 2
 ---
-# 使用 DataX 迁移 MySQL 数据到 OceanBase 数据库
+# **使用 DataX 迁移 MySQL 数据到 OceanBase 数据库**
 
 本文仅给出使用 DataX 迁移 MySQL 数据到 OceanBase 数据库的示例，详细介绍可查看对应小节给出的参考文档。
 
-## MySQL 数据同步到 OceanBase
+## **MySQL 数据同步到 OceanBase**
 
 本节仅给出配置文件示例，详情可参照 OceanBase 数据库文档 [使用 DataX 迁移 MySQL 数据到 OceanBase 数据库](https://www.oceanbase.com/docs/community-observer-cn-10000000000900965) 一文。
 
@@ -76,11 +76,11 @@ weight: 2
 }
 ```
 
-## 加载 CSV 数据文件到 OceanBase 数据库
+## **加载 CSV 数据文件到 OceanBase 数据库**
 
 将 MySQL 数据迁移到 OceanBase 数据库时，如果源端和目标端不能同时跟 DataX 服务器网络联通，则需要通过 CSV 文件中转。本节仅给出配置文件示例，详情可参照 OceanBase 数据库文档 [使用 DataX 加载 CSV 数据文件到 OceanBase 数据库](https://www.oceanbase.com/docs/community-observer-cn-10000000000900960) 一文。
 
-### MySQL 数据导出为 CSV 文件
+### **MySQL 数据导出为 CSV 文件**
 
 将 MySQL 数据导出为 CSV 文件。
 
@@ -138,7 +138,7 @@ $cat job/bmsql_oorder_mysql2csv.json
 }
 ```
 
-### CSV 文件导入到 OceanBase
+### **CSV 文件导入到 OceanBase**
 
 将源端导出的 CSV 文件复制到目标端的 DataX 服务器上，然后导入到目标端 OceanBase 数据库中。
 

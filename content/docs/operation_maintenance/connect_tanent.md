@@ -37,7 +37,7 @@ mysql -h xxx.xxx.xxx.xxx -uroot@sys#obdemo -P2883 -p -c -A oceanbase
 - oceanbase：访问的数据库名，可以改为业务数据库。
 
 新创建的业务租户的管理员（root）密码默认为空，需要修改密码。
-<!-- 刚开始这一串命令是干啥的 -->
+
 ```bash
 mysql -h x.x.x.x -uroot@obmysql#obdemo -P2883 -p -c -A oceanbase
 

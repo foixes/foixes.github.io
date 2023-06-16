@@ -80,7 +80,7 @@ weight: 3
 8. 启动 observer 进程。
 
    1. 使用 admin 用户登录待启动进程的节点所在的机器。
-      <!-- 没看明白 -->
+
    2. 启动 observer 进程
 
       ```bash
@@ -147,31 +147,31 @@ OceanBase Database Proxy（简称 ODP）是 OceanBase 数据库专用的代理�
    - 在启动命令中指定 -r 参数命令如下：
 
      ```shell
-     $ ./bin/obproxy -p6789 -r'ip:port' -e -n appname -o obproxy_config_server_url='' -c cluster_name
+     $./bin/obproxy -p6789 -r'ip:port' -e -n appname -o obproxy_config_server_url='' -c cluster_name
      ```
 
      示例：
 
      ```bash
-     $ ./bin/obproxy -r'10.10.10.1:26506;10.10.10.2:26506' -n test -c mycluster
+     $./bin/obproxy -r'10.10.10.1:26506;10.10.10.2:26506' -n test -c mycluster
      ```
 
    - 在启动命令中指定 obproxy_config_server_url 参数命令如下：
 
      ```shell
-     $ ./bin/obproxy -p6789 -e -n appname -o obproxy_config_server_url='your_config_url'
+     $./bin/obproxy -p6789 -e -n appname -o obproxy_config_server_url='your_config_url'
      ```
 
      示例：
 
      ```bash
-     $ ./bin/obproxy -n test -o obproxy_config_server_url='http://xx.xx.xx.xx:8877/obproxy_config'
+     $./bin/obproxy -n test -o obproxy_config_server_url='http://xx.xx.xx.xx:8877/obproxy_config'
      ```
 
 4. 启动后，执行以下命令，查看 obproxy 进程是否存在。
 
    ```shell
-   $ ps -ef|grep obproxy
+   $ps -ef|grep obproxy
    ```
 
 ## Prometheus
