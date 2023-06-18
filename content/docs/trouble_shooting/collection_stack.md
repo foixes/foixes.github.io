@@ -1,16 +1,16 @@
 ---
-title: OBServer core掉后如何收集堆栈
+title: OBServer 节点 core 掉后如何收集堆栈
 weight: 2
 ---
-# OBServer core 掉后如何收集堆栈
-<!-- 这个是单个的机器 core掉么，还是集群 core -->
-本文介绍 OBServer core 掉后如何排查确认，并收集堆栈。
+# **OBServer 节点 core 掉后如何收集堆栈**
 
-## 问题现象
+本文介绍 OBServer 节点 core 掉后如何排查确认，并收集堆栈。
+
+## **问题现象**
 
 正常运行的 OBServer 突然异常退出。
 
-## 问题排查
+## **问题排查**
 
 可以通过如下几种方法排查 OBServer 是否 core 掉。
 
@@ -40,15 +40,13 @@ weight: 2
   
   > **说明**
   >
-  > 如果没有指定 kernel.core_pattern，默认会在 OceanBase 数据库的 `home_path` 路径下生成 core.${ob_pid} 的文件。
+  > - 如果没有指定 kernel.core_pattern，默认会在 OceanBase 数据库的 `home_path` 路径下生成 core.${ob_pid} 的文件。
+  >
+  > - 可以通过 ulimit -a 或者 ulimit -c 查看当前资源的限制，如果设置为 0 或者很小则会在发生节点 core 时无法生产 core 文件的情况。
 
-<!-- 生成的 core 文件很大，可以通过 ulimit -a 或者 ulimit -c 查看当前资源的限制
+## **收集堆栈**
 
-如果设置为 0 或者很小则在发生 core 时无法生产 core 文件。
-这两句想表达的意思是什么，放到这里是否不合适 -->
-## 收集堆栈
-
-### 安装 debuginfo
+### **安装 debuginfo**
 
 在收集堆栈之前，需要先安装一下 oceanbase-ce-debuginfo 包。
 
@@ -66,11 +64,19 @@ weight: 2
 
    ```shell
    yum install oceanbase-ce-debuginfo-3.1.5-100000252023041721.el7.x86_64.rpm -y
-   
-   # 如果提示： 
-   file /usr/lib/debug from install of oceanbase-ce-debuginfo-3.1.5-100000252023041721.el7.x86_64 conflicts with file from package filesystem-3.2-25.el7.      x86_64
-   
-   # 可以使用 rpm --force 方式安装
+   ```
+
+   如果执行安装命令时提示如下内容，您可以使用 rpm --force 方式安装，示例入下。
+  
+   提示信息：
+
+   ```shell
+   file /usr/lib/debug from install of oceanbase-ce-debuginfo-3.1.5-100000252023041721.el7.x86_64 conflicts with file from package filesystem-3.2-25.el7.x86_64
+   ```
+
+   rpm 命令安装：
+
+   ```shell
    rpm -ivh --force oceanbase-ce-debuginfo-3.1.5-100000252023041721.el7.x86_64.rpm
    ```
 
@@ -82,9 +88,9 @@ weight: 2
    [root@x.x.x.x opt]$ cp /usr/lib/debug/home/admin/oceanbase/bin/observer.debug /home/admin/ob3.1.5/bin/
    ```
 
-### 收集堆栈
-<!-- 没有看懂 -->
-此时我们需要借助 addr2line 或者 gdb 来分析发生 core 时刻的堆栈：
+### **收集堆栈**
+
+我们需要借助 addr2line 或者 gdb 来收集发生 core 时刻的堆栈：
 
 1. 使用 addr2line 收集堆栈
 
@@ -103,11 +109,10 @@ weight: 2
    ?? ??:0
    _start at ??:?
    ```
-   <!-- 需要看下输出的内容 ?? 处是什么 -->
 
 2. 使用 gdb 命令收集
 <!-- 没有写命令 -->
 
-## 堆栈分析
+## **堆栈分析**
 
 可以将堆栈信息发送到社区问答或者给到对应的社区支持人员，社区同学会帮忙分析处理。

@@ -2,23 +2,23 @@
 title: 开发规范
 weight: 1
 ---
-# 开发规范
+# **开发规范**
 
 > **说明**
 >
 > 本文档规范仅供参考。
 
-## 1. 总则
+## **1. 总则**
 
-### 1.1 目标
+### **1.1 目标**
 
 为了项目组规范使用 OceanBase 分布式数据库产品，拟定关于 OceanBase 产品的开发指引及规范。
 
-### 1.2 适用范围
+### **1.2 适用范围**
 
 本规范适用于参与各类应用实现中需使用到数据库基础数据管理功能的业务人员和技术人员，以及负责应用投产后的运维人员。
 
-### 1.3 术语定义
+### **1.3 术语定义**
 
 **租户（tenant）**
 
@@ -45,8 +45,8 @@ OceanBase 数据库是一个多租户的数据库。在一个 OceanBase 数据�
 又称外层表(Outer Table)，表连接中的基础表，并以此表的数据为依据，逐步获得其它表（被驱动表）的数据，直至最终查询到所有满足条件的数据的第一个表。左连接中，左表是驱动表，右表是被驱动表；右连接中，右表是驱动表，左表是被驱动表；内连接中，表数据量较小的表会由数据库自动选择作为驱动表去驱动大表。
 
 **死锁（Dead Lock）**
-<!-- 这个看着不是定义 -->
-死锁是指两个或多个事务,各自占有对方的期望获得的资源,形成的循环等待,彼此无法继续正常执行的一种状态。
+
+两个或多个事务各自占有对方的期望获得的资源，形成的循环等待，彼此无法继续正常执行的一种状态。
 
 **自增列（Auto Increment Column）**
 
@@ -56,21 +56,21 @@ OceanBase 数据库是一个多租户的数据库。在一个 OceanBase 数据�
 
 在数据库中按照一定规则自增的一种数字序列。
 
-## 2. 数据库设计
+## **2. 数据库设计**
 
 OceanBase 数据库对于使用者来讲，自上而下结构为：集群(cluster) -> 租户(tenant) -> 数据库（database）-> 表（table）；OceanBase 数据库支持 MySQL 和 Oracle 两种模式，模式为租户级别，在创建租户的时候指定。
 
-### 2.1 租户命名设计
+### **2.1 租户命名设计**
 
 1. 【推荐】普通租户名：小写 32 字符，t + 应用标识（4 位）+ 租户编号（XX，从 00 开始）。
 
-2. 【推荐】单元化租户名：2 字符，t + 应用标识（4 位）+ ZONE 类型（G/C/R）+ 租户编号（XX，从 00 开始）。
+2. 【推荐】单元化租户名：2 字符，t + 应用标识（4 位）+ Zone 类型（G/C/R）+ 租户编号（XX，从 00 开始）。
 
-### 2.2 数据库命名设计
+### **2.2 数据库命名设计**
 
 1. 【建议】数据库名：应用标识（4 位）+ 子应用名（最多 4 位，可选）+ db，例如：gcdsdb 或 gcdsamndb（Oracle 租户请忽略）。
 
-### 2.3 表命名设计
+### **2.3 表命名设计**
 
 1. 【强制】MySQL 租户表名称必须控制在 64 个字节以内。
 
@@ -80,7 +80,7 @@ OceanBase 数据库对于使用者来讲，自上而下结构为：集群(cluste
 
 4. 【推荐】联机业务表和批量业务表分开存放，防止跑批时影响联机业务。
 
-### 2.4 字段设计
+### **2.4 字段设计**
 
 1. 【强制】每张表上都必须设定主键。
 
@@ -102,7 +102,7 @@ OceanBase 数据库对于使用者来讲，自上而下结构为：集群(cluste
 
 10. 【强制】禁止使用外键自引用且级联删除更新的表字段约束定义，否则可能导致重复删除的问题。
 
-### 2.5 自增列设计
+### **2.5 自增列设计**
 
 1. 【强制】创建序列必须指定 cache 大小，cache 值可设置为租户 tps*100*60*60*24。
 
@@ -112,7 +112,7 @@ OceanBase 数据库对于使用者来讲，自上而下结构为：集群(cluste
 
 4. 【强制】禁止使用自增列作为分区键。因为当使用自增列作为分区键时， 不保证自增列的值分区内自增，并且性能损耗较大。
 
-### 2.6 分区表设计
+### **2.6 分区表设计**
 
 OceanBase 数据库在 MySQL 模式下支持 range/range columns 分区、hash/key 分区和 list/list columns 分区，支持二级分区。
 
@@ -123,7 +123,7 @@ OceanBase 数据库在 MySQL 模式下支持 range/range columns 分区、hash/k
 3. 【强制】分区表的查询或修改必须带上分区键。
 
 4. 【强制】对于 range 分区，需要业务自行做分区管理，定时增加分区，避免分区越界问题。
-    <!-- range 分区建议统一写法，是 range 还是 range -->
+
 5. 【推荐】range 分区不建议指定 MAXVALUE ，否则后续无法新增分区。
 
 6. 【推荐】在业务查询条件明确的情况下根据业务场景进行分区规划，分区目的是要利用分区裁剪的能力提高查询效率，禁止在场景不明确的情况下随意规划分区规则。如果查询条件部分场景下仅能覆盖一级分区，建议按照一级分区规划，不需要强行规划为二级分区。
@@ -140,7 +140,7 @@ OceanBase 数据库在 MySQL 模式下支持 range/range columns 分区、hash/k
 
 12. 【注意】关于分区键在多维业务查询场景下的选择，如账号和卡号同时存在情况下，需根据业务使用频率和业务重要性等维度来考虑分区键的选择。
 
-### 2.7 索引设计
+### **2.7 索引设计**
 
 在 OceanBase 数据库中，索引可以分为两种类型：本地索引和全局索引，默认创建的是全局索引。两者之间的区别在于：本地索引与分区数据共用分区，全局索引为单独分区；创建本地的索引需要指定 local 关键字，未指定或者指定 global 关键字为全局索引。
 
@@ -162,7 +162,7 @@ OceanBase 数据库在 MySQL 模式下支持 range/range columns 分区、hash/k
 
 9. 【强制】避免重复索引，冗余的索引影响数据的增删改效率，同时浪费存储成本，如索引 (a,b,c) 已创建的情况下不要再创建索引 (a) 和 (a,b)。
 
-### 2.8 其它对象设计
+### **2.8 其它对象设计**
 
 1. 【强制】MySQL 模式禁止在应用程序设计阶段使用外键、临时表、存储过程以及触发器
 
@@ -170,10 +170,10 @@ OceanBase 数据库在 MySQL 模式下支持 range/range columns 分区、hash/k
 
 3. 【强制】禁止在数据库列中存放大文件、介质、图片，音视频 建议将这些数据存入共享介质中，列中存放指向共享介质的 bucket 地址。
 
-## 3. SQL编写规范
+## **3. SQL编写规范**
 
-### 3.1 单表查询规范
-<!-- select * from xxx 这种格式不行么 -->
+### **3.1 单表查询规范**
+
 1. 【强制】SELECT 语句必须指定具体字段名称，禁止写成 “select *”。
 
 2. 【推荐】统计行数使用 count(*)，会统计值为 NULL 的行。
@@ -190,9 +190,9 @@ OceanBase 数据库在 MySQL 模式下支持 range/range columns 分区、hash/k
 
 8. 【推荐】尽量避免 buffer 表场景出现，业务改造，如无法改造，考虑设置 table_mode='queuing' 来让转储线程对此类表走 buffer minor merge 合并多版本数据。
 
-9. 【推荐】where 条件里不建议在表字段做算术运算和函数计算。
-    <!-- 没有看懂，需要再细看 -->
-10. 【强制】where 条件上禁止变换恒真恒假条件，同样 sql 同时有 1=1，2=2 情况，否则会导致无法共享执行计划。
+9. 【推荐】WHERE 条件里不建议在表字段做算术运算和函数计算。
+
+10. 【强制】WHERE 条件上禁止变换恒真恒假条件，例如 SQL 中出现有 1=1，2=2 情况。
 
 11. 【推荐】避免使用分页查询时深度分页 即不建议 offset 设置过大。
 
@@ -204,17 +204,17 @@ OceanBase 数据库在 MySQL 模式下支持 range/range columns 分区、hash/k
 
 15. 【注意】避免在 SQL 中对变量进行赋值，尤其是分布式处理结果赋值给变量。
 
-### 3.2 增删改语句规范
-<!-- 全文中需要统一 SQL 语句中的字段是大写还是小写，比如这个 WHERE 和 where -->
+### **3.2 增删改语句规范**
+
 1. 【强制】删改语句必须带 WHERE 条件，避免形成大事务。
 
 2. 【推荐】全表删除建议使用 TRUNCATE TABLE 语句。
 
-3. 【强制】truncate table 完需要等待 1s~3s，确认数据清空后再操作插入数据。
+3. 【强制】TRUNCATE TABLE 语句执行结束需要等待 1s~3s，确认数据清空后再操作插入数据。
 
 4. 【强制】禁止使用 insert ignore 语句进行插入，应使用 replace into 、insert into（适用于 OceanBase 数据库 3.x 版本）。
 
-### 3.3 多表关联规范
+### **3.3 多表关联规范**
 
 1. 【推荐】多表连接查询推荐使用别名，且 SELECT 列表中要用别名引用字段。
 
@@ -228,34 +228,48 @@ OceanBase 数据库在 MySQL 模式下支持 range/range columns 分区、hash/k
 
 6. 【强制】MySQL 模式对于 CTE recursive 语法避免递归行数超过 1000，递归深度越深效率越差。
 
-### 3.4 事务规范
+### **3.4 事务规范**
 
 1. 【强制】批量操作数据时，程序必须有异常处理能力，以及事务失败重试机制。
-    <!-- 2.x 版本是指什么 -->
-2. 【推荐】2.X 版本控制事务大小，单分区事务数据量不超过 100MB。大事务场景下，建议采用批量操作并及时 commit 提交。
+
+2. 【推荐】OceanBase 2.X 版本控制事务大小，单分区事务数据量不超过 100MB。大事务场景下，建议采用批量操作并及时 commit 提交。
 
 3. 【强制】应用程序中禁止设置 timezone、SQL_mode 和 isolation_level 变量。
 
 4. 【强制】事务隔离级别应使用默认的 RC 读已提交，目前 RR 和 serialize 对并发限制较大。
-    <!-- 目前文档中 OBProxy 统一为 OBProxy，需 确认该文档中是否统一写为 OBProxy，还是仍写为 OBProxy -->
+
 5. 【强制】OBProxy 路由 SQL 规则注意如下的情况：
-    <!-- 一下几种情况？ -->
-    a. 以下几种情况，proxy 能够将请求发送至正确的 server，但是 server 反馈的信息可能不准，不建议使用：select '1'; select * from t1;select '1' from dual;
+
+    a. 以下几种情况，proxy 能够将请求发送至正确的 server，但是 server 反馈的信息可能不准，不建议使用。
+
+       ```sql
+       select '1'; 
+       select * from t1;
+       select '1' from dual;
+       ```
   
-    b. 以下几种情况，proxy会强制将请求路由至上一次使用的server，但是server反馈信息可能不准，不建议使用：show warnings; select *from t1; show count(*) errors; select * from t1;
+    b. 以下几种情况，proxy 会强制将请求路由至上一次使用的 server，但是 server 反馈信息可能不准，不建议使用。
+
+       ```sql
+       show warnings; 
+       select *from t1; 
+       show count(*) errors; 
+       select * from t1;
+       ```
+
 6. 【强制】DDL 和 DML 不要在同一个事务里面。
 
-### 3.5 DDL规范
+### **3.5 DDL 规范**
 
-1. 【强制】truncate table 完需要等待 1s~3s，确认数据清空后再操作插入数据。
+1. 【强制】TRUNCATE TABLE 语句执行结束需要等待 1s~3s，确认数据清空后再操作插入数据。
 
 2. 【强制】在线 DDL 操作建议在业务低峰时段进行。
 
 3. 【强制】OceanBase 数据库 3.x 之前版本 DDL 控制并发度不超过 40。
 
-## 4. 字符集
+## **4. 字符集**
 
-目前 OceanBase 数据库支持 utf8mb4、gbk、gb18030 和 binary，可以在租户级、database 级、表级、字段级、session 级设置字符集，字符集选定后，需要选定 collate，以 utf8mb4 为例，支持两种 collate，分别是 utf8mb4_general_ci 和 utf8mb4_bin，两者的区别在于 utf8mb4_general_ci 为大小写不敏感，utf8mb4_bin 为大小写敏感，这会影响排序和字符的比较。
+目前 OceanBase 数据库支持 utf8mb4、gbk、gb18030 和 binary，可以在租户级、database 级、表级、字段级、session 级设置字符集，字符集选定后，需要选定 collate。以 utf8mb4 为例，支持两种 collate，分别是 utf8mb4_general_ci 和 utf8mb4_bin，两者的区别在于 utf8mb4_general_ci 为大小写不敏感，utf8mb4_bin 为大小写敏感，这会影响排序和字符的比较。
 
 collate 可以指定租户级、database 级、表级、字段级；优先级为字段 > 表级 > database 级 > 租户级，如果不指定，默认从上至下继承。
 
@@ -265,7 +279,7 @@ collate 可以指定租户级、database 级、表级、字段级；优先级为
 
 表关联条件的两个字段的 collation type 要保持一致，否则会出现无法正确使用到索引的情况。
 
-## 5. Java 应用访问 OceanBase 数据库规范
+## **5. Java 应用访问 OceanBase 数据库规范**
 
 OceanBase 数据库的 MySQL 租户兼容 MySQL 的连接协议，使用标准的 MySQL JDBC 可以连接 OceanBase 数据库的 MySQL 租户，驱动推荐使用 MySQL JDBC 5.1.47 版本。对于 OceanBase 数据库的 Oracle 租户，必须使用 OceanBase 自研的 oceanbase-client 驱动。
 
@@ -279,48 +293,48 @@ OceanBase 数据库的 MySQL 租户兼容 MySQL 的连接协议，使用标准�
 
 2. 【强制】useLocalSessionState=true，不能使用 `set autocommit=0/set tx_isolation='read-committed/set tx_read_only=0`，需要通过 JDBC 的接口方式调用，对应的接口为 `setAutoCommit(false)/setTransactionIsolation('read-committed')/setReadOnly(false)`。
 
-   MySQL 租户连接示例：
+    MySQL 租户连接示例：
 
-   ```bash
-   | String url = "jdbc:oceanbase://IP:端口/database?autoReconnect=true&socketTimeout=6000000&connectTimeout=60000&useLocalSessionState=true&useUnicode=true&characterEncoding=utf-8";
-   String username = "用户名@租户名#集群名";
-   String password = "***";    
-   Connection conn = null;
-   try {
-   Class.forName("com.mysql.jdbc.Driver ");
-   conn = DriverManager.getConnection(url, username, password);
-   PreparedStatement ps = conn.prepareStatement("select to_char(sysdate,'yyyy-MM-dd HH24:mi:ss') from dual;");
-   ResultSet rs = ps.executeQuery();
-   rs.next();
-   System.out.println("sysdate is:" + rs.getString(1));
-   rs.close();
-   ps.close();
-   } catch (Throwable e) {
-   e.printStackTrace();
-   } finally {
-   if (null != conn) {
-   conn.close();
-   }
-   } |
-   ```
+    ```bash
+    | String url = "jdbc:oceanbase://IP:端口/database?autoReconnect=true&socketTimeout=6000000& connectTimeout=60000&useLocalSessionState=true&useUnicode=true&characterEncoding=utf-8";
+    String username = "用户名@租户名#集群名";
+    String password = "***";    
+    Connection conn = null;
+    try {
+    Class.forName("com.mysql.jdbc.Driver ");
+    conn = DriverManager.getConnection(url, username, password);
+    PreparedStatement ps = conn.prepareStatement("select to_char(sysdate,'yyyy-MM-dd HH24:mi:ss') from dual;");
+    ResultSet rs = ps.executeQuery();
+    rs.next();
+    System.out.println("sysdate is:" + rs.getString(1));
+    rs.close();
+    ps.close();
+    } catch (Throwable e) {
+    e.printStackTrace();
+    } finally {
+    if (null != conn) {
+    conn.close();
+    }
+    } |
+    ```
 
-## 6.  附录
+## **6. 附录**
 
-### 6.1 批量处理优化
+### **6.1 批量处理优化**
 
 建议用批量 SQL 语句，减少与数据库交互次数。批量插入与批量更新 JDBC 配置示例：`jdbc:oceanbase://IP:2883/dbname? useServerPrepStmts=false&rewriteBatchedStatements=true&allowMultiQueries=true`
 
 | 配置属性 | 默认值 | 说明 |
 | --- | --- | --- |
-| allowMultiQueries | FALSE | 设置为 TRUE 时，JDBC 驱动允许应用代码把多个 SQL 用分号（`;`）拼接在一起，作为一个 SQL 发给 server 端。 |
-| rewriteBatchedStatements | FALSE | 设置为 FALSE 时，OceanBase 的 JDBC 驱动在默认情况下会无视 `executeBatch()` 语句，把批量执行的一组 SQL 语句拆散，一条一条地发给数据库，此时批量插入实际上是单条插入，直接造成较低的性能。要想实际执行批量插入，需要将该参数置为 TRUE，驱动才会批量执行 SQL。</br>即使用 addBatch 方法把同一张表上的多条 insert 语句合在一起，做成一条 insert 语句里的多个 values 值的形式，提高 batch insert 的性能。必须使用 prepareStatement 方式来把每条 insert 做 prepare，然后再 addBatch，否则不能合并执行。 |
-| useServerPrepStmts | FALSE | 设置为 False 的时候采用文本协议，设置为 True 的时候会采用二进制协议。如果 rewriteBatchedStatements 设置为 true，则此选项将设置为 false。默认值：false。 |
-<!-- 大小写需统一 -->
+| allowMultiQueries | false | 设置为 true 时，JDBC 驱动允许应用代码把多个 SQL 用分号（`;`）拼接在一起，作为一个 SQL 发给 server 端。 |
+| rewriteBatchedStatements | false | 设置为 false 时，OceanBase 的 JDBC 驱动在默认情况下会无视 `executeBatch()` 语句，把批量执行的一组 SQL 语句拆散，一条一条地发给数据库，此时批量插入实际上是单条插入，直接造成较低的性能。要想实际执行批量插入，需要将该参数置为 true，驱动才会批量执行 SQL。</br>即使用 addBatch 方法把同一张表上的多条 insert 语句合在一起，做成一条 insert 语句里的多个 values 值的形式，提高 batch insert 的性能。必须使用 prepareStatement 方式来把每条 insert 做 prepare，然后再 addBatch，否则不能合并执行。 |
+| useServerPrepStmts | false | 设置为 false 的时候采用文本协议，设置为 true 的时候会采用二进制协议。如果 rewriteBatchedStatements 设置为 true，则此选项将设置为 false。默认值：false。 |
+
 > **注意**
 >
 > 使用批量更新中，需要如果一个 Batch 中存在对相同行的更新，不能走到批量更新的优化，为了保证更新顺序，退化为单条顺序执行。且在 OceanBase 数据库 3.2.3 版本前，批量更新中的语句必须是按主键更新才能走到批量更新的优化。
 
-### 6.2 结果集使用
+### **6.2 结果集使用**
 
 数据库驱动会根据不同的参数设置选择对应的 ResultSet 实现类，分别对应三种查询方式：
 
@@ -334,7 +348,7 @@ OceanBase 数据库的 MySQL 租户兼容 MySQL 的连接协议，使用标准�
 
 实际使用中往往需要根据用户的需求、内存大小等选择使用。可根据以下优劣势分析与实际场景结合选择使用。
 
-### 6.3 Druid建议
+### **6.3 Druid 建议**
 
 将应用和数据库连接进行业务操作，建议使用连接池。如果是 Java 程序，推荐使用 Druid 连接池，Druid 的版本建议采用 V1.2.8 及以上版本。
 
@@ -390,8 +404,7 @@ OceanBase 数据库的 MySQL 租户兼容 MySQL 的连接协议，使用标准�
    <!-- property name="connectionProperties"          value="oracle.net.CONNECT_TIMEOUT=2000;oracle.jdbc.ReadTimeout=10000"></property-->
    <!-- 打开 PSCache，并且指定每个连接上 PSCache 的大小，Oracle 等支持游标的数据库，打开此开关，会以数量级提升性能，具体查阅 PSCache 相关资料。不建议配置 PSCache，否则有可能出现断开连接问题。 -->
    <!-- property name="poolPreparedStatements" value="true" /-->
-   <!-- property name="maxPoolPreparedStatementPerConnectionSize"
-   value="20" /-->   
+   <!-- property name="maxPoolPreparedStatementPerConnectionSize" value="20" /-->   
    <!-- 配置监控统计拦截的 filters -->
    <!-- <property name="filters" value="stat,slf4j" /> -->
    <property name="proxyFilters">
@@ -404,4 +417,3 @@ OceanBase 数据库的 MySQL 租户兼容 MySQL 的连接协议，使用标准�
    <!-- property name="timeBetweenLogStatsMillis" value="120000" /-->
    </bean> 
    ```
-<!-- 393 和 394 确认是分为两行的么 -->

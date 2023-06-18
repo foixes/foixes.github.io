@@ -2,7 +2,7 @@
 title: Canal
 weight: 3
 ---
-# 使用 Canal 从 MySQL 数据库同步数据到 OceanBase 数据库
+# **使用 Canal 从 MySQL 数据库同步数据到 OceanBase 数据库**
 
 Canal 是 Alibaba 开源的一个产品，主要用途是基于 MySQL 数据库增量日志解析，提供增量数据订阅和消费。
 
@@ -12,7 +12,7 @@ Canal 是 Alibaba 开源的一个产品，主要用途是基于 MySQL 数据库�
 >
 > 您可参考官网 OceanBase 数据库文档 [使用 Canal 从 OceanBase 数据库同步数据到 MySQL 数据库](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001697230) 一文使用 Canal 和 oblogproxy 组件从 OceanBase 数据库同步数据至 MySQL 数据库。
 
-## 架构原理
+## **架构原理**
 
 - canal deployer：Canal 的 Server 端，进行 binlog 到 CanalEntry 的转换。
 
@@ -20,9 +20,9 @@ Canal 是 Alibaba 开源的一个产品，主要用途是基于 MySQL 数据库�
 
 Canal 相关信息访问地址：<https://github.com/alibaba/canal/releases>。
 
-## 操作步骤
+## **操作步骤**
 
-### 步骤一：MySQL 相关设置
+### **步骤一：MySQL 相关设置**
 
 1. 修改 MySQL 配置文件 `my.cnf`。
 
@@ -79,7 +79,11 @@ Canal 相关信息访问地址：<https://github.com/alibaba/canal/releases>。
    Records: 5  Duplicates: 0  Warnings: 0
    ```
 
-### 步骤二：Canal 的下载和安装
+### **步骤二：Canal 的下载和安装**
+
+> **说明**
+>
+> 本节以 Canal V1.1.5 为例提供操作指导，仅供参考。推荐使用 Canal V1.1.5 版本。
 
 1. 下载软件包。
 
@@ -92,12 +96,12 @@ Canal 相关信息访问地址：<https://github.com/alibaba/canal/releases>。
 2. 将压缩包解压至目录 `/Canal_Home/canal`。
 
     ```bash
-    mkdir /Canal_Home/canal && tar zxvf canal.deployer-1.1.5.tar.gz  -C /Canal_Home/canal
+    mkdir /Canal_Home/canal && tar -zxvf canal.deployer-1.1.5.tar.gz -C /Canal_Home/canal
     ```
 
 3. 修改配置文件。
 
-   canal.deployer 默认的配置文件 `conf/canal.properties` 和 `conf/example/instance.properties`。这个是默认创建了一个 `instance` 叫 `example`。需要修改 `example` 的实例配置文件，修改数据库连接地址、用户名和密码。`canal.instance.connectionCharset` 代表数据库的编码方式对应到 Java 中的编码类型，比如 `UTF-8`，`GBK`，`ISO-8859-1`。
+   canal.deployer 默认的配置文件为 `conf/canal.properties` 和 `conf/example/instance.properties`。这里是默认创建了一个 `instance` 叫 `example`。需要修改 `example` 的实例配置文件，修改数据库连接地址、用户名和密码。`canal.instance.connectionCharset` 代表数据库的编码方式对应到 Java 中的编码类型，比如 `UTF-8`，`GBK`，`ISO-8859-1`。
 
    示例如下：
 
@@ -149,7 +153,7 @@ Canal 相关信息访问地址：<https://github.com/alibaba/canal/releases>。
    cd /Canal_Home/canal && sh bin/stop.sh
    ```
 
-### 步骤三：部署 RDB 适配器
+### **步骤三：部署 RDB 适配器**
 
 Canal Adapter 提供了对多种目标容器的支持，对于 OceanBase 来说，主要使用它的 rdb 模块，目的端容器为 OceanBase。
 
@@ -164,7 +168,7 @@ Canal Adapter 提供了对多种目标容器的支持，对于 OceanBase 来说�
 2. 将压缩包解压至目录 `/Canal_Home/adapter`。
 
    ```bash
-   mkdir /Canal_Home/adapter && tar zxvf canal.adapter-1.1.5.tar.gz  -C /Canal_Home/adapter
+   mkdir /Canal_Home/adapter && tar -zxvf canal.adapter-1.1.5.tar.gz -C /Canal_Home/adapter
    ```
 
 3. 修改启动器配置。
@@ -272,7 +276,7 @@ Canal Adapter 提供了对多种目标容器的支持，对于 OceanBase 来说�
    cd /Canal_Home/adapter && sh bin/stop.sh
    ```
 
-## 功能限制
+## **功能限制**
 
 - 同步的表必须有主键。否则，源端删除无主键表的任意一笔记录，同步到目标端会导致整个表被删除。
 

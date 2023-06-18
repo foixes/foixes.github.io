@@ -2,25 +2,24 @@
 title: 初始化服务器
 weight: 1
 ---
+# **初始化服务器**
 
-
-# 说明
-
-部署前置配置详情可以参照官网：[前置部署](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001700627)
-
-强烈建议部署 OB 前对服务器进行初始化，防止某些前置配置没有操作，导致使用过程中出现问题。
+> **说明**
+>
+> - 部署前置配置详情可以参照官网 OceanBase 数据库文档 [部署前置部署](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001700627)。
+>
+> - 强烈建议部署 OceanBase 数据库前对服务器进行初始化，防止某些前置配置没有操作，导致使用过程中出现问题。
 
 下面是一个初始化服务器的自动化脚本，仅供参考，如果使用可以根据实际详情进行变更。
 
+补充下述脚本内的 `pubkey` 后可执行如下命令运行脚本。
 
-
-# 运行命令
 ```bash
-# 修改脚本内的 pubkey，运行脚本
 bash init_ob.sh ob
 ```
 
-# 自动化脚本
+## **自动化脚本**
+
 ```bash
 #!/bin/bash
 set -e
@@ -219,5 +218,3 @@ sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 
 logPrint "INFO" "Completed Successfully"
 ```
-
-

@@ -2,11 +2,11 @@
 title: Online DDL 和 Offline DDL
 weight: 11
 ---
-# Online DDL 和 Offline DDL
+# **Online DDL 和 Offline DDL**
 
 本文介绍 OceanBase 数据库 4.0，4.1 和 4.2 版本中，Online DDL 与 Offline DDL 的列表。其中，Online 和 Offline 的区别是执行 DDL 时是否堵塞 DML。
 
-## Online DDL 列表
+## **Online DDL 列表**
 
 | 分类| 操作| 备注|
 | --- | --- | --- |
@@ -33,7 +33,7 @@ weight: 11
 |  | 优化表空间 |  |
 | 分区操作 | 添加分区 |  |
 
-## Offline DDL列表
+## **Offline DDL列表**
 
 | 分类 | 操作 | 备注 |
 | --- | --- | --- |

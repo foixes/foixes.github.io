@@ -2,7 +2,7 @@
 title: 概览
 weight: 1
 ---
-# 概览
+# **概览**
 
 OceanBase 数据库是一款原生的分布式关系数据库，它是完全由阿里巴巴和蚂蚁集团自主研发的项目。OceanBase 数据库构建在通用服务器集群上，基于 Paxos 协议和分布式架构，提供金融级高可用和线性伸缩能力，不依赖特定硬件架构，具备高可用、线性扩展、高性能、低成本等核心技术优势。
 
@@ -40,13 +40,13 @@ OceanBase 数据库具有如下特点：
 
 OceanBase 数据库支持支付宝的全部核心业务，以及银行、保险、证券、运营商等多个行业的数百个客户的核心业务系统。
 
-## OceanBase 社区版简介
+## **OceanBase 社区版简介**
 
 OceanBase 数据库社区版使用 [MulanPubL-2.0 许可证](http://license.coscl.org.cn/MulanPubL-2.0) ，您可以免费复制及使用源代码。当您修改或分发源代码时，请遵守木兰协议。
 
 OceanBase 社区版官方网站地址是：<https://open.oceanbase.com>。
 
-### 下载方法
+### **下载方法**
 
 - 官网下载：<https://www.oceanbase.com/softwarecenter>
 
@@ -54,7 +54,7 @@ OceanBase 社区版官方网站地址是：<https://open.oceanbase.com>。
 
 - 阿里云 Yum 源：<https://mirrors.aliyun.com/oceanbase/community/stable/el/>
 
-### 适合社区版的业务场景
+### **适合社区版的业务场景**
 
 - MySQL 5.6/5.7 实例规模很大的场景。
 
@@ -80,7 +80,7 @@ OceanBase 社区版官方网站地址是：<https://open.oceanbase.com>。
   
 其他更多场景待实践总结，敬请关注。
 
-## 联系我们
+## **联系我们**
 
 欢迎 OceanBase 爱好者、用户和客户联系我们反馈问题：
 

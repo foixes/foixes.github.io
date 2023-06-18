@@ -2,7 +2,7 @@
 title: 集群常用SQL
 weight: 3
 ---
-# 集群状态常用 SQL
+# **集群状态常用 SQL**
 
 - 查看集群中各 OBServer 节点状态、启动时间、版本等
 
