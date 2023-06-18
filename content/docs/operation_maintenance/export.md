@@ -2,16 +2,16 @@
 title: 旁路导入
 weight: 8
 ---
-# 旁路导入
+# **旁路导入**
 
-## 简单介绍
+## **简单介绍**
 
 目前的 insert 语句插入数据会通过 SQL、事务、存储等诸多模块。因为这些模块要考虑的事情非常多，导致执行路径相对较长，为了快速的导入数据，旁路导入跳过了 SQL、事务、MemTable 等模块，直接把数据写入到 SSTable。
 
 现在的旁路导入是利用 DDL 来实现的，可以认为是一种类型的 DDL，所以在事务中使用旁路导入会提交开启事务。
 旁路导入过程中不影响转储和合并。
 
-## 用法
+## **用法**
 
 **load data 加 direct(true, 0)hint**
 
@@ -42,12 +42,15 @@ insert /*+  enable_parallel_dml parallel(2) append */ into t7 select * from t8;
 
 insert into select 要走旁路的话，需要加 append hint。
 
-# 控制排序使用内存
+## **控制排序使用内存**
 
+```sql
 set global ob_sql_work_area_percentage = 50;
+```
+
 表示控制排序能用租户多少内存。
 
-# 虚拟表和视图
+## **虚拟表和视图**
 
 __all_virtual_load_data_stat 原 load data 虚拟表可在此表看旁路导入状态。
 
@@ -60,7 +63,7 @@ __all_virtual_load_data_stat 原 load data 虚拟表可在此表看旁路导入�
 
 视图：v$session_longops。
 
-# 旁路导入注意事项
+## **旁路导入注意事项**
 
 1. 现在 load data 还没有支持 load data local 语法。导致csv数据文件必须放在 observer 端；
 2. 小数据量、索引表不适合使用旁路导入，旁路导入需要重新建索引，重构外键，耗时较长；

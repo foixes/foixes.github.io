@@ -113,15 +113,15 @@ weight: 4
 
    如果列表中已经查询不到旧节点信息，则表示删除成功。如果列表中仍然有该节点，且该节点的状态为 DELETING，则表示该节点仍然在删除状态中。
 
-## OBProxy
+## **OBProxy**
 
 怎么将 OBProxy 从监控以及集群内删掉
 
-## Prometheus
+## **Prometheus**
 
 重新部署一个 Prometheus，让其接管这个集群，并将当前 Prometheus下线掉。不过历史的监控数据可能将无法查看。
 
-## OBAgent
+## **OBAgent**
 
 1. 修改 Prometheus 的配置文件，并将对应的 OBAgent 节点剔除
 
@@ -133,6 +133,6 @@ weight: 4
    systemctl restart Prometheus
    ```
 
-## OCP
+## **OCP**
 
 待补充，敬请期待。

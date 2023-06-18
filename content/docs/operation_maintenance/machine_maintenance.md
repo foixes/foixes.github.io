@@ -2,13 +2,13 @@
 title: 机器维护
 weight: 3
 ---
-# 机器维护
+# **机器维护**
 
 本文介绍如何对机器进行临时停机维护。
 
-## OBServer 节点停机维护
+## **OBServer 节点停机维护**
 
-### 操作步骤
+### **操作步骤**
 
 重启节点的主要流程为：停止服务 -> 转储 -> 关闭进程 -> 启动进程 -> 启动服务。
 
@@ -61,7 +61,7 @@ weight: 3
    ```
 
 6. 停止 observer 进程。
-   <!-- 需要讲一下 -->
+
    1. 使用 admin 用户登录待停止进程的节点所在的机器。
 
    2. 通过命令行工具进入 /home/admin/oceanbase/bin 目录。
@@ -95,11 +95,11 @@ weight: 3
 
    执行成功后，可以查询 oceanbase.DBA_OB_SERVERS 视图中的 START_SERVICE_TIME 字段，该字段表示节点启动服务的时间。如果该值为 NULL，则表示该节点的服务还没有启动。
 
-## ODP 停机维护
+## **OBProxy 停机维护**
 
 OceanBase Database Proxy（简称 ODP）是 OceanBase 数据库专用的代理服务器，正常情况下单节点重启对业务没有影响。
 
-### 停止 obproxy 进程
+### **停止 obproxy 进程**
 
 1. 使用 admin 用户登录到 obproxy 进程所在的机器。
 
@@ -126,9 +126,9 @@ OceanBase Database Proxy（简称 ODP）是 OceanBase 数据库专用的代理�
    $ps -ef|grep obproxy
    ```
 
-### 启动 obproxy 进程
+### **启动 obproxy 进程**
 
-#### 背景信息
+#### **背景信息**
 
 支持通过以下两种方式来启动 obproxy 进程：
 
@@ -136,7 +136,7 @@ OceanBase Database Proxy（简称 ODP）是 OceanBase 数据库专用的代理�
 
 - 在启动命令中指定 obproxy_config_server_url 参数项来查询获取 OceanBase 集群的 RootServer 信息。该方式需要配置 obproxy_config_server_url，故会依赖 Config Server 的启动，建议使用该方式启动 ODP。
 
-#### 操作步骤
+#### **操作步骤**
 
 1. 使用 admin 用户登录到待启动的 ODP 所在的机器。
 
@@ -174,14 +174,14 @@ OceanBase Database Proxy（简称 ODP）是 OceanBase 数据库专用的代理�
    $ps -ef|grep obproxy
    ```
 
-## Prometheus
+## **Prometheus**
 
 可以直接重启，但是这段时间的监控告警会没办法发出。或者重新部署一个 Prometheus，让其接管这个集群，并将当前 Prometheus 下线掉。但是使用此方法后历史的监控数据可能就没办法查看了。
 
-## OBAgent
+## **OBAgent**
 
 OBAgent 是一个监控采集框架。OBAgent 支持推、拉两种数据采集模式，可以满足不同的应用场景。正常情况下停止机器的 OBAgent 会导致监控不到对应机器的信息，机器维护直接停就可以了，重启后恢复。
 
-## OCP
+## **OCP**
 
 待补充，敬请期待。

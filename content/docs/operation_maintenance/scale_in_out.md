@@ -3,7 +3,7 @@ title: 扩缩容
 weight: 2
 ---
 # **集群扩缩容**
-<!-- 内容还未看 -->
+
 本节介绍的是通过 OBD 手动扩缩容的方式，如果集群通过 OCP 管理，那么也可以直接在 OCP 上操作。
 
 集群扩缩容包括两种，一种是节点，即扩容每个 Zone 内的 OBServer 的数量；还有一种是 Zone，即增减 Zone 的数量。两种操作都需要在 sys 租户下进行。
@@ -232,7 +232,7 @@ weight: 2
 
 以下将通过这两种场景提供租户扩容和缩容的操作指导。
 
-#### 注意事项
+#### **注意事项**
 
 在调大资源规格时，无论是通过修改资源配置还是切换资源配置，调整后的资源总量都必须满足以下要求：
 
@@ -245,7 +245,7 @@ Sum(log_disk_size) <= LOG_DISK_CAPACITY;  // 日志盘总的容量
 
 否则，系统会报错，提示扩容失败。
 
-#### 场景
+#### **场景**
 
 假设当前集群中共包含 3 个可用区 z1、z2、z3，每个 Zone 内包含 3 台 OBServer。集群中有一个普通租户 tenant1，其资源分配情况如下：
 
@@ -257,7 +257,7 @@ obclient> CREATE RESOURCE POOL pool1 UNIT 'unit1', UNIT_NUM 2, ZONE_LIST ('z1','
 obclient>CREATE TENANT tenant1 resource_pool_list=('pool1');
 ```
 
-#### 租户配置了独立的资源单元配置的场景
+#### **租户配置了独立的资源单元配置的场景**
 
 如果待操作的租户配置了独立的资源单元配置，您可以直接通过修改租户的 unit_config 来完成租户的扩容和缩容。
 方法如下：
@@ -308,7 +308,7 @@ obclient>CREATE TENANT tenant1 resource_pool_list=('pool1');
      obclient> ALTER RESOURCE UNIT unit1 MAX_CPU 5, MIN_CPU 5, MEMORY_SIZE '5G', MAX_IOPS 1024, MIN_IOPS 1024, IOPS_WEIGHT 0, LOG_DISK_SIZE '2G';
      ```
 
-#### 多个租户使用了相同的资源单元配置的场景
+#### **多个租户使用了相同的资源单元配置的场景**
 
 如果多个租户共用了同一个资源单元配置模版，则不能通过简单的调大资源单元配置来实现租户的扩容和缩容。因为一旦修改，将导致使用相同资源单元配置模版的所有租户同时进行了扩容或缩容。此场景下，需要先创建独立的资源单元配置后，再为租户切换资源单元配置。
 
@@ -340,7 +340,7 @@ obclient>CREATE TENANT tenant1 resource_pool_list=('pool1');
    obclient> ALTER RESOURCE POOL pool1 unit='unit3';
    ```
 
-#### 后续处理
+#### **后续处理**
 
 操作结束后，您可以通过 oceanbase.DBA_OB_UNIT_CONFIGS 视图，确认当前租户的 unit_config 是否修改成功。
 
@@ -350,11 +350,11 @@ obclient> SELECT * FROM oceanbase.DBA_OB_UNIT_CONFIGS;
 
 更多 DBA_OB_UNIT_CONFIGS 视图的字段及说明信息请参见官网 OceanBase 数据库文档 [DBA_OB_UNIT_CONFIGS](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001699272)。
 
-### 通过修改 UNIT_NUM
+### **通过修改 UNIT_NUM**
 
 对租户内资源的扩容还可以通过调大资源池中的 UNIT_NUM 来实现。当前暂不支持通过调小资源池中的 UNIT_NUM 来进行缩容。
 
-#### 前提条件
+#### **前提条件**
 
 在进行租户的扩容操作前，需要进行以下操作：
 
@@ -366,11 +366,11 @@ obclient> SELECT * FROM oceanbase.DBA_OB_UNIT_CONFIGS;
 >
 > 调大资源池的 UNIT_NUM 时，修改后的 UNIT_NUM 数量要小于或等于 Zone 内可用的 OBServer 节点数量。
 
-#### 通过 SQL 语句修改租户的 UNIT_NUM
+#### **通过 SQL 语句修改租户的 UNIT_NUM**
 
 您可以通过调大租户的 UNIT_NUM 来进行租户的扩容。
 
-#### 场景
+#### **场景**
 
 假设当前集群中共包含 3 个可用区 z1、z2、z3，每个 Zone 内包含 3 个 OBServer 节点。在集群中创建一个普通租户 MySQL，其资源分配情况如下：
 
@@ -382,7 +382,7 @@ obclient> CREATE RESOURCE POOL pool1 UNIT 'unit1', UNIT_NUM 1, ZONE_LIST ('z1','
 obclient> CREATE TENANT MySQL resource_pool_list=('pool1');
 ```
 
-#### 调大 UNIT_NUM
+#### **调大 UNIT_NUM**
 
 随着业务量的不断变大，每个 Zone 上 1 个 Unit 已经无法承载当前的业务量，因此需要考虑调大 UNIT_NUM 来提高租户的服务能力，以满足新的业务需求。
 

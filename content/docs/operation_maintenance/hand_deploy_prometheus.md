@@ -2,7 +2,7 @@
 title: 通过Prometheus监控数据库（手动）
 weight: 10
 ---
-# 手动部署 Prometheus
+# **手动部署 Prometheus**
 
 > **说明**
 >
@@ -10,19 +10,19 @@ weight: 10
 
 本文档帮助大家独立部署obagent 和prometheus。
 
-## OBAgent 安装部署
+## **OBAgent 安装部署**
 
-### 什么是 OBAgent
+### **什么是 OBAgent**
 
 OBAgent 是一个监控采集框架。OBAgent 支持推、拉两种数据采集模式，可以满足不同的应用场景。OBAgent 默认支持的插件包括主机数据采集、OceanBase 数据库指标的采集、监控数据标签处理和 Prometheus 协议的 HTTP 服务。要使 OBAgent 支持其他数据源的采集，或者自定义数据的处理流程，您只需要开发对应的插件即可。
 
-### 部署 OBAgent
-<!-- 这里的部署方式还是使用 OBD 部署 -->
+### **部署 OBAgent**
+
 可参照官网，选择合适的部署方式：[部署文档](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001700702)
 
-#### 需要注意的地方
+#### **需要注意的地方**
 
-目前集群初始未安装OBAgent 不会创建ocp_monitor 用户，而 OBAgent 连接ob获取信息正是通过这个用户来的，所以部署OBAgent前需要先确认是否已经有了这个用户，如果没有的话需要创建
+目前集群初始未安装 OBAgent 不会创建 ocp_monitor 用户，而 OBAgent 连接 OceanBase 数据库获取信息正是通过这个用户来的，所以部署 OBAgent 前需要先确认是否已经有了这个用户，如果没有的话需要创建
 
 ```sql
 # 确认是否存在 ocp_monitor
@@ -64,7 +64,7 @@ ${ocp.agent.home.path}/log**/***
 3. 复制 OBAgent 生成的 Prometheus 配置文件到 Prometheus 安装目录中。
 
    **说明**
-   OBAgent 携带了 Prometheus 配置文件的模版，使用 OBD 部署 OBAgent, 会自动填充模版中的内容。该配置文件被放在 OBAgent 安装目录下，如 /home/admin/obagent/conf/   Prometheus_config/。这个配置文件可以供 Prometheus 软件直接使用。OBAgent 的安装部署，请参考 [OBAgent](https://www.oceanbase.com/docs/   community-observer-cn-10000000001879804)
+   OBAgent 携带了 Prometheus 配置文件的模版，使用 OBD 部署 OBAgent, 会自动填充模版中的内容。该配置文件被放在 OBAgent 安装目录下，如 /home/admin/obagent/conf/   Prometheus_config/。这个配置文件可以供 Prometheus 软件直接使用。OBAgent 的安装部署，请参考 [OBAgent](https://www.oceanbase.com/docs/community-observer-cn-10000000001879804)
 
    ```bash
    sudo mv Prometheus_config/ /usr/local/Prometheus-2.30.3.linux-amd64/
@@ -117,7 +117,7 @@ ${ocp.agent.home.path}/log**/***
    tcp6       0      0 :::9090                 :::*                    LISTEN      902555/Prometheus
    ```
 
-## Prometheus 使用
+## **Prometheus 使用**
 
 使用浏览器访问：<http://172.20.xx.xx:9090/graph。>
 
@@ -125,7 +125,7 @@ ${ocp.agent.home.path}/log**/***
 >
 > 此处链接中的 IP 为示例中配置 Prometheus 的服务器 IP，根据实际情况将其转换为自身配置 Prometheus 的服务器 IP。
 
-## Prometheus 配置文件说明
+## **Prometheus 配置文件说明**
 
 ```yaml
 # OBAgent 的 RPM 包中包含 Prometheus 的配置模版，您可以根据实际情况修改。
@@ -193,9 +193,9 @@ scrape_configs:
 
 ```
 
-## Grafana 展示
+## **Grafana 展示**
 
-### Dashboard 模版
+### **Dashboard 模版**
 
 [oceanbase-metrics](https://grafana.com/grafana/dashboards/15215-oceanbase-metrics/)
 

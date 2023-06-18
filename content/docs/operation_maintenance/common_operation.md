@@ -15,7 +15,7 @@ ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER ='x.x.x.x:2882' TENANT ='sys'
 
 ## **清理租户并释放空间**
 
-通过清理租户释放空间时需先执行 `drop tenant xxx force;` 命令删除租户，再执行 `drop resource pool xxx;` 命令删除对应的资源池，之后才能释放空间。
+通过清理租户释放空间时需先执行 `drop tenant xxx force;` 命令删除租户，再执行 `drop resource pool xxx;` 命令删除对应的资源池，两条命令均成功执行才算释放空间。
 
 > **注意**
 >
@@ -32,7 +32,7 @@ select distinct(OBJECT_TYPE) from DBA_OBJECTS;
 select OBJECT_NAME from DBA_OBJECTS where OBJECT_TYPE='table' ;
 ```
 
-## 清理 OBD 管理的集群信息
+## **清理 OBD 管理的集群信息**
 
 当 OBD 管理的集群被销毁后，直接删除 OBD 中该集群的存储信息即可彻底清理该集群，有如下两种方法。
 
@@ -92,7 +92,7 @@ show parameters like '%trace_log_slow_query_watermark%';
 alter system set trace_log_slow_query_watermark='2s';
 ```
 
-### OBProxy 日志打印
+### **OBProxy 日志打印**
 
 您可通过系统租户（root@sys）或者 root@proxysys 连接集群修改 OBProxy 日志打印相关配置。
 

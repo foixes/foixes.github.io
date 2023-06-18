@@ -2,11 +2,11 @@
 title: 连接租户
 weight: 6
 ---
-# 连接租户
+# **连接租户**
 
 OceanBase 数据库开源版仅兼容 MySQL 租户，连接协议兼容 MySQL 5.6。因此使用 MySQL 命令行客户端或者图形化工具理论上也能连接 OceanBase 数据库的租户。此外，OceanBase 数据库也提供专属的命令行客户端工具 OBClient 和图形化客户端工具 ODC。
 
-## 客户端连接
+## **客户端连接**
 
 OceanBase 数据库 MySQL 租户支持传统 MySQL 客户端以及 OBClient 客户端连接，跟传统 MySQL 不一样的地方是用户名的格式。
 
@@ -18,6 +18,8 @@ OceanBase 数据库 MySQL 租户支持传统 MySQL 客户端以及 OBClient 客�
 
 ```bash
 mysql -h xxx.xxx.xxx.xxx -uroot@sys#obdemo -P2883 -p -c -A oceanbase
+
+obclient -h xxx.xxx.xxx.xxx -uroot@sys#obdemo -P2883 -p -c -A oceanbase
 ```
 
 说明：
@@ -45,7 +47,7 @@ MySQL [oceanbase]> alter user root identified by 'b******t' ;
 Query OK, 0 rows affected (0.118 sec)
 ```
 
-## OceanBase 连接驱动（JDBC）
+## **OceanBase 连接驱动（JDBC）**
 
 OceanBase 数据库目前支持的应用主要是 Java 和 C/C++ 。
 
@@ -61,7 +63,7 @@ OceanBase 数据库目前支持的应用主要是 Java 和 C/C++ 。
   
   - 下载地址：[OceanBase Connector/C 下载](https://github.com/oceanbase/obconnector-c)
 
-## DBeaver 客户端连接
+## **DBeaver 客户端连接**
 
 DBeaver 是一款通用的数据库客户端工具，其原理是使用各个数据库提供的 JDBC 驱动连接数据库，支持常见的关系型数据库、非关系型数据库、分布式数据库等等。使用 OceanBase 提供的 JDBC 驱动或者 MySQL 官方驱动，DBeaver 也可以连接 OceanBase 数据库的 MySQL 租户。
 
@@ -69,7 +71,7 @@ DBeaver 是一款通用的数据库客户端工具，其原理是使用各个数
 
 DBeaver 连接 OceanBase 数据库时可选择 MySQL 数据库类型，第一次使用会自动下载官方 MySQL 驱动。详细操作可参考 OceanBase 数据库文档 [通过 DBeaver 连接数据库](https://www.oceanbase.com/docs/community-observer-cn-10000000001879671) 一文。
 
-## ODC 客户端连接
+## **ODC 客户端连接**
 
 OceanBase 提供官方图形化客户端工具 OceanBase Developer Center，简称 ODC，是目前对 OceanBase 数据库适配性最好的客户端工具。该工具的详细信息请参考官网文档 [OceanBase 开发者中心](https://www.oceanbase.com/docs/enterprise-odc-doc-cn-10000000000833893) 。
 
