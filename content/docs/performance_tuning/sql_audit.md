@@ -3,7 +3,7 @@ title: SQL 审计视图
 weight: 3
 ---
 # **SQL 审计视图**
-<!-- 格式已修改，但是内容仍需补充优化 -->
+
 SQL 审计视图可以查看在 OceanBase 数据库里执行过的所有 SQL（包含执行失败 SQL）。这对开发同学了解自己的业务 SQL 和定位问题细节非常有帮助。
 
 ## **SQL 审计视图概述**
@@ -11,7 +11,7 @@ SQL 审计视图可以查看在 OceanBase 数据库里执行过的所有 SQL（�
 SQL 审计视图 `gv$ob_sql_audit` 是虚拟表，是内存中一个 FIFO 队列。OceanBase 数据库 3.x 版本是 `gv$sql_audit` 虚拟表。
 
 功能的开启和数据大小是通过下面的 OceanBase 集群参数控制的。
-<!-- 只有这一个参数控制么 -->
+
 | 参数名 | 参数值 | 参数含义 |
 | --- | --- | --- |
 | enable_sql_audit | TRUE | 指定是否开启 SQL 审计。默认 TRUE 是开启。FALSE 是关闭。 |
@@ -23,7 +23,7 @@ SQL 审计能保留的数据大小和租户内存资源的大小也有关系，�
 ```sql
 set global ob_enable_sql_audit = on;
 ```
-<!-- 这个视图介绍放到这里不合适 -->
+
 视图列定义如下：
 
 | 列名 | 含义 |

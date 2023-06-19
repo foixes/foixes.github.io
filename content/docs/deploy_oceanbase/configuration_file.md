@@ -95,7 +95,7 @@ obproxy-ce:
 ```
 
 其中您需重点关注的配置项有如下几个。
-<!--推荐配置为 `memory_limit` 的 10% 确定么  -->
+
 | 配置项         | 是否必选  | 默认值 | 说明  |
 |---------------|-----------|-------|-------|
 | memory_limit  | 可选      | 0     | observer 进程能从环境中获取的最大内存，推荐配置为系统总内存的 80%~90%，未配置的情况下以 `memory_limit_percentage` 配置项为准，配置项详细介绍请参考 [memory_limit](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001700950) 和 [memory_limit_percentage](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001699328)。  |

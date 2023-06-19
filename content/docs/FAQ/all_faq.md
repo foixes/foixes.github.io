@@ -8,14 +8,14 @@ weight: 1
 
 ### **问答类**
 
-不涉及具体方案步骤和流程性的一下问题可以参考如下格式。
+不涉及具体方案步骤和流程性的问题可以参考如下格式。
 
 > 问：（不涉及具体方案和流程性问题）  
 > 答：（判断、对错、简要知识点）
 
 ### **操作类**
 
-一些问题排查,涉及到问题现象、原因分析、解决方案等内容的 FAQ 可以参考如下格式。
+一些问题排查，涉及到问题现象、原因分析、解决方案等内容的 FAQ 可以参考如下格式。
 
 > **问题现象**
 >
@@ -44,13 +44,15 @@ weight: 1
 > 问：OceanBase 数据库 4.0 版本触发器、存储过程、自定义函数最大支持长度是多少？  
 > 答：触发器最大支持 65536 字节，存储和自定义函数 clob 类型存储，基本可理解为无上限。
 
-<!-- 需优化描述 -->
 > 问：OceanBase 数据库的主键是否是聚簇索引？  
-> 答：是，分区表的主键的话是全局唯一的，是全局索引
+> 答：是的。
 
 > 问：OceanBase 数据库 4.x 版本如何进行 rs 切主？  
-> 答：可执行 `ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER='目标ip:rpc_port' TENANT ='sys';` 命令进行切主，示例如下。  
+> 答：可执行 `ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER='目标ip:rpc_port' TENANT ='sys';` 命令进行切主，示例如下。
+>
+> ```sql
 > `ALTER SYSTEM SWITCH REPLICA leader LS=1 SERVER ='xx.xx.xx.xx:2882' TENANT ='sys';`
+> ```
 
 > 问：OceanBase 数据库是否能只进行数据备份，不做日志备份呢？  
 > 答：进行数据备份前提是开启日志备份，不支持只做数据备份。
@@ -61,8 +63,11 @@ weight: 1
 > 日志磁盘：log_disk_size / log_disk_percentage
 
 > 问：下划线开头格式的参数为隐藏参数，无法通过 SHOW PARAMETERS 语句来查询？  
-> 答：可通过如下方式查看。  
+> 答：可通过如下命令查看。
+>
+> ```sql
 > `SELECT * FROM oceanbase.__all_virtual_sys_parameter_stat WHERE name='_ob_enable_prepared_statement';`
+> ```
 
 > 问：如何清理租户并释放空间？  
 > 答：先执行 `drop tenant xxx force;` 命令删除租户，再执行 `drop resource pool xxx;` 命令删除对应的资源池。  
@@ -92,9 +97,9 @@ weight: 1
 
 > 问：使用 SpringBoot 连接 OceanBase 数据库的正确写法是什么？  
 > 答：可以参考 MySQL 连接方式，区别在于通过直连 OBServer 节点连接时 username 写法是用户名@租户名，通过 OBProxy 代理连接时 username 写法是用户名@租户名#集群名。
-<!-- 是否不对 -->
+<!-- 
 > 问：普通租户可使用的最大内存是怎么计算的？  
-> 答：普通租户能配置的最大内存 = memory_limit - system_memory - 系统 500 租户内存（与其他租户系统用户共享）
+> 答：普通租户能配置的最大内存 = memory_limit - system_memory - 系统 500 租户内存（与其他租户系统用户共享） -->
 
 > 问：OBD 部署失败，怎么清理配置和目录？  
 > 答：  
@@ -117,7 +122,12 @@ weight: 1
 > 答：是的，以分区为单位做 clog 副本同步，只有分区的主副本才能进行更新，如果有多个分区的主副本同时在更新，仍然以分区为单位做 Paxos 同步。
 
 > 问：社区版 OceanBase 数据库怎么查看哪些表是复制表？  
-> 答：3.x 版本中通过所示命令查看：`select table_name from  oceanbase.__all_table_v2 where duplicate_scope=1;`  
+> 答：3.x 版本中通过所示命令查看。
+> 
+> ```sql
+> `select table_name from  oceanbase.__all_table_v2 where duplicate_scope=1;` 
+> ```
+> 
 > 4.x 版本中预计 4.2 版本才支持。
 
 > 问：OceanBase 数据库 4.0 版本中，CDB 开头的视图、DBA 开头的视图、GV 开头的视图，这些是什么规则？  
@@ -231,12 +241,12 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 
 > 问：GLOBAL 的变量会持久化到什么地方？  
 > 答：仅 GLOBAL 级别的变量会持久化，SESSION 级别的变量不会进行持久化。持久化到内部表与配置文件，可以在 /home/admin/oceanbase/etc/observer.config.bin 与 /home/admin/oceanbase/etc/observer.config.bin.history 文件中查询配置项
-<!-- table 数目+ database 数目+…  后的 ... 什么意思 -->
+
 > 问：OceanBase 数据库 4.0 版本中，GV$OB_SERVER_SCHEMA_INFO 视图中的 SCHEMA 是什么？  
 > 答：Oceanbase 数据库的 schema 泛指一切需要在集群范围内同步的数据库对象元信息，包括但不限于 table、database、user 等元信息。此外 Oceanbase 数据库的 schema 是多版本且各租户独立，在集群范围同步是最终一致的。  
 > GV$OB_SERVER_SCHEMA_INFO 可以理解为每台 OBServer 节点机器中每个租户已经刷新的最新版本的 schema 的信息，这个视图用户比较关注的 schema 信息是 REFRESHED_SCHEMA_VERSION、SCHEMA_COUNT、SCHEMA_SIZE，其含义如下。
 > - REFRESHED_SCHEMA_VERSION：对应租户在对应机器已刷新到的 schema 版本。
-> - SCHEMA_COUNT：对应 schema 版本下，各 schema 对象数目的总和（table 数目+ database 数目+…）。
+> - SCHEMA_COUNT：对应 schema 版本下，各 schema 对象数目的总和。
 > - SCHEMA_SIZE：对应 schema 版本下，各 schema 对象总共所占的内存大小（单位 B）。
 
 > 问：执行计划中的 px partition iterator，px block iterator 是什么意思？  
@@ -490,7 +500,8 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 > - 离线网络环境，未关闭远程仓库，导致8680端口未起
 >
 > **解决方案**
-> <!-- 无解决方案 -->
+>
+> 您可检查是否是上述原因引起，并根据具体原因进行处理。
 
 ---
 
@@ -624,21 +635,6 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 ---
 
 > **问题现象**
-> <!-- 不太懂这里为什么 OBProxy 会和 OBD 有关系 -->
-> OBProxy 产生大量 core.XXX 文件，core 文件占满磁盘。
->
-> **可能原因**
->
-> OBD 已知问题，在 V1.6.1 中已解决。
->
-> **解决方案**
->
-> 方法一：调大 proxy_mem_limited（最少 500M）。  
-> 方法二：更新 OBD 版本到 V1.6.1 或者最新版本，重新部署集群。
-
----
-
-> **问题现象**
 >
 > 连接 OceanBase 数据库并执行命令修改完密码，使用 OBProxy 登录数据库报错 `ERROR 2013 (HY000): Lost connection to MySQL server at 'reading authorization packet'`。
 >
@@ -739,8 +735,8 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 > 连接池需要程序设置回收。OBProxy 自身的故障或者因流量上升，OBProxy 线程用满（报错信息类似 too many sessions）。
 >
 > **解决方案**
-> <!-- 参考文档里没有看到 client_max_connections参数 相关信息 -->
-> 应用层使用未配置连接池回收时，可参考官网 OceanBase 数据库文档 [ODP 线程满](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001579566) 增加 proxy 服务线程数 client_max_connections 参数
+>
+> 应用层使用未配置连接池回收时，可参考官网 OceanBase 数据库文档 [ODP 线程满](https://www.oceanbase.com/docs/common-oceanbase-database-cn-10000000001579566) 增加 proxy 服务线程数 client_max_connections 参数。
 >
 > OBProxy 自身故障可参考官网 Oceanbase 数据库文档 [ODP 端故障](https://www.oceanbase.com/docs/enterprise-oceanbase-database-cn-10000000001579572)。
 
@@ -761,9 +757,8 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 ---
 
 > **问题现象**
-> <!-- 3.3.0 是什么版本 -->
+>
 > 集群中有三个 Zone，停止 Zone 操作失败 `ERROR 4660 (HY000): cannot stop server or stop zone in multiple zones`。
-> 信息：3.3.0
 >
 > **可能原因**
 >
@@ -1000,7 +995,7 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 > OceanBase 数据库最低以 cpu_count 16 启动，如果修改过该参数可能导致无法启动。
 >
 > **解决方案**
-> <!-- 需确认该参数后是否需要 redeploy -->
+>
 > 执行 `obd cluster edit-config` 编辑配置文件，调大 cpu_count 配置项，保存修改后根据黑屏输出执行对应命令重启即可。
 
 ---
@@ -1169,7 +1164,7 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 > ![image.png](/img/FAQ/all_faq/1669539589485-040e0a5f-16f6-4bff-85e8-2b5d3589924a.png)
 >
 > **可能原因**
-> <!-- 根据语义补充了说明，不确定是否正确 -->
+>
 > unknow thread id 是因为在 JDBC 代码执行 SQL 时，设置了 ob_query_timeout，超时后驱动就会执行 `kill query connectionId` 命令将超时执行的 SQL 取消掉。但是这个命令在存在多个 OBProxy 时，可能会发给其他的 OBProxy，就会报错 unknow thread id。
 >
 > **解决方案**
@@ -1298,8 +1293,8 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 > 预检测会检查服务器硬件资源是否符合生产环境标准，如果不通过会报此错误，测试环境建议关闭预检测功能。
 >
 > **解决方案**
-> <!-- 设置为 true 是关闭该参数么 -->
-> 关闭预检参数 precheck_ignore: true。
+>
+> 关闭预检参数，即将 precheck_ignore 设置为 true。
 
 ---
 
@@ -1581,8 +1576,8 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 > ![image.png](/img/FAQ/all_faq/1683272882395-d8607cdb-3ef2-4e33-a783-2ef2d69cd1ee.png)
 >
 > **可能原因**
-> <!-- 内容没有写全 -->
-> OCP 部署的 OBProxy 虽然关联了 OceanBase 集群，但是
+>
+> OCP 部署的 OBProxy 虽然关联了 OceanBase 集群，但是 OBProxy 可能关联了多个 OceanBase 集群，需要增加集群名称进行区分。
 >
 > **解决方案**
 >
@@ -1609,8 +1604,8 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 ---
 
 > **问题现象**
-> <!-- 没有看懂这个现象描述 -->
-> 使用 OCP 部署 OceanBase 数据库 V3.1.2，使用 root 用户后台启动 observer 后，重新 OCP 或者后台 admin 用户启动失败。查看日志报错如下。
+>
+> 使用 OCP 部署 OceanBase 数据库 V3.1.2，使用 root 用户后台启动 observer 后，再重新使用 admin 用户启动失败。。查看日志报错如下。
 >
 > ```shell
 > ERROR [COMMON] inner_open_fd (ob_log_disk_manager.cpp:1043) [5889][0][Y0-0000000000000000] [lt=5] [dc=0] open file fail(ret=-4009, fname="/home/admin/oceanbase/store/lzq/slog/4", flag=1069122, errno=13, errmsg="Permission denied")
@@ -1773,7 +1768,7 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 > 本示例中 107 机器是 OBProxy 的地址，非 metadb 地址，程序的这一步是要 ssh 到 OCP 节点 IP，运行 OCP 的 Docker 命令指向的地址是该 IP，但 107 机器非 OCP 元数据库也非 OCP 地址，所以报错连不上，因此不能使用非 metadb 本机的 OBProxy 地址。当然这里的版本升级也不建议使用 OBProxy 代理方式连接。
 >
 > **解决方案**
-> <!-- 这里的解决方案看着不配套呀 -->
+> 
 > 该版本未支持采用 OBProxy 方式连接 metadb，配置改为使用直连方式。
 
 ---
@@ -1840,9 +1835,9 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 
 > **问题现象**
 >
-> 使用 OBProxy 4.x 版本做大批量插入时候，应用报错 `Connection reset by peer`
-> <!-- 应用报错 和 报错 有什么关系 -->
-> 报错： obproxy's memroy is out of limit's 80% !!!
+> 使用 OBProxy 4.x 版本做大批量插入时候，应用报错 `Connection reset by peer`。
+>
+> OBProxy 日志中看到报错：obproxy's memroy is out of limit's 80% !!!
 >
 > **可能原因**
 >
@@ -1887,8 +1882,8 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 ---
 
 > **问题现象**
-> <!-- 不太懂 conn=33406 和 conn=405741 这两个之间的关系 -->
-> ODC V3.2.3 客户端报 (conn=33406) Query timed out 错误。
+>
+> ODC V3.2.3 客户端报 Query timed out 错误。
 >
 > 报错：ErrorCode = 1317, SQLState = 70100, Details = (conn=405741) Query timed out
 >
@@ -1903,10 +1898,10 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 ---
 
 > **问题现象**
-> <!-- 需确认 是否是点击保存后报错 -->
-> 刚部署的 ODC（V3.2.3） 打开保存  Java 进程异常退出。
+>
+> 刚部署的 ODC（V3.2.3） 打开保存 Java 进程异常退出。
 > ![image.png](/img/FAQ/all_faq/1685864534556-2172dfa7-d407-4d33-b8cc-c409a3b2c97d.png)
-> <!-- 这个报错是从哪里看到的呀 -->
+>
 > 报错：Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker': Invocation of init method failed; nested exception is org.springframework.jdbc.datasource.init.UncategorizedScriptException: Failed to execute database script; nested exception is org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: Chunk 3233 not found [1.4.200/9]" [50000-200]
 >
 > **可能原因**
@@ -2041,7 +2036,7 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 >
 > 可在运行脚本中添加 jvm 启动参数 `-Dpicocli.usage.width=180`。
 
-## OBLOGPROXY 部署问题
+## **OBLOGPROXY 部署问题**
 
 > **问题现象**
 >
@@ -2058,7 +2053,7 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 >
 > 使用最新 oblogproxy 版本即可。
 
-## 其他
+## **其他**
 
 > **问题现象**
 >
@@ -2075,10 +2070,8 @@ OceanBase 数据库 4.x 版本可通过 SQL 审计视图 gv$ob_sql_audit 查看�
 ---
 
 > **问题现象**
-> <!-- 版本待确认 -->
-> 使用 dbcat 迁移数据到 OceanBase 数据库时报错 `The table charset: ''latin1" is unsupported in OBMYSQL_2.2.50(2.2.50). Object: test.t2`。
 >
-> 信息：3.1.x
+> 使用 dbcat 迁移数据到 OceanBase 数据库（3.1.x 版本）时报错 `The table charset: ''latin1" is unsupported in OBMYSQL_2.2.50(2.2.50). Object: test.t2`。
 >
 > **可能原因**
 >

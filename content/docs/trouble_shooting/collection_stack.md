@@ -33,7 +33,7 @@ weight: 2
   ```shell
   [root@x.x.x.x ~]$ grep "kernel.core_pattern" /etc/sysctl.conf
   kernel.core_pattern = /home/admin/core_test/core-%e-%p-%t
-  <!-- 这个命令是啥意思，为啥知道后面是 observer-27670-1683513011 -->
+
   [root@x.x.x.x ~]$ ls -l /home/admin/core_test/core-observer-27670-1683513011
   -rw------- 1 admin admin 8723914752 5月   8 10:30 /home/admin/core_test/core-observer-27670-1683513011
   ```
@@ -111,7 +111,6 @@ weight: 2
    ```
 
 2. 使用 gdb 命令收集
-<!-- 没有写命令 -->
 
 ## **堆栈分析**
 

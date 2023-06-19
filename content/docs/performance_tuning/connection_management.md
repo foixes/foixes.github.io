@@ -212,7 +212,7 @@ obclient -h x.x.x.x -uroot@sys#obce-3zones -P2883 -p****** -c -A oceanbase
 通过 OBProxy 连接时，`show processlist;` 和 `show proxysession;` 命令只能查看当前 OBProxy 的客户端连接，并且 `show proxysession;` 命令能看到其他 OceanBase 集群的连接（如果这个 OBProxy 还可以为其他集群提供路由服务），`show full processlist;` 命令能看到 OceanBase 集群的全部后端连接，包括通过其他 OBProxy 的连接。
 
 在这个连接里可以针对性的 KILL 当前 OBProxy 的后端连接（不能 KILL 其他 OBProxy 的后端连接），但是前端连接只能 KILL 自己，不能 KILL 其他连接。支持 KILL CONNECTION 和 KILL QUERY。
-<!-- 看不太懂这个示例 -->
+
 ```sql
 MySQL [oceanbase]> show proxysession;
 +--------------+---------+-------------+----------+------+---------------+------------+-------------+-------------------+-------------------+-------+-------+
@@ -493,12 +493,12 @@ where 1=1 | x.x.x.x       |           26 | x.x.x.x     |                    0 | 
 
 - trace_id：连接使用的 TRACE_ID，可以在 OBServer 的运行日志中根据 TRACE_ID 追踪相关日志。
 
-## 分析连接的事务超时问题
+## **分析连接的事务超时问题**
 
 事务有两个超时时间，分别通过参数 ob_trx_idle_timeout 和 ob_trx_timeout 控制。前者是事务空闲超时，后者是事务未提交超时。
 为了研究这两个参数的影响，以下示例有意把两个参数的值差异拉大。
 
-### 事务空闲超时
+### **事务空闲超时**
 
 客户端 1 查看空闲超时时间。事务空闲超时设置为 120 秒，事务未提交超时设置为 1000 秒，前者先超时。事务空闲实际超时时间在 [120 s, 120+10 s) 。
 
@@ -562,7 +562,7 @@ MySQL [test]> select * from t1;
 ERROR 6002 (25000): transaction needs rollback
 MySQL [test]>
 ```
-<!-- 是否要根据最新版本内容介绍,或者确认 4.x 版本中这部分内容是否有变更 -->
+
 可见，OceanBase 3.1 版本后对于事务空闲超时的处理行为变为不中断连接，而是提示事务要回滚。此时不管使用 COMMIT 还是 ROLLBACK ，都可以清理事务状态。
 
 示例：
